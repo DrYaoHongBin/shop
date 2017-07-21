@@ -59,7 +59,10 @@
 
     </settings>
 
-
+    <!--定义别名-->
+    <typeAliases>
+        <typeAlias type="com.shop.model.User" alias="user"></typeAlias>
+    </typeAliases>
 
 
 </configuration>

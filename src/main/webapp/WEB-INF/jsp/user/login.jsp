@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,16 +34,16 @@
                     <div class="msg-wrap"></div>
                     <div class="mc">
                         <div class="form">
-                            <form action="" id="formlogin" method="post" onSubmit="return false;">
+                            <form action="${pageContext.request.contextPath}/login" id="login" method="post" onSubmit="return false;">
                                 <div class="item item-fore1 item-error">
-                                    <label for="loginname" class="login-label name-label"></label>
-                                    <input type="text" name="loginname" id="loginname" class="itxt" tabindex="1" autocomplete="off" placeholder="邮箱/用户名/手机号">
+                                    <label for="username" class="login-label name-label"></label>
+                                    <input type="text" name="username" id="username" value="${user.username}" class="itxt" tabindex="1" autocomplete="off" placeholder="邮箱/用户名/手机号">
                                     <span class="clear-btn" style="display:inline;"></span>
                                 </div>
                                 <!-- 密码输入框fore2 -->
                                 <div id="entry" class="item item-fore2" style="visibility: visible">
-                                    <label class="login-label pwd-label" for="nloginpwd"></label>
-                                    <input type="password" name="" id="nloginpwd" name="nloginpwd" class="itxt itxt-error" tabindex="2" autocomplete="off" placeholder="密码">
+                                    <label class="login-label pwd-label" for="password"></label>
+                                    <input type="password" id="password" name="password" value="${user.password}" class="itxt itxt-error" tabindex="2" autocomplete="off" placeholder="密码">
                                     <span class="clear-btn" style="display: inline;"></span>
                                     <span class="capslock" style="display: none;">
   			  					<b></b>
@@ -63,7 +64,7 @@
                         			<label for>自动登录</label>
                         		</span>
                                         <span class="forget-pw-safe">
-                        			    <a href="">忘记密码</a>
+                        			    <a href="${pageContext.request.contextPath}/forgetPasswordUI">忘记密码</a>
                         		</span>
                                     </div>
                                 </div>
@@ -127,16 +128,65 @@
 </div>
 
 </body>
-
+<!--表单验证插件-->
+<script src="${pageContext.request.contextPath}/resources/theme/util/jquery.validate.js" type="text/javascript"></script>
+<!--导入自定义的验证规则-->
+<script src="${pageContext.request.contextPath}/resources/theme/util/validate-methods.js" type="text/javascript"></script>
 <script type="text/javascript">
 
     //确认输入用户名密码后，显示验证码
-    $("#nloginpwd").blur(function(){
-        if(($("#loginname").val() !="" )&&($("#nloginpwd").val() !="")){
+    $("#password").blur(function(){
+        if(($("#username").val() !="" )&&($("#nloginpwd").val() !="")){
             $("#o-authcode").css({"display":"block"});
         }
     })
     createCode();
 
+    //表单数据校验
+    $(document).ready(function () {
+        $("#login").validate({
+            rules: {
+                username: {
+                    required: true,
+                    isContainBlank: true,
+                    maxlength: 20,
+                    minlength: 5
+                },
+                password: {
+                    required: true,
+                    isContainBlank: true,
+                    maxlength: 20,
+                    minlength: 5,
+                },
+            },
+            messages: {
+                username: {
+                    required: "用户名不可为空",
+                    isContainBlank: "用户名不可包含空格",
+                    maxlength: "用户名不可超过20位",
+                    minlength: "用户名不可少于5位"
+                },
+                password: {
+                    required: "密码不可为空",
+                    isContainBlank: "密码不可包含空格",
+                    maxlength: "密码不可超过20位",
+                    minlength: "密码不可少于5位"
+                },
+            },
+            submitHandler: function(form) {  //验证通过之后回调
+                //$('#register')[0].reset();  //清空表单
+                form.submit(); //提交表单，如果不写，即便通过表单也不会自动提交
+            },
+            invalidHandler: function(form, validator) {  //验证不通过之后回调
+                return false;
+            }
+        })
+    })
 </script>
+<c:if test="${message != null}">
+    <script type="text/javascript">
+        var message = "${message}";
+        alert(message);
+    </script>
+</c:if>
 </html>

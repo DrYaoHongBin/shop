@@ -15,8 +15,8 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop.xsd"
 >
-    <!-- 自动扫描包 ,将带有注解的类 纳入spring容器管理
-    <context:component-scan base-package="com.shop"/>-->
+    <!-- 自动扫描包 ,将带有注解的类 纳入spring容器管理-->
+    <context:component-scan base-package="com.shop"/>
 
     <!-- 加载application.properties文件中的内容，db.properties文件中key命名要有一定的特殊规则 -->
     <context:property-placeholder location="classpath:application.properties" />
@@ -65,7 +65,7 @@
         <property name="dataSource" ref="dataSource" />
         <!-- 加载mybatis的全局配置文件 -->
         <property name="configLocation" value="classpath:mybatis-config.xml" />
-        <!--<property name="mapperLocations" value="classpath:com/shop/dao/"/>-->
+        <property name="mapperLocations" value="classpath:com/shop/dao/*Mapper.xml"/>
     </bean>
 
     <!-- mapper扫描器，从mapper包中扫描出mapper接口，自动创建代理对象并在IOC容器中注册，要求执行规范 ,改成了通用mapper-->

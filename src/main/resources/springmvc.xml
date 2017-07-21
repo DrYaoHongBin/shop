@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <!-- 扫描controller（controller层注入） -->
+    <!-- 扫描controller（controller层注入）,少了这个会找了controller,即使application.xml扫描了所有包-->
     <context:component-scan base-package="com.shop.controller"/>
 
     <!-- 静态资源解析
