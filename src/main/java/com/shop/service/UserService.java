@@ -3,6 +3,9 @@ package com.shop.service;
 
 import com.shop.model.User;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 /**
  * <p>Title: UserService</p>
  * <p>Description:</p>
@@ -34,5 +37,21 @@ public interface UserService {
 
     User login(User user);
 
+    /**
+     * 修改密码
+     * @param user
+     */
     void resetPassword(User user);
+
+    /**
+     * 更新用户信息
+     * @param user
+     */
+    String updateUser(User user);
+
+    /**
+     * 在更新完登录用户的数据后把session中的loginUser的数据也更新
+     * @param userId
+     */
+    void updateSession(Integer userId, HttpSession session);
 }

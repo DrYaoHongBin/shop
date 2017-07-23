@@ -72,4 +72,25 @@
             </bean>
         </mvc:interceptor>
     </mvc:interceptors>-->
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/user/**"/>
+            <bean class="com.shop.interceptors.UserSessionInterceptor">
+                <property name="excludeUrls">
+                    <list>
+                        <value>/user/loginUI</value>
+                        <value>/user/registerUI</value>
+                        <value>/user/login</value>
+                        <value>/user/register</value>
+                        <value>/user/emailCode</value>
+                        <value>/user/phoneNumberCode</value>
+                        <value>/user/forgetPasswordUI</value>
+                        <value>/user/checkCode</value>
+                        <value>/user/resetPassword</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

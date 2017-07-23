@@ -30,15 +30,15 @@
           <if test="email != null">
               email = #{email};
           </if>
+          <if test="userId != null">
+              user_id = #{userId};
+          </if>
     </update>
     <select id="login" parameterType="user" resultType="user">
         SELECT
-          username,
-          phone_number,
-          email
-          password
+          *
         FROM
           shop_user
-        WHERE password = #{password} AND (username = #{username} OR phone_number = #{username} OR email = #{username});
+        WHERE binary password = #{password} AND (username = #{username} OR phone_number = #{username} OR email = #{username});
     </select>
 </mapper>

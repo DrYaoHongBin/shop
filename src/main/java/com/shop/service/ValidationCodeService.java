@@ -2,6 +2,9 @@ package com.shop.service;
 
 import com.shop.model.ValidationCode;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 /**
  * <p>Description:</p>
  *
@@ -29,4 +32,14 @@ public interface ValidationCodeService {
      * @return
      */
     Integer validationCodeCheck(ValidationCode validationCode);
+
+    /**
+     * 在修改手机号码页面发送验证码，跟上面发送验证码的方法逻辑不同，所以重新写一个
+     */
+    String resetPhoneNumber(HttpSession session);
+
+    /**
+     * 在修改邮箱页面发送验证码，跟上面发送验证码的方法逻辑不同，所以重新写一个
+     */
+    String resetEmail(HttpSession session);
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CommonController {
     @RequestMapping(value = "/")
     public String index() {
-        return "redirect:/index.jsp";
+        return "redirect:/WEB-INF/jsp/index.jsp";
     }
 
 }

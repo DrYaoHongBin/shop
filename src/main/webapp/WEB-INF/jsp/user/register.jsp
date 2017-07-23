@@ -20,18 +20,18 @@
 <!--- header begin-->
 <header id="pc-header">
     <div class="login-header" style="padding-bottom:0">
-        <div><h1><a href="index.html"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
+        <div><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
     </div>
 </header>
 <!-- header End -->
 <section id="login-content">
     <div class="login-centre">
         <div class="login-switch clearfix">
-            <p class="fr">我已经注册，现在就 <a href="${pageContext.request.contextPath}/loginUI">登录</a></p>
+            <p class="fr">我已经注册，现在就 <a href="${pageContext.request.contextPath}/user/loginUI">登录</a></p>
         </div>
         <div class="login-back">
             <div class="H-over">
-                <form action="${pageContext.request.contextPath}/register" method="post" id="register">
+                <form action="${pageContext.request.contextPath}/user/register" method="post" id="register">
                     <div class="login-input">
                         <label><i class="heart">*</i>用户名：</label>
                         <input type="text" class="list-input1" id="username" name="username" value="${user.username}">
@@ -116,14 +116,14 @@
 <script type="text/javascript">
 
     function emailRegister() {
-        $("#phoneNumber").val(""); //清除文本框内容
+        $("#phoneNumber").val(null); //清除文本框内容
         $("#phoneRegister").hide();
         $("#emailRegister").show();
         $("#p1").hide();
         $("#p2").show();
     }
     function phoneRegister() {
-        $("#email").val("")
+        $("#email").val(null)
         $("#emailRegister").hide();
         $("#phoneRegister").show();
         $("#p1").show();
@@ -219,7 +219,7 @@
         var email = $("#email").val(); //通过id获取
         $.ajax({
             type:'post',
-            url:'${pageContext.request.contextPath }/emailCode',
+            url:'${pageContext.request.contextPath }/user/emailCode',
             //请求是key/value这里不需要指定contentType，因为默认就 是key/value类型
             //contentType:'application/json;charset=utf-8',数据格式是字符串
             data:{"email":email},
@@ -235,7 +235,7 @@
         var phoneNumber = $("#phoneNumber").val(); //通过id获取
         $.ajax({
             type:'post',
-            url:'${pageContext.request.contextPath }/phoneNumberCode',
+            url:'${pageContext.request.contextPath }/user/phoneNumberCode',
             data:{"phoneNumber":phoneNumber},
             success:function(data){//返回json结果
                 alert(data.message);

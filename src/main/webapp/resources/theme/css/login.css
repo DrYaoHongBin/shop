@@ -4,7 +4,7 @@
  *   http://azenui.com/
 /*!  http://y-show.com/   */
 
-.BHeader {background:#ffffff; height:30px;}
+.BHeaderNEW {background:#ffffff; height:30px;}  /*BHeader改成BHeaderNEW，防止冲突*/
 .menu .subnav { top:30px;}
 .login-body   { background:#f2f2f2;}
 .login-header { width:990px; margin:0 auto; padding:20px 0;}

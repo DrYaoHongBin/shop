@@ -19,7 +19,7 @@
 <body>
 <div class="w">
     <div id="logo">
-        <a href="index.html">
+        <a href="${pageContext.request.contextPath}/">
             <img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png" alt="">
         </a>
         <b></b>
@@ -34,7 +34,7 @@
                     <div class="msg-wrap"></div>
                     <div class="mc">
                         <div class="form">
-                            <form action="${pageContext.request.contextPath}/login" id="login" method="post" onSubmit="return false;">
+                            <form action="${pageContext.request.contextPath}/user/login" id="login" method="post" onSubmit="return false;">
                                 <div class="item item-fore1 item-error">
                                     <label for="username" class="login-label name-label"></label>
                                     <input type="text" name="username" id="username" value="${user.username}" class="itxt" tabindex="1" autocomplete="off" placeholder="邮箱/用户名/手机号">
@@ -64,7 +64,7 @@
                         			<label for>自动登录</label>
                         		</span>
                                         <span class="forget-pw-safe">
-                        			    <a href="${pageContext.request.contextPath}/forgetPasswordUI">忘记密码</a>
+                        			    <a href="${pageContext.request.contextPath}/user/forgetPasswordUI">忘记密码</a>
                         		</span>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                     <ul>
                         <li class="extra-r">
                             <div class="regist-link">
-                                <a href="${pageContext.request.contextPath}/registerUI" class="">
+                                <a href="${pageContext.request.contextPath}/user/registerUI" class="">
                                     <b></b>立即注册
                                 </a>
                             </div>

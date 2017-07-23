@@ -6,12 +6,14 @@ import com.shop.model.ValidationCode;
 import com.shop.service.UserService;
 import com.shop.service.ValidationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpSession;
  * @Date 2017/7/17 21:44
  */
 @Controller
+@RequestMapping(value = "user")
 public class UserController {
 
     @Autowired
@@ -105,21 +108,21 @@ public class UserController {
             codeMessage = "您的验证码错误，请重新输入！";
             redirectAttributes.addFlashAttribute("codeMessage",codeMessage);
             redirectAttributes.addFlashAttribute("user",user);
-            return "redirect:/registerUI";
+            return "redirect:/user/registerUI";
         } else if (codeTime == 0) {
             codeMessage = "您的验证码已过期,请重新获取！";
             redirectAttributes.addFlashAttribute("codeMessage",codeMessage);
             redirectAttributes.addFlashAttribute("user",user);
-            return "redirect:/registerUI";
+            return "redirect:/user/registerUI";
         }
         codeMessage = userService.selectUser(user);
         if (codeMessage != null) {
             redirectAttributes.addFlashAttribute("codeMessage",codeMessage);
             redirectAttributes.addFlashAttribute("user",user);
-            return "redirect:/registerUI";
+            return "redirect:/user/registerUI";
         }
         userService.saveUser(user);
-        return "redirect:/loginUI";
+        return "redirect:/user/loginUI";
     }
 
     /**
@@ -136,7 +139,7 @@ public class UserController {
             String message = "帐户名或密码错误，请重新输入！";
             redirectAttributes.addFlashAttribute("message",message);
             redirectAttributes.addFlashAttribute("user",user);
-            return "redirect:/loginUI";
+            return "redirect:/user/loginUI";
         } else {
             session.setAttribute("loginUser",loginUser);
             return "redirect:/";
@@ -175,14 +178,119 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "resetPassword")
-    public String resetPassword(User user) {
+    public String resetPassword(User user, RedirectAttributes redirectAttributes, HttpSession session) {
         userService.resetPassword(user);
-        return "redirect:/";
+        redirectAttributes.addFlashAttribute("message","密码修改成功，请重新登录！");
+        if (session.getAttribute("loginUser") != null) {
+            session.removeAttribute("loginUser");
+        }
+        return "redirect:/user/loginUI";
     }
 
+    /**
+     * 退出登录
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "logout")
     public String logout(HttpSession session) {
         session.removeAttribute("loginUser");
         return "redirect:/";
+    }
+
+    /**
+     * 前往帐户安全页面
+     * @return
+     */
+    @RequestMapping(value = "userSafeUI")
+    public String userSafeUI() {
+        return "/WEB-INF/jsp/user/user_safe";
+    }
+
+    /**
+     * 前往修改密码页面
+     * @return
+     */
+    @RequestMapping(value = "resetPasswordUI")
+    public String resetPasswordUI() {
+        return "/WEB-INF/jsp/user/reset_password";
+    }
+
+    /**
+     * ajax方式在登录用户修改密码前再次确认登录账号的密码
+     * @param user
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "checkPassword")
+    @ResponseBody
+    public AjaxResult checkPassword(User user, HttpSession session) {
+        User loginUser = (User)session.getAttribute("loginUser");
+        if (loginUser.getPassword().equals(user.getPassword())) {
+            return new AjaxResult(true,"");
+        } else {
+            return new AjaxResult(false,"密码错误，请重新输入");
+        }
+    }
+
+    /**
+     * 前往修改手机号码页面
+     * @return
+     */
+    @RequestMapping(value = "resetPhoneNumberUI")
+    public String resetPhoneNumberUI() {
+       return "/WEB-INF/jsp/user/reset_telephone";
+    }
+
+    /**
+     * 前往修改邮箱前页面
+     * @return
+     */
+    @RequestMapping(value = "resetEmailUI")
+    public String resetEmailUI() {
+        return "/WEB-INF/jsp/user/reset_email";
+    }
+
+    /**
+     * 修改邮箱页面通过ajax方式获取验证码
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "resetEmail")
+    @ResponseBody
+    public AjaxResult resetEmail(HttpSession session) {
+        String message = validationCodeService.resetEmail(session);
+        return new AjaxResult(true,message);
+    }
+
+    /**
+     * 修改手机号码页面通过ajax方式获取验证码
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "resetPhoneNumber")
+    @ResponseBody
+    public AjaxResult resetPhoneNumber(HttpSession session) {
+        String message = validationCodeService.resetPhoneNumber(session);
+        return new AjaxResult(true,message);
+    }
+
+    /**
+     * 更新用户信息
+     * @param user
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value = "updateUser")
+    public String updateUser(User user, RedirectAttributes redirectAttributes, HttpSession session) {
+        String message = userService.updateUser(user);
+        if (message != null) {
+            redirectAttributes.addFlashAttribute("message",message);
+            return "redirect:/user/userSafeUI";
+        }
+        redirectAttributes.addFlashAttribute("message","修改成功！");
+        // 修改成功，根据隐藏域传过来的id值更新session里面的数据
+        userService.updateSession(user.getUserId(), session);
+        return "redirect:/user/userSafeUI";
     }
 }

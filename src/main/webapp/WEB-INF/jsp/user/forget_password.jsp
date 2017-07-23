@@ -20,18 +20,18 @@
 <!--- header begin-->
 <header id="pc-header">
     <div class="login-header" style="padding-bottom:0">
-        <div><h1><a href="index.html"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
+        <div><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
     </div>
 </header>
 <!-- header End -->
 <section id="login-content">
     <div class="login-centre">
         <div class="login-switch clearfix">
-            <p class="fr">我已经注册，现在就 <a href="${pageContext.request.contextPath}/loginUI">登录</a></p>
+            <p class="fr">我已经注册，现在就 <a href="${pageContext.request.contextPath}/user/loginUI">登录</a></p>
         </div>
         <div class="login-back">
             <div class="H-over">
-                <form action="${pageContext.request.contextPath}/resetPassword" method="post" id="forgetPassword">
+                <form action="${pageContext.request.contextPath}/user/resetPassword" method="post" id="forgetPassword">
                     <div class="login-input" id="phoneRegister">
                         <label><i class="heart">*</i>手机号：</label>
                         <input type="text" class="list-iphone" id="phoneNumber" name="phoneNumber" value="${user.phoneNumber}" placeholder="请输入您注册的手机号">
@@ -167,9 +167,7 @@
                 },
             },
             submitHandler: function(form) {  //验证通过之后回调
-                if ($("#password").val()) {
                    form.submit(); //提交表单，如果不写，即便通过表单也不会自动提交
-                }
             },
             invalidHandler: function(form, validator) {  //验证不通过之后回调
                 return false;
@@ -182,7 +180,7 @@
         var email = $("#email").val(); //通过id获取
         $.ajax({
             type:'post',
-            url:'${pageContext.request.contextPath }/emailCode',
+            url:'${pageContext.request.contextPath }/user/emailCode',
             data:{"email":email, "identify":0},
             success:function(data){//返回json结果
                 alert(data.message);
@@ -196,7 +194,7 @@
         var phoneNumber = $("#phoneNumber").val(); //通过id获取
         $.ajax({
             type:'post',
-            url:'${pageContext.request.contextPath }/phoneNumberCode',
+            url:'${pageContext.request.contextPath }/user/phoneNumberCode',
             data:{"phoneNumber":phoneNumber, "identify":0},
             success:function(data){//返回json结果
                 alert(data.message);
@@ -212,7 +210,7 @@
         var phoneNumber = $("#phoneNumber").val();
         $.ajax({
             type:'post',
-            url:'${pageContext.request.contextPath }/checkCode',
+            url:'${pageContext.request.contextPath }/user/checkCode',
             data:{"validationCode":validationCode, "email":email, "phoneNumber":phoneNumber},
             success:function(data){//返回json结果
                 if (data.success == false) {

@@ -2,6 +2,7 @@ package com.shop.service.impl;
 
 import com.shop.dao.UserMapper;
 import com.shop.dao.ValidationCodeMapper;
+import com.shop.model.User;
 import com.shop.model.ValidationCode;
 import com.shop.service.ValidationCodeService;
 import com.shop.util.Mail;
@@ -9,6 +10,8 @@ import com.shop.util.MiaoDi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Calendar;
 import java.util.List;
 
@@ -74,7 +77,33 @@ public class ValidationCodeServiceImpl implements ValidationCodeService {
             if (time > code.getEndTime()) { //当前系统的时间大于验证码过期的时间
                 return 0;
             }
+            //如果验证码通过则删除,防止重复利用
+            validationCodeMapper.delete(validation);
             return 1;  //1无意义，解决无返回值问题
         }
+    }
+
+    public String resetPhoneNumber(HttpSession session) {
+        User loginUser = (User)session.getAttribute("loginUser");
+        ValidationCode validationCode = new ValidationCode();
+        validationCode.setPhoneNumber(loginUser.getPhoneNumber()); //传入登录用户的手机号码
+        try {
+           String respCode = phoneNumberCode(validationCode); //根据登录用户的手机号码发送验证码
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "验证码已发送至您的手机，请输入验证码后再修改绑定！";
+    }
+
+    public String resetEmail(HttpSession session) {
+        User loginUser = (User)session.getAttribute("loginUser");
+        ValidationCode validationCode = new ValidationCode();
+        validationCode.setEmail(loginUser.getEmail());  //传入登录用户的邮箱
+        try {
+            emailCode(validationCode); //根据登录用户的邮箱发送验证码
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "验证码已发送至您的邮箱，请输入验证码后再修改绑定！";
     }
 }
