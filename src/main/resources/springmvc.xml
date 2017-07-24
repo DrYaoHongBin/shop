@@ -56,22 +56,6 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!--管理员验证拦截器
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/admin/**"/>
-            <bean class="com.shop.interceptors.AdminSessionInterceptor">
-                <property name="excludeUrls">
-                    <list>
-                        <value>/admin/admin/loginUI</value>
-                        <value>/admin/admin/login</value>
-                        <value>/admin/admin/logout</value>
-                        <value>/admin/user/index</value>
-                    </list>
-                </property>
-            </bean>
-        </mvc:interceptor>
-    </mvc:interceptors>-->
     <!-- 配置拦截器 -->
     <mvc:interceptors>
         <mvc:interceptor>

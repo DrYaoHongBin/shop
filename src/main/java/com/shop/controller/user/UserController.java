@@ -54,13 +54,14 @@ public class UserController {
      * Ajax方式发送邮箱验证码
      * @param validationCode
      * @param user
-     * @param identify
+     * @param identify 用于区别直接修改密码与找回密码再修改操作
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "emailCode")
     @ResponseBody
     public AjaxResult emailCode(ValidationCode validationCode, User user, Integer identify)throws Exception {
+        // identify不为空，则表示是找回密码的操作，在发送前需要先判断该邮箱是否已经注册
         if (identify != null) {
            String message = userService.selectUser(user,identify);
            if (message != null) {
@@ -79,6 +80,7 @@ public class UserController {
     @RequestMapping(value = "phoneNumberCode")
     @ResponseBody
     public AjaxResult phoneNumberCode(ValidationCode validationCode, User user, Integer identify) {
+        // identify不为空，则表示是找回密码的操作，在发送前需要先判断该手机号是否已经注册
         if (identify != null) {
             String message = userService.selectUser(user,identify);
             if (message != null) {
@@ -86,7 +88,8 @@ public class UserController {
             }
         }
         String respCode = validationCodeService.phoneNumberCode(validationCode);
-        if ("00000".equals(respCode)) { //短信发送成功的话返回的状态码是00000
+        // 短信发送成功的话返回的状态码是00000
+        if ("00000".equals(respCode)) {
             return new AjaxResult(true, "验证码已发送至您的手机，请及时查收！");
         } else {
             return new AjaxResult(false, "验证码发送失败，请稍后重试！");
@@ -102,11 +105,13 @@ public class UserController {
      */
     @RequestMapping(value = "register")
     public String register(User user, ValidationCode validationCode, RedirectAttributes redirectAttributes) {
+        // 检查验证码是否正确或者过期
         Integer codeTime = validationCodeService.validationCodeCheck(validationCode);
         String codeMessage = "";
         if (codeTime == null) {
             codeMessage = "您的验证码错误，请重新输入！";
             redirectAttributes.addFlashAttribute("codeMessage",codeMessage);
+            // 用于回显
             redirectAttributes.addFlashAttribute("user",user);
             return "redirect:/user/registerUI";
         } else if (codeTime == 0) {
@@ -115,6 +120,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("user",user);
             return "redirect:/user/registerUI";
         }
+        // 查询用户名/手机号/邮箱是否已经注册，如果都还没注册则返回的值是null
         codeMessage = userService.selectUser(user);
         if (codeMessage != null) {
             redirectAttributes.addFlashAttribute("codeMessage",codeMessage);
@@ -163,6 +169,7 @@ public class UserController {
     @RequestMapping(value = "checkCode")
     @ResponseBody
     public AjaxResult checkCode(ValidationCode validationCode) {
+        // 检查验证码是否正确或者过期
         Integer codeTime = validationCodeService.validationCodeCheck(validationCode);
         if (codeTime == null) {
             return new AjaxResult(false,"您的验证码错误，请重新输入！");
@@ -252,7 +259,8 @@ public class UserController {
     }
 
     /**
-     * 修改邮箱页面通过ajax方式获取验证码
+     * 修改邮箱页面通过ajax方式获取验证码，用户直接点击获取验证码即可，不用输入邮箱，
+     * 所以与上面发送验证码的方法区别开
      * @param session
      * @return
      */
@@ -264,7 +272,8 @@ public class UserController {
     }
 
     /**
-     * 修改手机号码页面通过ajax方式获取验证码
+     * 修改手机号码页面通过ajax方式获取验证码，用户直接点击获取验证码即可，不用输入手机号码，
+     * 所以与上面发送验证码的方法区别开
      * @param session
      * @return
      */

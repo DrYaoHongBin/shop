@@ -30,26 +30,36 @@ public class ValidationCodeServiceImpl implements ValidationCodeService {
     private ValidationCodeMapper validationCodeMapper;
 
     public void emailCode(ValidationCode validationCode) throws Exception {
-        int randomNumber =(int)((Math.random()*9+1)*100000); //生成6位数的随机数
-        Mail.MailValidationCode(validationCode.getEmail(),randomNumber); //向用户发送验证码
-        Calendar c = Calendar.getInstance(); //获取当前系统的时间
-        //getInstance()返回值是long型的整数 表示从1790-1-1 00:00:00到当前时间总共经过的时间的毫秒数
-        long time = c.getTimeInMillis();  //设置验证码发送的时间
-        long exptime =(time+1000*300);   //设置过期时间为5分钟
+        // 生成6位数的随机数
+        int randomNumber =(int)((Math.random()*9+1)*100000);
+        // 向用户发送验证码
+        Mail.MailValidationCode(validationCode.getEmail(),randomNumber);
+        // 获取当前系统的时间，getInstance()返回值是long型的整数 表示从1790-1-1 00:00:00到当前时间总共经过的时间的毫秒数
+        Calendar c = Calendar.getInstance();
+        // 设置验证码发送的时间
+        long time = c.getTimeInMillis();
+        // 设置过期时间为5分钟
+        long exptime =(time+1000*300);
         validationCode.setEndTime(exptime);
         validationCode.setValidationCode(randomNumber);
         validationCodeMapper.insert(validationCode);
     }
 
     public String phoneNumberCode(ValidationCode validationCode) {
+        // 生成6位数的随机数
         int randomNumber =(int)((Math.random()*9+1)*100000);
-        String respCode = MiaoDi.execute(validationCode.getPhoneNumber(),randomNumber); //向用户发送验证码
+        // 向用户发送验证码
+        String respCode = MiaoDi.execute(validationCode.getPhoneNumber(),randomNumber);
+        // 获取当前系统的时间，getInstance()返回值是long型的整数 表示从1790-1-1 00:00:00到当前时间总共经过的时间的毫秒数
         Calendar c = Calendar.getInstance();
+        // 设置验证码发送的时间
         long time = c.getTimeInMillis();
+        // 设置过期时间为5分钟
         long exptime =(time+1000*300);
         validationCode.setEndTime(exptime);
         validationCode.setValidationCode(randomNumber);
         validationCodeMapper.insert(validationCode);
+        // 返回发送短信后返回的状态码
         return respCode;
     }
 
@@ -59,36 +69,46 @@ public class ValidationCodeServiceImpl implements ValidationCodeService {
      * @return
      */
     public Integer validationCodeCheck(ValidationCode validationCode) {
-        //通用Mapper的select方法，根据实体类不为空的字段查询
+        // 新建一个对象，用于保存查询的条件
         ValidationCode validation = new ValidationCode();
         validation.setValidationCode(validationCode.getValidationCode());
-        if ("".equals(validationCode.getEmail())) {    //前台的原因传过来的值有一个为""会影响查询（没有填写传过来的值为""）
-            validation.setPhoneNumber(validationCode.getPhoneNumber()); //用户没有填写邮箱，则按提交的手机号码查询
+
+        // 前台的原因传过来的值有一个为""会影响查询（没有填写传过来的值为""）
+        if ("".equals(validationCode.getEmail())) {
+            // 用户没有填写邮箱，则按提交的手机号码查询
+            validation.setPhoneNumber(validationCode.getPhoneNumber());
         } else {
+            // 用户没有填写手机号码，则按提交的邮箱查询
             validation.setEmail(validationCode.getEmail());
         }
+        // 通用Mapper的select方法，根据实体类不为空的字段查询
         List<ValidationCode> validationCodes = validationCodeMapper.select(validation);
         if (validationCodes.isEmpty()) { //查询不到验证码
             return null;
         } else {
             ValidationCode code = validationCodes.get(0);
+            // 获取从1790-1-1 00:00:00到当前时间的时间
             Calendar c = Calendar.getInstance();
+            // 获取从1790-1-1 00:00:00到当前时间总共经过的时间的毫秒数
             long time = c.getTimeInMillis();
-            if (time > code.getEndTime()) { //当前系统的时间大于验证码过期的时间
+            if (time > code.getEndTime()) {
+                // 当前系统的时间大于验证码过期的时间
                 return 0;
             }
-            //如果验证码通过则删除,防止重复利用
+            // 如果验证码通过则删除,防止重复利用
             validationCodeMapper.delete(validation);
-            return 1;  //1无意义，解决无返回值问题
+            return 1;  // 1无意义，解决无返回值问题
         }
     }
 
     public String resetPhoneNumber(HttpSession session) {
         User loginUser = (User)session.getAttribute("loginUser");
         ValidationCode validationCode = new ValidationCode();
-        validationCode.setPhoneNumber(loginUser.getPhoneNumber()); //传入登录用户的手机号码
+        // 传入登录用户的手机号码
+        validationCode.setPhoneNumber(loginUser.getPhoneNumber());
         try {
-           String respCode = phoneNumberCode(validationCode); //根据登录用户的手机号码发送验证码
+           // 根据登录用户的手机号码发送验证码
+           String respCode = phoneNumberCode(validationCode);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,9 +118,11 @@ public class ValidationCodeServiceImpl implements ValidationCodeService {
     public String resetEmail(HttpSession session) {
         User loginUser = (User)session.getAttribute("loginUser");
         ValidationCode validationCode = new ValidationCode();
-        validationCode.setEmail(loginUser.getEmail());  //传入登录用户的邮箱
+        // 传入登录用户的邮箱
+        validationCode.setEmail(loginUser.getEmail());
         try {
-            emailCode(validationCode); //根据登录用户的邮箱发送验证码
+            // 根据登录用户的邮箱发送验证码
+            emailCode(validationCode);
         }catch (Exception e) {
             e.printStackTrace();
         }

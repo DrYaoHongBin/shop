@@ -24,7 +24,7 @@ public class UserSessionInterceptor implements HandlerInterceptor{
         return excludeUrls;
     }
 
-    //执行controller前执行
+    // 执行controller前执行
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         String requestUri = request.getRequestURI();
         String contextPath = request.getContextPath();
@@ -39,12 +39,12 @@ public class UserSessionInterceptor implements HandlerInterceptor{
         return true;
     }
 
-    //执行controller后,返回ModelAndView前执行
+    // 执行controller后,返回ModelAndView前执行
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object o, ModelAndView modelAndView) throws Exception {
 
     }
 
-    //返回ModelAndView后执行
+    // 返回ModelAndView后执行
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) throws Exception {
 
     }
