@@ -125,7 +125,7 @@ public class MiaoDi  {
                 + createCommonParam();
         // 提交请求
         String result = post(url, body);
-        System.out.println("result:" +System.lineSeparator() + result);
+        System.out.println("result:" + System.lineSeparator() + result);
         //创建json解析器,需要加入jar包
         JsonParser jsonParser = new JsonParser();
         // 使用解析器解析json数据，返回值是JsonElement，强制转化为其子类JsonObject类型

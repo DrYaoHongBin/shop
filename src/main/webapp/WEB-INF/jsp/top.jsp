@@ -23,11 +23,11 @@
             <li class="headerul">|</li>
             <li><a href="my-s.html">我的收藏</a> </li>
             <li class="headerul">|</li>
-            <li id="pc-nav" class="menu"><a href="my-user.html" class="tit">我的商城</a>
+            <li id="pc-nav" class="menu"><a href="${pageContext.request.contextPath}/user/userSafeUI" class="tit">我的商城</a>
                 <div class="subnav">
                     <a href="my-d.html">我的订单</a>
                     <a href="my-s.html">我的收藏</a>
-                    <a href="#">个人资料</a>
+                    <a href="${pageContext.request.contextPath}/user/userInformationUI">个人资料</a>
                     <a href="${pageContext.request.contextPath}/user/userSafeUI">账户安全</a>
                     <a href="my-add.html">地址管理</a>
                 </div>

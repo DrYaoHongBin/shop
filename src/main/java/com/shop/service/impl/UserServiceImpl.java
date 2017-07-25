@@ -1,13 +1,16 @@
 package com.shop.service.impl;
 
+import com.shop.been.AjaxResult;
 import com.shop.dao.UserMapper;
 import com.shop.model.User;
 import com.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -117,6 +120,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public String updateUser(User user) {
+        // 个人资料的修改，如果手机号和邮箱为空，则表示是个人资料的修改，直接根据主键更新即可
+        if (user.getEmail() == null && user.getPhoneNumber() == null) {
+            userMapper.updateByPrimaryKeySelective(user);
+            return null;
+        }
         // 修改绑定手机号/邮箱前先判断是否已被注册
         String message = selectUser(user);
         if (message == null) {
@@ -134,5 +142,29 @@ public class UserServiceImpl implements UserService {
         session.removeAttribute("loginUser");
         // 将新的登录用户对象保存进session域
         session.setAttribute("loginUser",loginUser);
+    }
+
+    public AjaxResult avatarUpload(String img, HttpSession session) {
+        System.out.println(img);
+        img = img.split("base64,")[1];
+        // base64数据解析
+        BASE64Decoder base = new BASE64Decoder();
+        User user = (User)session.getAttribute("loginUser");
+        try {
+            byte[] b = base.decodeBuffer(img);
+            // 头像根据用户的id命名
+            String path = "D:\\shopImage\\user\\" + user.getUserId() +".jpg";
+            FileOutputStream output = new FileOutputStream(path);
+            output.write(b);
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxResult(false, "上传失败，请稍后重试");
+        }
+        // 保存登录用户头像的名字，user为保存图片的虚拟目录的子目录，用于保存用户的头像
+        user.setImage("user/" + user.getUserId() + ".jpg");
+        // 更新用户数据
+        userMapper.updateByPrimaryKeySelective(user);
+        return new AjaxResult(true, "上传成功");
     }
 }

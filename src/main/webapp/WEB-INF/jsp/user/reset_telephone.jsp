@@ -44,6 +44,16 @@
     </div>
 </header>
 <!-- header End -->
+<div class="containers">
+    <div class="pc-nav-item"><a href="${pageContext.request.contextPath}/">首页</a>
+        &gt;
+        <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
+        &gt;
+        <a href="${pageContext.request.contextPath}/user/userSafeUI">帐户安全</a>
+        &gt;
+        <a href="${pageContext.request.contextPath}/user/resetPhoneNumberUI">修改手机号码</a>
+    </div>
+</div>
 <section id="login-content">
     <div class="login-centre">
         <div class="login-back">

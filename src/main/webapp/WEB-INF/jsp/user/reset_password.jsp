@@ -43,6 +43,16 @@
         <div><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
     </div>
 </header>
+<div class="containers">
+    <div class="pc-nav-item"><a href="${pageContext.request.contextPath}/">首页</a>
+        &gt;
+        <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
+        &gt;
+        <a href="${pageContext.request.contextPath}/user/userSafeUI">帐户安全</a>
+        &gt;
+        <a href="${pageContext.request.contextPath}/user/resetPasswordUI">修改密码</a>
+    </div>
+</div>
 <!-- header End -->
 <section id="login-content">
     <div class="login-centre">

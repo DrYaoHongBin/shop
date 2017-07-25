@@ -1,6 +1,7 @@
 package com.shop.controller.user;
 
 import com.shop.been.AjaxResult;
+import com.shop.controller.BaseController;
 import com.shop.model.User;
 import com.shop.model.ValidationCode;
 import com.shop.service.UserService;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.FileOutputStream;
 
 /**
  * <p>Description:</p>
@@ -24,7 +27,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping(value = "user")
-public class UserController {
+public class UserController extends BaseController<User> {
 
     @Autowired
     private UserService userService;
@@ -63,13 +66,13 @@ public class UserController {
     public AjaxResult emailCode(ValidationCode validationCode, User user, Integer identify)throws Exception {
         // identify不为空，则表示是找回密码的操作，在发送前需要先判断该邮箱是否已经注册
         if (identify != null) {
-           String message = userService.selectUser(user,identify);
+           String message = userService.selectUser(user, identify);
            if (message != null) {
-                return new AjaxResult(false,message);
+                return new AjaxResult(false, message);
            }
         }
         validationCodeService.emailCode(validationCode);
-        return new AjaxResult(true,"验证码已发送至您的邮箱，请及时查收!");
+        return new AjaxResult(true, "验证码已发送至您的邮箱，请及时查收!");
     }
 
     /**
@@ -82,9 +85,9 @@ public class UserController {
     public AjaxResult phoneNumberCode(ValidationCode validationCode, User user, Integer identify) {
         // identify不为空，则表示是找回密码的操作，在发送前需要先判断该手机号是否已经注册
         if (identify != null) {
-            String message = userService.selectUser(user,identify);
+            String message = userService.selectUser(user, identify);
             if (message != null) {
-                return new AjaxResult(false,message);
+                return new AjaxResult(false, message);
             }
         }
         String respCode = validationCodeService.phoneNumberCode(validationCode);
@@ -110,21 +113,21 @@ public class UserController {
         String codeMessage = "";
         if (codeTime == null) {
             codeMessage = "您的验证码错误，请重新输入！";
-            redirectAttributes.addFlashAttribute("codeMessage",codeMessage);
+            redirectAttributes.addFlashAttribute("codeMessage", codeMessage);
             // 用于回显
-            redirectAttributes.addFlashAttribute("user",user);
+            redirectAttributes.addFlashAttribute("user", user);
             return "redirect:/user/registerUI";
         } else if (codeTime == 0) {
             codeMessage = "您的验证码已过期,请重新获取！";
-            redirectAttributes.addFlashAttribute("codeMessage",codeMessage);
-            redirectAttributes.addFlashAttribute("user",user);
+            redirectAttributes.addFlashAttribute("codeMessage", codeMessage);
+            redirectAttributes.addFlashAttribute("user", user);
             return "redirect:/user/registerUI";
         }
         // 查询用户名/手机号/邮箱是否已经注册，如果都还没注册则返回的值是null
         codeMessage = userService.selectUser(user);
         if (codeMessage != null) {
-            redirectAttributes.addFlashAttribute("codeMessage",codeMessage);
-            redirectAttributes.addFlashAttribute("user",user);
+            redirectAttributes.addFlashAttribute("codeMessage", codeMessage);
+            redirectAttributes.addFlashAttribute("user", user);
             return "redirect:/user/registerUI";
         }
         userService.saveUser(user);
@@ -143,11 +146,11 @@ public class UserController {
         User loginUser = userService.login(user);
         if (loginUser == null) {
             String message = "帐户名或密码错误，请重新输入！";
-            redirectAttributes.addFlashAttribute("message",message);
-            redirectAttributes.addFlashAttribute("user",user);
+            redirectAttributes.addFlashAttribute("message", message);
+            redirectAttributes.addFlashAttribute("user", user);
             return "redirect:/user/loginUI";
         } else {
-            session.setAttribute("loginUser",loginUser);
+            session.setAttribute("loginUser", loginUser);
             return "redirect:/";
         }
     }
@@ -172,11 +175,11 @@ public class UserController {
         // 检查验证码是否正确或者过期
         Integer codeTime = validationCodeService.validationCodeCheck(validationCode);
         if (codeTime == null) {
-            return new AjaxResult(false,"您的验证码错误，请重新输入！");
+            return new AjaxResult(false, "您的验证码错误，请重新输入！");
         } else if (codeTime == 0) {
-            return new AjaxResult(false,"您的验证码已过期，请重新获取！");
+            return new AjaxResult(false, "您的验证码已过期，请重新获取！");
         }
-        return new AjaxResult(true,"验证成功，请重新设置密码！");
+        return new AjaxResult(true, "验证成功，请重新设置密码！");
     }
 
     /**
@@ -187,7 +190,7 @@ public class UserController {
     @RequestMapping(value = "resetPassword")
     public String resetPassword(User user, RedirectAttributes redirectAttributes, HttpSession session) {
         userService.resetPassword(user);
-        redirectAttributes.addFlashAttribute("message","密码修改成功，请重新登录！");
+        redirectAttributes.addFlashAttribute("message", "密码修改成功，请重新登录！");
         if (session.getAttribute("loginUser") != null) {
             session.removeAttribute("loginUser");
         }
@@ -234,9 +237,9 @@ public class UserController {
     public AjaxResult checkPassword(User user, HttpSession session) {
         User loginUser = (User)session.getAttribute("loginUser");
         if (loginUser.getPassword().equals(user.getPassword())) {
-            return new AjaxResult(true,"");
+            return new AjaxResult(true, "");
         } else {
-            return new AjaxResult(false,"密码错误，请重新输入");
+            return new AjaxResult(false, "密码错误，请重新输入");
         }
     }
 
@@ -268,7 +271,7 @@ public class UserController {
     @ResponseBody
     public AjaxResult resetEmail(HttpSession session) {
         String message = validationCodeService.resetEmail(session);
-        return new AjaxResult(true,message);
+        return new AjaxResult(true, message);
     }
 
     /**
@@ -281,7 +284,7 @@ public class UserController {
     @ResponseBody
     public AjaxResult resetPhoneNumber(HttpSession session) {
         String message = validationCodeService.resetPhoneNumber(session);
-        return new AjaxResult(true,message);
+        return new AjaxResult(true, message);
     }
 
     /**
@@ -294,12 +297,52 @@ public class UserController {
     public String updateUser(User user, RedirectAttributes redirectAttributes, HttpSession session) {
         String message = userService.updateUser(user);
         if (message != null) {
-            redirectAttributes.addFlashAttribute("message",message);
+            redirectAttributes.addFlashAttribute("message", message);
             return "redirect:/user/userSafeUI";
         }
-        redirectAttributes.addFlashAttribute("message","修改成功！");
+        redirectAttributes.addFlashAttribute("message", "修改成功！");
         // 修改成功，根据隐藏域传过来的id值更新session里面的数据
         userService.updateSession(user.getUserId(), session);
         return "redirect:/user/userSafeUI";
+    }
+
+    /**
+     * 前往用户个人资料页面
+     * @return
+     */
+    @RequestMapping(value = "userInformationUI")
+    public String userInformationUI() {
+        return TEMPLATE_PATH + "user_information";
+    }
+
+    /**
+     * 前往修改头像页面，因为头像上传用到了bootstrap插件，直接引入会导致
+     * 个人信息页面布局乱了，所以更改头像另写一个页面
+     * @return
+     */
+    @RequestMapping(value = "avatarUI")
+    public String avatarUI() {
+        return TEMPLATE_PATH + "avatar";
+    }
+
+    /**
+     * 保存用户上传的头像,因为需要获取剪切出来的头像，所以把图片转成base64编码
+     * @param img base64编码的图片数据
+     * @param session 获取登录的用户
+     * @param userId 用户id
+     * @return
+     */
+    @RequestMapping(value = "avatarUpload")
+    @ResponseBody
+    public AjaxResult avatarUpload(String img, HttpSession session, Integer userId) {
+       AjaxResult result = userService.avatarUpload(img, session);
+       Boolean flag = result.getSuccess();
+       if (flag) {
+           // 更新完成，将session中的登录用户也更新
+           userService.updateSession(userId, session);
+           return result;
+       } else {
+           return result;
+       }
     }
 }

@@ -20,7 +20,7 @@ public class Mail {
      * @param code  生成的随机数验证码
      * @throws Exception
      */
-    public static void MailValidationCode (String userMail,int code) throws  Exception {
+    public static void MailValidationCode (String userMail, int code) throws  Exception {
         // 创建Properties 类用于记录邮箱的一些属性,加上final是为了让匿名对象能调用
          final  Properties props = new Properties();
         // 表示SMTP发送邮件，必须进行身份验证
@@ -45,7 +45,7 @@ public class Mail {
             }
         };
         // 使用环境属性和授权信息，创建邮件会话,Session类是mail包的
-        Session mailSession = Session.getInstance(props,authenticator);
+        Session mailSession = Session.getInstance(props, authenticator);
 
         // 创建邮件消息
         //Message对象将存储我们实际发送的电子邮件信息
@@ -58,7 +58,7 @@ public class Mail {
 
         // 设置收件人的邮箱
         InternetAddress to = new InternetAddress(userMail);
-        message.setRecipient(Message.RecipientType.TO,to);
+        message.setRecipient(Message.RecipientType.TO, to);
 
         // 设置邮件标题
         message.setSubject("【歪歪购物】");

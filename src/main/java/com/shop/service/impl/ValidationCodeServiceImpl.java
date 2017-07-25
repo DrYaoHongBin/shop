@@ -33,7 +33,7 @@ public class ValidationCodeServiceImpl implements ValidationCodeService {
         // 生成6位数的随机数
         int randomNumber =(int)((Math.random()*9+1)*100000);
         // 向用户发送验证码
-        Mail.MailValidationCode(validationCode.getEmail(),randomNumber);
+        Mail.MailValidationCode(validationCode.getEmail(), randomNumber);
         // 获取当前系统的时间，getInstance()返回值是long型的整数 表示从1790-1-1 00:00:00到当前时间总共经过的时间的毫秒数
         Calendar c = Calendar.getInstance();
         // 设置验证码发送的时间
@@ -49,7 +49,7 @@ public class ValidationCodeServiceImpl implements ValidationCodeService {
         // 生成6位数的随机数
         int randomNumber =(int)((Math.random()*9+1)*100000);
         // 向用户发送验证码
-        String respCode = MiaoDi.execute(validationCode.getPhoneNumber(),randomNumber);
+        String respCode = MiaoDi.execute(validationCode.getPhoneNumber(), randomNumber);
         // 获取当前系统的时间，getInstance()返回值是long型的整数 表示从1790-1-1 00:00:00到当前时间总共经过的时间的毫秒数
         Calendar c = Calendar.getInstance();
         // 设置验证码发送的时间

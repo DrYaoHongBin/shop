@@ -1,6 +1,7 @@
 package com.shop.service;
 
 
+import com.shop.been.AjaxResult;
 import com.shop.model.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,4 +55,12 @@ public interface UserService {
      * @param userId
      */
     void updateSession(Integer userId, HttpSession session);
+
+    /**
+     * 保存用户上传的头像
+     * @param img base64编码的图片数据
+     * @param session 获取登录的用户
+     * @return 上传的结果
+     */
+    AjaxResult avatarUpload(String img, HttpSession session);
 }

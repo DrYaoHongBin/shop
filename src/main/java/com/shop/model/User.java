@@ -19,13 +19,15 @@ public class User {
 
     private String phoneNumber;
 
-    public User(Integer userId, String username, String password, String email, String phoneNumber) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-    }
+    public String year;
+
+    public String month;
+
+    public String day;
+
+    public String sex;
+
+    public String image;
 
     @Override
     public String toString() {
@@ -35,7 +37,25 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", year='" + year + '\'' +
+                ", month='" + month + '\'' +
+                ", day='" + day + '\'' +
+                ", sex='" + sex + '\'' +
+                ", image='" + image + '\'' +
                 '}';
+    }
+
+    public User(Integer userId, String username, String password, String email, String phoneNumber, String year, String month, String day, String sex, String image) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.sex = sex;
+        this.image = image;
     }
 
     public User() {
@@ -80,5 +100,45 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
