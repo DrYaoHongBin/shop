@@ -29,7 +29,7 @@
                     <a href="my-s.html">我的收藏</a>
                     <a href="${pageContext.request.contextPath}/user/userInformationUI">个人资料</a>
                     <a href="${pageContext.request.contextPath}/user/userSafeUI">账户安全</a>
-                    <a href="my-add.html">地址管理</a>
+                    <a href="${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}">地址管理</a>
                 </div>
             </li>
         </ul>

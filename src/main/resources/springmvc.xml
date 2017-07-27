@@ -59,7 +59,8 @@
     <!-- 配置拦截器 -->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/user/**"/>
+            <mvc:mapping path="/user/**"/> <!-- 如果写成/**的话静态资源访问不到 -->
+            <mvc:mapping path="/address/**"/>
             <bean class="com.shop.interceptors.UserSessionInterceptor">
                 <property name="excludeUrls">
                     <list>

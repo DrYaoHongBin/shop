@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.List;
 
 @Table(name = "shop_user")
 public class User {
@@ -19,15 +21,32 @@ public class User {
 
     private String phoneNumber;
 
-    public String year;
+    private String year;
 
-    public String month;
+    private String month;
 
-    public String day;
+    private String day;
 
-    public String sex;
+    private String sex;
 
-    public String image;
+    private String image;
+
+    @Transient
+    private List<Address> addresses;
+
+    public User(Integer userId, String username, String password, String email, String phoneNumber, String year, String month, String day, String sex, String image, List<Address> addresses) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.sex = sex;
+        this.image = image;
+        this.addresses = addresses;
+    }
 
     @Override
     public String toString() {
@@ -42,20 +61,8 @@ public class User {
                 ", day='" + day + '\'' +
                 ", sex='" + sex + '\'' +
                 ", image='" + image + '\'' +
+                ", addresses=" + addresses +
                 '}';
-    }
-
-    public User(Integer userId, String username, String password, String email, String phoneNumber, String year, String month, String day, String sex, String image) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.year = year;
-        this.month = month;
-        this.day = day;
-        this.sex = sex;
-        this.image = image;
     }
 
     public User() {
@@ -140,5 +147,13 @@ public class User {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }

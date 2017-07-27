@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/theme/css/base.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/theme/css/member.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/theme/js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/theme/css/address.css">
     <script type="text/javascript">
         (function(a){
             a.fn.hoverClass=function(b){
@@ -91,7 +92,7 @@
                     <dd><a href="#">我的收藏</a></dd>
                     <dd><a href="${pageContext.request.contextPath}/user/userInformationUI">个人资料</a></dd>
                     <dd><a href="${pageContext.request.contextPath}/user/userSafeUI">账户安全</a></dd>
-                    <dd><a href="#">地址管理</a></dd>
+                    <dd><a href="${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}">地址管理</a></dd>
                 </dl>
             </div>
         </div>
