@@ -1,5 +1,6 @@
 package com.shop.service;
 
+import com.github.pagehelper.PageInfo;
 import com.shop.model.Address;
 
 /**
@@ -34,5 +35,14 @@ public interface AddressService {
      * @param addressId
      */
     void removeAddress(Integer addressId);
+
+    /**
+     *  用户前往地址管理页面前查询出该用户保存的地址
+     * @param address 只保存了地址关联的用户主键
+     * @param pageNum 查询的页码
+     * @param pageSize 每页的条数
+     * @return
+     */
+    PageInfo<Address> selectAllAddress(Address address, Integer pageNum, Integer pageSize);
 
 }

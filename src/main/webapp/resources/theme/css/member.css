@@ -27,8 +27,8 @@
 .member-lists dd { background:#ffffff; border-top:1px solid #ffffff; border-bottom:1px solid #e0e0e0; height:30px; line-height:30px; font-size:12px; color:#333; padding-left: 0px; text-align:center; margin:0 15px; }
 .member-line { background:#717171; height:1px; margin:15px 0;}
 .pc-search-n { background:#fff url("../icon/s-a1.png") no-repeat right; color:#005aa0; }
-.pc-search-f { background:#fff url("../icon/s-a4.png") no-repeat left; color:#ccc; cursor:default;}
-.pc-search-g .pc-search-f:hover {background:#fff url("../icon/s-a4.png") no-repeat left; color:#ccc; cursor:default; border:1px solid #ddd;}
+.pc-search-f { background:#fff url("../icon/s-a4.png") no-repeat left;  color:#005aa0;}
+.pc-search-g .pc-search-f:hover {background:#fff url("../icon/s-a4.png") no-repeat left; color:#005aa0; }
 .pc-search-g .pc-search-n:hover {background:#fff url("../icon/s-a1.png") no-repeat right; color:#005aa0; }
 .pc-search-list  .label-default {background: url("../icon/icon-lb.png") no-repeat; color:#f5f5f5; font-size:18px; height:29px; line-height:29px; text-align:left; padding:0; padding-left:10px;  margin-top:5px; width:89px;}
 .member-lists  .cur { background:url("../icon/member-icon.png") 34px 12px no-repeat; }

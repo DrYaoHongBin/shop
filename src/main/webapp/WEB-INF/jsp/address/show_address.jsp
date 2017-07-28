@@ -35,36 +35,6 @@
         $(function(){
             $("#pc-nav").hoverClass("current");
         });
-
-        $(document).ready(function($){
-
-            $(".btn1").click(function(event){
-                $(".hint").css({"display":"block"});
-                $(".box").css({"display":"block"});
-            });
-
-            $(".hint-in3").click(function(event) {
-                $(".hint").css({"display":"none"});
-                $(".box").css({"display":"none"});
-            });
-
-            $(".hint3").click(function(event) {
-                $(this).parent().parent().css({"display":"none"});
-                $(".box").css({"display":"none"});
-            });
-
-            $("#H-table li").each(function(i){
-                $(this).click((function(k){
-                    var _index = k;
-                    return function(){
-                        $(this).addClass("cur").siblings().removeClass("cur");
-                        $(".H-over").hide();
-                        $(".H-over:eq(" + _index + ")").show();
-                    }
-                })(i));
-            });
-
-        });
     </script>
 </head>
 <body>
@@ -133,64 +103,54 @@
             <div class="member-border">
                 <div class="member-newly">
                     <b><a href="${pageContext.request.contextPath}/address/updateAddressUI" >新增收货地址</a></b>
-                    您已经创建了<i class="reds">4</i>个收货地址了，最多可创建<i class="reds">20</i>个
+                    您已经创建了<i class="reds">${pageInfo.total}</i>个收货地址了，最多还可创建<i class="reds">${20 - pageInfo.total}</i>个
                 </div>
                 <div class="member-sites">
-                    <ul>
-                        <li class="clearfix">
-                            <div class="default fl"><a href="#">默认地址</a> </div>
-                            <div class="user-info1 fl clearfix">
-                                <div class="user-info">
-                                    <span class="info1">收货人：</span>
-                                    <span class="info2">张子琪</span>
+                    <c:forEach var="address" items="${pageInfo.list}">
+                        <ul>
+                            <li class="clearfix">
+                                <div class="default fl"><a href="#">默认地址</a> </div>
+                                <div class="user-info1 fl clearfix">
+                                    <div class="user-info">
+                                        <span class="info1">收货人姓名：</span>
+                                        <span class="info2">${address.username}</span>
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="info1">联系方式：</span>
+                                        <span class="info2">${address.phone}</span>
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="info1">邮政编码：</span>
+                                        <span class="info2">${address.zipCode}</span>
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="info1">所在地区：</span>
+                                        <span class="info2">${address.province}${address.city}${address.area}</span>
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="info1">详细地址：</span>
+                                        <span class="info2">${address.fullAddress}</span>
+                                    </div>
                                 </div>
-                                <div class="user-info">
-                                    <span class="info1">所在地区：</span>
-                                    <span class="info2">北京市海淀区三环到四环之间</span>
+                                <div class="pc-event">
+                                    <a href="#" class="pc-event-d">设为默认地址</a>
+                                    <a href="${pageContext.request.contextPath}/address/updateAddressUI?addressId=${address.addressId}">编辑 </a>
+                                    <a href="${pageContext.request.contextPath}/address/removeAddress?addressId=${address.addressId}">删除</a>
                                 </div>
-                                <div class="user-info">
-                                    <span class="info1">地址：</span>
-                                    <span class="info2">北京市海淀区中关村南街99号，幸福小区3号楼4门401</span>
-                                </div>
-                                <div class="user-info">
-                                    <span class="info1">手机：</span>
-                                    <span class="info2">186****4832</span>
-                                </div>
-                                <div class="user-info">
-                                    <span class="info1">固定电话：</span>
-                                    <span class="info2">010-81819191</span>
-                                </div>
-                                <div class="user-info">
-                                    <span class="info1">电子邮箱：</span>
-                                    <span class="info2">azneui@sina.com</span>
-                                </div>
-                            </div>
-
-                            <div class="pc-event">
-                                <a href="#" class="pc-event-d">设为默认地址</a>
-                                <a href="${pageContext.request.contextPath}/address/updateAddressUI?addressId=6">编辑 </a>
-                                <a href="${pageContext.request.contextPath}/address/removeAddress?addressId=6">删除</a>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </c:forEach>
                 </div>
                 <div class="member-pages clearfix">
                     <div class="fr pc-search-g">
-                        <a href="#" class="fl pc-search-f">上一页</a>
-                        <a class="current" href="#">1</a>
-                        <a href="javascript:;">2</a>
-                        <a href="javascript:;">3</a>
-                        <a href="javascript:;">4</a>
-                        <a href="javascript:;">5</a>
-                        <a href="javascript:;">6</a>
-                        <a href="javascript:;">7</a>
-                        <span class="pc-search-di">…</span>
-                        <a onClick="SEARCH.page(3, true)" href="javascript:;" class="pc-search-n" title="使用方向键右键也可翻到下一页哦！">下一页</a>
+                        <a href="${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}&pageNum=${pageInfo.prePage}" class="fl pc-search-f">上一页</a>
+                        <a class="current" href="#">${pageInfo.pageNum}</a>
+                        <a href="${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}&pageNum=${pageInfo.nextPage}" class="pc-search-n" >下一页</a>
                         <span class="pc-search-y">
-                        <em>  共20页    到第</em>
-                        <input type="text" placeholder="1" class="pc-search-j">
+                        <em>  共${pageInfo.pages}页    到第</em>
+                        <input type="text"  class="pc-search-j" id="page">
                         <em>页</em>
-                        <a class="confirm" href="#">确定</a>
+                        <a class="confirm" href="${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}&pageNum=" onclick="skip()" id="confire">确定</a>
                     </span>
 
                     </div>
@@ -199,6 +159,20 @@
         </div>
     </div>
 </section>
+<script type="text/javascript">
+    function skip() {
+        // 获取用户输入的页码
+        var page = $("#page").val();
+        /*
+        if (page == "") {
+            return false;
+        }
+        */
+        var newUrl = "${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}&pageNum=" + page;
+        // 获取url
+        var url = $("#confire").attr("href",newUrl);
+    }
+</script>
 <c:if test="${message != null}">
     <script type="text/javascript">
         var message = "${message}";

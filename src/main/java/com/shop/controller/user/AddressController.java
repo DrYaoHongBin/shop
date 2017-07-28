@@ -1,5 +1,6 @@
 package com.shop.controller.user;
 
+import com.github.pagehelper.PageInfo;
 import com.shop.controller.BaseController;
 import com.shop.model.Address;
 import com.shop.service.AddressService;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 /**
  * <p>Description:</p>
@@ -23,11 +26,15 @@ public class AddressController extends BaseController<Address> {
     AddressService addressService;
 
     /**
-     * 前往地址管理页面
+     * 前往用户管理地址页面并查询出用户保存的地址
+     * @param address
      * @return
      */
     @RequestMapping(value = "showAddressUI")
-    public String orderAddressUI() {
+    public String showAddressUI(Address address, Integer pageNum, Integer pageSize, Model model) {
+        PageInfo<Address> addressPageInfo = addressService.selectAllAddress(address, pageNum, pageSize);
+        // 将查询结果放到request域中（包含了分页信息）
+        model.addAttribute("pageInfo", addressPageInfo);
         return TEMPLATE_PATH + "show_address";
     }
 
