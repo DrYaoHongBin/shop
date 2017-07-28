@@ -109,7 +109,12 @@
                     <c:forEach var="address" items="${pageInfo.list}">
                         <ul>
                             <li class="clearfix">
-                                <div class="default fl"><a href="#">默认地址</a> </div>
+                                <c:if test="${address.defaultAddress == 1}">
+                                    <div class="default fl"><a href="#">默认地址</a> </div>
+                                </c:if>
+                                <c:if test="${address.defaultAddress != 1}">
+                                    <div class="default fl"> </div>
+                                </c:if>
                                 <div class="user-info1 fl clearfix">
                                     <div class="user-info">
                                         <span class="info1">收货人姓名：</span>
@@ -133,7 +138,12 @@
                                     </div>
                                 </div>
                                 <div class="pc-event">
-                                    <a href="#" class="pc-event-d">设为默认地址</a>
+                                    <c:if test="${address.defaultAddress != 1}">
+                                        <a href="${pageContext.request.contextPath}/address/updateDefaultAddress?addressId=${address.addressId}">设为默认地址</a>
+                                    </c:if>
+                                    <c:if test="${address.defaultAddress == 1}">
+                                        <a href="#" class="pc-event-d">设为默认地址</a>
+                                    </c:if>
                                     <a href="${pageContext.request.contextPath}/address/updateAddressUI?addressId=${address.addressId}">编辑 </a>
                                     <a href="${pageContext.request.contextPath}/address/removeAddress?addressId=${address.addressId}">删除</a>
                                 </div>

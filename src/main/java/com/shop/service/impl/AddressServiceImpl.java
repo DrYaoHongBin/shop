@@ -22,8 +22,18 @@ public class AddressServiceImpl implements AddressService {
     @Autowired
     AddressMapper addressMapper;
 
-    public void saveAddress(Address address) {
-        addressMapper.insert(address);
+    public String saveAddress(Address address) {
+        Address condition = new Address();
+        condition.setUserId(address.getUserId());
+        // 查询出用户已经添加的地址数量(selectCount条件是AND)
+        Integer addressNumber = addressMapper.selectCount(condition);
+        // 用户添加的地址数大于20则不让添加
+        if (addressNumber < 20) {
+            addressMapper.insert(address);
+            return "添加成功";
+        } else {
+            return "添加失败，您可保存的地址数已满";
+        }
     }
 
     public Address selectAddress(Integer addressId) {
@@ -56,5 +66,13 @@ public class AddressServiceImpl implements AddressService {
         PageInfo<Address> pageInfo = new PageInfo<Address>(addressList);
         // PageInfo中的list属性将是结果集
         return pageInfo;
+    }
+
+    public void updateDefaultAddress(Address address) {
+        // 将原来的默认地址的defaultAddress值设为0
+        addressMapper.updateDefaultAddress();
+        // 根据转过来的地址主键设置defaultAddress值设为1
+        address.setDefaultAddress(1);
+        addressMapper.updateByPrimaryKeySelective(address);
     }
 }

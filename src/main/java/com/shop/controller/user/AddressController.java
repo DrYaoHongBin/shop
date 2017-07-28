@@ -10,8 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
 /**
  * <p>Description:</p>
  *
@@ -59,8 +57,8 @@ public class AddressController extends BaseController<Address> {
      */
     @RequestMapping(value = "saveAddress")
     public String saveAddress(Address address, RedirectAttributes redirectAttributes) {
-        addressService.saveAddress(address);
-        redirectAttributes.addFlashAttribute("message","添加成功");
+        String message = addressService.saveAddress(address);
+        redirectAttributes.addFlashAttribute("message",message);
         return REDIRECT_URL + "showAddressUI";
     }
 
@@ -87,6 +85,13 @@ public class AddressController extends BaseController<Address> {
     public String removeAddress(Integer addressId, RedirectAttributes redirectAttributes) {
         addressService.removeAddress(addressId);
         redirectAttributes.addFlashAttribute("message","删除成功");
+        return REDIRECT_URL + "showAddressUI";
+    }
+
+    @RequestMapping(value = "updateDefaultAddress")
+    public String updateDefaultAddress(Address address, RedirectAttributes redirectAttributes) {
+        addressService.updateDefaultAddress(address);
+        redirectAttributes.addFlashAttribute("message","设置成功");
         return REDIRECT_URL + "showAddressUI";
     }
 }

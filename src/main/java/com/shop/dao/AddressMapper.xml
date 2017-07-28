@@ -12,4 +12,13 @@
     <result column="full_address" property="fullAddress" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
   </resultMap>
+  <update id="updateDefaultAddress" >
+    UPDATE
+      shop_address
+    <set>
+      default_address = NULL
+    </set>
+    WHERE
+      default_address = 1
+  </update>
 </mapper>

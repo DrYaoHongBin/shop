@@ -12,10 +12,10 @@ import com.shop.model.Address;
 public interface AddressService {
 
     /**
-     * 保存地址
+     * 保存地址,保存前先验证用户地址可保存数是否已满
      * @param address
      */
-    void saveAddress(Address address);
+    String saveAddress(Address address);
 
     /**
      * 前往修改地址页面时查询出要修改的地址
@@ -44,5 +44,11 @@ public interface AddressService {
      * @return
      */
     PageInfo<Address> selectAllAddress(Address address, Integer pageNum, Integer pageSize);
+
+    /**
+     * 设置地址为默认地址，设置defaultAddress的值为1，并将原来的默认地址的defaultAddress值设为null
+     * @param address 保存了要设置的默认地址的主键
+     */
+    void updateDefaultAddress(Address address);
 
 }
