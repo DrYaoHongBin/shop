@@ -2,10 +2,11 @@ package com.shop.controller.user;
 
 import com.shop.been.AjaxResult;
 import com.shop.controller.BaseController;
-import com.shop.model.User;
-import com.shop.model.ValidationCode;
-import com.shop.service.UserService;
-import com.shop.service.ValidationCodeService;
+
+import com.shop.model.user.User;
+import com.shop.model.user.ValidationCode;
+import com.shop.service.user.UserService;
+import com.shop.service.user.ValidationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;

@@ -2,13 +2,16 @@ package com.shop.controller.user;
 
 import com.github.pagehelper.PageInfo;
 import com.shop.controller.BaseController;
-import com.shop.model.Address;
-import com.shop.service.AddressService;
+import com.shop.model.user.Address;
+import com.shop.model.user.User;
+import com.shop.service.user.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>Description:</p>
@@ -29,7 +32,11 @@ public class AddressController extends BaseController<Address> {
      * @return
      */
     @RequestMapping(value = "showAddressUI")
-    public String showAddressUI(Address address, Integer pageNum, Integer pageSize, Model model) {
+    public String showAddressUI(Address address, Integer pageNum, Integer pageSize, Model model, HttpSession session) {
+        User loginUser = (User)session.getAttribute("loginUser");
+        if (address.getUserId() == null) {
+            address.setUserId(loginUser.getUserId());
+        }
         PageInfo<Address> addressPageInfo = addressService.selectAllAddress(address, pageNum, pageSize);
         // 将查询结果放到request域中（包含了分页信息）
         model.addAttribute("pageInfo", addressPageInfo);
@@ -88,6 +95,12 @@ public class AddressController extends BaseController<Address> {
         return REDIRECT_URL + "showAddressUI";
     }
 
+    /**
+     * 用户设置默认地址
+     * @param address 只包含了要设置为默认地址的地址主键
+     * @param redirectAttributes
+     * @return
+     */
     @RequestMapping(value = "updateDefaultAddress")
     public String updateDefaultAddress(Address address, RedirectAttributes redirectAttributes) {
         addressService.updateDefaultAddress(address);

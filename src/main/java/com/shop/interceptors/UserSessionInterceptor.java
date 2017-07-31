@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- * <p>Description:</p>
+ * <p>Description:用户拦截器</p>
  *
  * @Author 姚洪斌
  * @Date 2017/7/23 3:24

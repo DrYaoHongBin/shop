@@ -77,5 +77,16 @@
                 </property>
             </bean>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/admin/**"/>
+            <bean class="com.shop.interceptors.AdminSessionInterceptor">
+                <property name="excludeUrls">
+                    <list>
+                        <value>/admin/admin/loginUI</value>
+                        <value>/admin/admin/login</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
     </mvc:interceptors>
 </beans>

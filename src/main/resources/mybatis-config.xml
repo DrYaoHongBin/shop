@@ -61,8 +61,8 @@
 
     <!--定义别名-->
     <typeAliases>
-        <typeAlias type="com.shop.model.User" alias="user"></typeAlias>
-        <typeAlias type="com.shop.model.Address" alias="address"></typeAlias>
+        <typeAlias type="com.shop.model.user.User" alias="user"></typeAlias>
+        <typeAlias type="com.shop.model.user.Address" alias="address"></typeAlias>
     </typeAliases>
 
     <!--  在 MyBatis配置xml中配置pagehelper拦截器插件 (也可以在spring配置文件中配置) -->

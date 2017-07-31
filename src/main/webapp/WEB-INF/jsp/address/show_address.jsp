@@ -160,7 +160,7 @@
                         <em>  共${pageInfo.pages}页    到第</em>
                         <input type="text"  class="pc-search-j" id="page">
                         <em>页</em>
-                        <a class="confirm" href="${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}&pageNum=" onclick="skip()" id="confire">确定</a>
+                        <a class="confirm" href="#" onclick="skip()" id="confire">确定</a>
                     </span>
 
                     </div>

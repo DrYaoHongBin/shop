@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class CommonController {
+    /**
+     * 前往主页
+     * @return
+     */
     @RequestMapping(value = "/")
     public String index() {
         return "redirect:/WEB-INF/jsp/index.jsp";
