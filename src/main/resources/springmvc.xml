@@ -56,6 +56,16 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!-- 文件上传 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <!-- 设置上传文件的最大尺寸为5MB -->
+        <property name="maxUploadSize">
+            <value>5242880</value>
+        </property>
+    </bean>
+
     <!-- 配置拦截器 -->
     <mvc:interceptors>
         <mvc:interceptor>
@@ -84,6 +94,16 @@
                     <list>
                         <value>/admin/admin/loginUI</value>
                         <value>/admin/admin/login</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/merchant/**"/>
+            <bean class="com.shop.interceptors.MerchantSessionInterceptor">
+                <property name="excludeUrls">
+                    <list>
+                        <value>/merchant/saveMerchant</value>
                     </list>
                 </property>
             </bean>

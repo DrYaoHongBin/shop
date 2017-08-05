@@ -11,7 +11,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
     <!-- spring版本号 -->
     <spring.version>4.2.5.RELEASE</spring.version>
     <!-- mybatis版本号 -->
@@ -338,6 +337,11 @@
     </dependency>
     <!-- 导入MyBatis分页插件PageHelper包 end -->
 
+    <dependency>
+      <groupId>ueditor</groupId>
+      <artifactId>ueditor</artifactId>
+      <version>1.1.2</version>
+    </dependency>
   </dependencies>
 
   <build>

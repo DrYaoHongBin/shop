@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.dao.merchant.ItemMapper">
+    <resultMap id="BaseResultMap" type="com.shop.model.merchant.Item">
+        <id column="item_id" property="itemId" jdbcType="INTEGER" />
+        <result column="item_title" property="itemTitle" jdbcType="VARCHAR" />
+        <result column="category_one" property="categoryOne" jdbcType="VARCHAR" />
+        <result column="category_two" property="categoryTwo" jdbcType="VARCHAR" />
+        <result column="price" property="price" jdbcType="DOUBLE" />
+        <result column="stock" property="stock" jdbcType="INTEGER" />
+        <result column="images" property="images" jdbcType="VARCHAR" />
+        <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+        <result column="details" property="details" jdbcType="LONGVARCHAR" />
+    </resultMap>
+
+    <select id="selectItem" parameterType="item" resultType="item">
+        SELECT
+          item_id,item_title,category_one,category_two,price,stock,images,merchant_id
+        FROM
+          shop_item
+        WHERE
+          merchant_id = #{merchantId}
+    </select>
+</mapper>

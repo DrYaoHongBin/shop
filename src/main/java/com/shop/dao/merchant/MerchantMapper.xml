@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.dao.merchant.MerchantMapper">
+    <resultMap id="BaseResultMap" type="com.shop.model.merchant.Merchant">
+        <id column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+        <result column="merchant_name" property="merchantName" jdbcType="VARCHAR" />
+    </resultMap>
+
+</mapper>

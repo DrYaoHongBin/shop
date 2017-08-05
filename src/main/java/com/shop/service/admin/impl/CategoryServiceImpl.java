@@ -78,7 +78,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryTwoMapper.deleteByPrimaryKey(categoryTwo);
     }
 
-    public PageInfo<CategoryOne> selectAllCategoryOne(Integer pageNum, Integer pageSize) {
+    public PageInfo<CategoryOne> selectCategoryOne(Integer pageNum, Integer pageSize) {
         // 没有指定页数默认查询第一页
         if (pageNum == null) {
             pageNum = 1;
@@ -96,7 +96,7 @@ public class CategoryServiceImpl implements CategoryService {
         return pageInfo;
     }
 
-    public PageInfo<CategoryTwo> selectAllCategoryTwo(CategoryOne categoryOne, Integer pageNum, Integer pageSize) {
+    public PageInfo<CategoryTwo> selectCategoryTwo(CategoryOne categoryOne, Integer pageNum, Integer pageSize) {
         // 没有指定页数默认查询第一页
         if (pageNum == null) {
             pageNum = 1;
@@ -115,5 +115,16 @@ public class CategoryServiceImpl implements CategoryService {
         // 对查询出来的结果进行包装
         PageInfo<CategoryTwo> pageInfo = new PageInfo<CategoryTwo>(categoryTwoList);
         return pageInfo;
+    }
+
+    public List<CategoryOne> selectAllCategoryOne() {
+        return categoryOneMapper.selectAll();
+    }
+
+    public List<CategoryTwo> selectAllCategoryTwo(CategoryOne categoryOne) {
+        // 设置查询条件
+        CategoryTwo condition = new CategoryTwo();
+        condition.setCategoryOneId(categoryOne.getCategoryOneId());
+        return categoryTwoMapper.select(condition);
     }
 }

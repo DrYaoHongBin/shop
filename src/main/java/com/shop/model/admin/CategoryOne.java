@@ -8,9 +8,15 @@ import java.util.List;
 @Table(name = "category_one")
 public class CategoryOne {
 
+    /**
+     * 一级类目主键
+     */
     @Id
     private Integer categoryOneId;
 
+    /**
+     * 一级类目名字
+     */
     private String name;
 
     @Transient

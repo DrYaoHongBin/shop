@@ -2,11 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shop.dao.user.UserMapper">
     <resultMap id="BaseResultMap" type="com.shop.model.user.User" >
-        <id column="user_id" property="userId" jdbcType="INTEGER" />
-        <result column="username" property="username" jdbcType="VARCHAR" />
-        <result column="password" property="password" jdbcType="VARCHAR" />
-        <result column="email" property="email" jdbcType="VARCHAR" />
-        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+        <id column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+        <result column="year" jdbcType="VARCHAR" property="year" />
+        <result column="month" jdbcType="VARCHAR" property="month" />
+        <result column="day" jdbcType="VARCHAR" property="day" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="image" jdbcType="VARCHAR" property="image" />
+        <association property="merchant" javaType="com.shop.model.merchant.Merchant">
+            <id column="merchant_id" property="merchantId" jdbcType="INTEGER"/>
+            <result column="merchant_name" property="merchantName" jdbcType="VARCHAR"/>
+        </association>
     </resultMap>
     <select id="selectUser" parameterType="user" resultType="user">
         SELECT
@@ -34,11 +43,13 @@
               user_id = #{userId};
           </if>
     </update>
-    <select id="login" parameterType="user" resultType="user">
+    <select id="login" parameterType="user" resultMap="BaseResultMap">
         SELECT
           *
         FROM
-          shop_user
-        WHERE binary password = #{password} AND (username = #{username} OR phone_number = #{username} OR email = #{username});
+          shop_user u LEFT JOIN shop_merchant m
+        ON
+          u.user_id = m.merchant_id
+        WHERE binary u.password = #{password} AND (u.username = #{username} OR u.phone_number = #{username} OR u.email = #{username});
     </select>
 </mapper>

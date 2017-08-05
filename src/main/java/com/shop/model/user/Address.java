@@ -7,25 +7,55 @@ import javax.persistence.Transient;
 @Table(name = "shop_address")
 public class Address {
 
+    /**
+     * 用户地址主键
+     */
     @Id
     private Integer addressId;
 
+    /**
+     * 收货人姓名
+     */
     private String username;
 
+    /**
+     * 收货人联系方式
+     */
     private String phone;
 
+    /**
+     * 省
+     */
     private String province;
 
+    /**
+     * 市
+     */
     private String city;
 
+    /**
+     * 区
+     */
     private String area;
 
+    /**
+     * 邮政编码
+     */
     private String zipCode;
 
+    /**
+     * 详细地址
+     */
     private String fullAddress;
 
+    /**
+     * 关联的用户主键
+     */
     private Integer userId;
 
+    /**
+     * 该属性值为，则表示该地址为用户设置的默认地址
+     */
     private Integer defaultAddress;
 
     @Transient

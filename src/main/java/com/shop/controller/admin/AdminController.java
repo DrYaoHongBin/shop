@@ -83,7 +83,7 @@ public class AdminController extends BaseController<Admin> {
      */
     @RequestMapping(value = "categoryOneUI")
     public String categoryUI(Integer pageNum, Integer pageSize, Model model) {
-        PageInfo<CategoryOne> pageInfo = categoryService.selectAllCategoryOne(pageNum, pageSize);
+        PageInfo<CategoryOne> pageInfo = categoryService.selectCategoryOne(pageNum, pageSize);
         model.addAttribute("pageInfo", pageInfo);
         return TEMPLATE_PATH + "category_one";
     }
@@ -121,7 +121,7 @@ public class AdminController extends BaseController<Admin> {
      */
     @RequestMapping(value = "categoryTwoUI")
     public String categoryTwoUI(CategoryOne categoryOne, Integer pageNum, Integer pageSize, Model model) {
-        PageInfo<CategoryTwo> pageInfo = categoryService.selectAllCategoryTwo(categoryOne, pageNum ,pageSize);
+        PageInfo<CategoryTwo> pageInfo = categoryService.selectCategoryTwo(categoryOne, pageNum ,pageSize);
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute(categoryOne);
         return TEMPLATE_PATH + "category_two";

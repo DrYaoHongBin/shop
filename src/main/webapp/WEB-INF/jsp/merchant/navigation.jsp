@@ -30,7 +30,7 @@
                         <c:if test="${loginUser.image == null}">
                             <img src="/image/user/null.jpg" width="29" height="29"/>
                         </c:if>
-                        <span class="username">${loginUser.username}</span>
+                        <span class="username">${loginMerchant.merchantName}</span>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu extended logout">

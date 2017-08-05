@@ -29,5 +29,17 @@ jQuery.validator.addMethod("isZipCode",function (value, element) {
     return this.optional(element) || (rule.test(value) || value == "000000")
 },"请输入正确的邮政编码");
 
+// 判断输入的价格,可验证 大于等于零，小于等于99999999.99 的数字
+jQuery.validator.addMethod("isPrice",function (value, element) {
+    var rule = /^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/;
+    return this.optional(element) || rule.test(value)
+},"请填写正确的价格");
+
+// 判断库存
+jQuery.validator.addMethod("isStock",function (value, element) {
+    var rule = /^[1-9][0-9]{0,9}$/;
+    return this.optional(element) || rule.test(value)
+},"请填写正确的库存");
+
 
 

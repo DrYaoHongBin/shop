@@ -145,6 +145,10 @@ public class UserController extends BaseController<User> {
     @RequestMapping(value = "login")
     public String login(User user, RedirectAttributes redirectAttributes, HttpSession session) {
         User loginUser = userService.login(user);
+        // 判断登录用户是否已经注册店铺，如果已经注册，将merchant属性保存进session
+        if (loginUser.getMerchant() != null) {
+            session.setAttribute("loginMerchant", loginUser.getMerchant());
+        }
         if (loginUser == null) {
             String message = "帐户名或密码错误，请重新输入！";
             redirectAttributes.addFlashAttribute("message", message);

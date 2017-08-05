@@ -6,11 +6,20 @@ import javax.persistence.Table;
 @Table(name = "category_two")
 public class CategoryTwo {
 
+    /**
+     * 二级类目主键
+     */
     @Id
     private Integer categoryTwoId;
 
+    /**
+     * 二级类目名字
+     */
     private String name;
 
+    /**
+     * 二级类目关联的一级类目主键
+     */
     private Integer categoryOneId;
 
     public CategoryTwo(Integer categoryTwoId, String name, Integer categoryOneId) {

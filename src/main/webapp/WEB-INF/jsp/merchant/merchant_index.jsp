@@ -65,7 +65,7 @@
                     </a>
                     <ul class="sub">
                         <li><a class="" href="#">查看商品</a></li>
-                        <li><a class="" href="${pageContext.request.contextPath}/merchant/updateProductUI">添加商品</a></li>
+                        <li><a class="" href="${pageContext.request.contextPath}/merchant/updateItemsUI">添加商品</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
