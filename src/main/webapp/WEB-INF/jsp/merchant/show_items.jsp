@@ -97,6 +97,7 @@
                                 <th>二级类目</th>
                                 <th>价格</th>
                                 <th>库存</th>
+                                <th>销量</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -110,6 +111,7 @@
                                         <td>${item.categoryTwo}</td>
                                         <td>${item.price}</td>
                                         <td>${item.stock}</td>
+                                        <td>${item.sales}</td>
                                         <td>
                                             <a href="${pageContext.request.contextPath}/merchant/updateItemsUI?itemId=${item.itemId}" class="btn btn-primary btn-xs">查看</a>
                                             <input type="hidden" id="delete" value="${item.itemId}">

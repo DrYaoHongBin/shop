@@ -11,11 +11,12 @@
         <result column="images" property="images" jdbcType="VARCHAR" />
         <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
         <result column="details" property="details" jdbcType="LONGVARCHAR" />
+        <result column="sales" property="sales" jdbcType="INTEGER" />
     </resultMap>
 
     <select id="selectItem" parameterType="item" resultType="item">
         SELECT
-          item_id,item_title,category_one,category_two,price,stock,images,merchant_id
+          item_id,item_title,category_one,category_two,price,stock,images,merchant_id,sales
         FROM
           shop_item
         WHERE

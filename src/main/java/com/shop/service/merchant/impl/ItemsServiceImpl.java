@@ -67,6 +67,8 @@ public class ItemsServiceImpl implements ItemsService {
 
             // 添加商品操作
             if (item.getItemId() == null) {
+                // 设置销量默认值为0
+                item.setSales(0);
                 // 保存商品
                 itemMapper.insert(item);
                 return new AjaxResult(true, "商品添加成功");
@@ -124,6 +126,10 @@ public class ItemsServiceImpl implements ItemsService {
         StringBuffer message = new StringBuffer();
         message.append(start);
         for (Item i : items) {
+            // 如果该商品没有二级目录，则设置值为""，防止返回后前台显示null
+             if (i.getCategoryTwo() == null) {
+                 i.setCategoryTwo("");
+             }
             String result = "<tr>\n" +
                                 "<td><img src=\"/image/" + i.getImages() + "\" width=\"35\" height=\"35\"/></td>\n" +
                                 "<td>" + i.getItemTitle() + "</td>\n" +
@@ -131,6 +137,7 @@ public class ItemsServiceImpl implements ItemsService {
                                 "<td>" + i.getCategoryTwo() + "</td>\n" +
                                 "<td>" + i.getPrice() + "</td>\n" +
                                 "<td>" + i.getStock() + "</td>\n" +
+                                "<td>" + i.getSales() + "</td>\n" +
                                 "<td>\n" +
                                     "<a href=\"" +path+ "/merchant/updateItemsUI?itemId=" +i.getItemId() + "\" class=\"btn btn-primary btn-xs\">查看</a>\n" +
                                     "<input type=\"hidden\" id=\"delete\" value=\"" + i.getItemId() + "\">\n" +

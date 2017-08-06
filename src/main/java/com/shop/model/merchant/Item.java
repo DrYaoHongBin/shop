@@ -52,7 +52,12 @@ public class Item {
      */
     private String details;
 
-    public Item(Integer itemId, String itemTitle, String categoryOne, String categoryTwo, Double price, Integer stock, String images, Integer merchantId, String details) {
+    /**
+     * 商品销量
+     */
+    private Integer sales;
+
+    public Item(Integer itemId, String itemTitle, String categoryOne, String categoryTwo, Double price, Integer stock, String images, Integer merchantId, String details, Integer sales) {
         this.itemId = itemId;
         this.itemTitle = itemTitle;
         this.categoryOne = categoryOne;
@@ -62,13 +67,14 @@ public class Item {
         this.images = images;
         this.merchantId = merchantId;
         this.details = details;
+        this.sales = sales;
     }
 
     @Override
     public String toString() {
         return "Item{" +
-                "itemsId=" + itemId +
-                ", itemsTitle='" + itemTitle + '\'' +
+                "itemId=" + itemId +
+                ", itemTitle='" + itemTitle + '\'' +
                 ", categoryOne='" + categoryOne + '\'' +
                 ", categoryTwo='" + categoryTwo + '\'' +
                 ", price=" + price +
@@ -76,11 +82,20 @@ public class Item {
                 ", images='" + images + '\'' +
                 ", merchantId=" + merchantId +
                 ", details='" + details + '\'' +
+                ", sales=" + sales +
                 '}';
     }
 
     public Item() {
         super();
+    }
+
+    public Integer getSales() {
+        return sales;
+    }
+
+    public void setSales(Integer sales) {
+        this.sales = sales;
     }
 
     public Integer getItemId() {
