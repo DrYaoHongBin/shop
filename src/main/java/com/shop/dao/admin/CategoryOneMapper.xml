@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shop.dao.admin.CategoryOneMapper">
-  <resultMap id="BaseResultMap" type="com.shop.model.admin.CategoryOne" >
-    <id column="category_one_id" property="categoryOneId" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="categoryOne" >
+        <id column="category_one_id" property="categoryOneId" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <collection property="categoryTwoList" ofType="categoryTwo">
+            <id column="category_two_id" property="categoryTwoId" jdbcType="INTEGER"/>
+            <result column="twoName" property="name" jdbcType="VARCHAR"/>
+            <result column="category_one_id" property="categoryOneId" jdbcType="INTEGER"/>
+        </collection>
+    </resultMap>
+
+    <sql id="selectCategory">
+      SELECT
+        o.* , t.category_two_id, t.name twoName
+      FROM
+        category_one o LEFT OUTER JOIN category_two t ON o.category_one_id = t.category_one_id
+    </sql>
+
+    <select id="selectAllCategory" resultMap="BaseResultMap">
+        <include refid="selectCategory"/>
+        order by convert(o.name using gbk) asc
+    </select>
+
+    <select id="selectCategoryByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <include refid="selectCategory"/>
+        WHERE o.name = #{value} OR t.name = #{value}
+    </select>
+
 
 </mapper>

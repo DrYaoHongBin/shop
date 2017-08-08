@@ -12,6 +12,10 @@
         <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
         <result column="details" property="details" jdbcType="LONGVARCHAR" />
         <result column="sales" property="sales" jdbcType="INTEGER" />
+        <association property="merchant" javaType="merchant">
+            <id column="merchant_id" property="merchantId" jdbcType="INTEGER"/>
+            <result column="merchant_name" property="merchantName" jdbcType="VARCHAR"/>
+        </association>
     </resultMap>
 
     <select id="selectItem" parameterType="item" resultType="item">
@@ -21,5 +25,33 @@
           shop_item
         WHERE
           merchant_id = #{merchantId}
+    </select>
+
+    <sql id="selectItems">
+        SELECT
+          s.item_id, s.item_title, s.price, s.sales, s.images, m.*
+        FROM
+          shop_merchant AS m INNER JOIN shop_item AS s ON  m.merchant_id = s.merchant_id
+    </sql>
+
+    <select id="selectItemsByCategory" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <include refid="selectItems"/>
+        WHERE
+          s.category_one = #{value} OR s.category_two = #{value}
+    </select>
+
+    <select id="selectItemsBySearchName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <include refid="selectItems"/>
+        WHERE
+        s.item_title LIKE CONCAT(CONCAT('%', #{value}), '%')
+    </select>
+
+    <select id="showItem" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+          s.*, m.merchant_name
+        FROM
+          shop_merchant AS m INNER JOIN shop_item AS s ON  m.merchant_id = s.merchant_id
+        WHERE
+          s.item_id = #{value}
     </select>
 </mapper>

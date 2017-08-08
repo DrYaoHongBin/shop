@@ -8,10 +8,28 @@ import java.util.List;
 public interface ItemMapper extends BaseMapper<Item>{
 
     /**
-     * 查询出多个商品，不查询出商品详情
+     * 商家商品管理页面，查询出多个商品，不查询出商品详情
      * @param item
      * @return
      */
     List<Item> selectItem(Item item);
 
+    /**
+     * 根据类目名查询出多个商品部分信息和关联的商家
+     * @param categoryName 类目名
+     * @return
+     */
+    List<Item> selectItemsByCategory(String categoryName);
+
+    /**
+     * 根据搜索框内容搜索商品
+     * @param search
+     * @return
+     */
+    List<Item> selectItemsBySearchName(String search);
+
+    /**
+     * 查看商品详情
+     */
+    Item showItem(Integer itemId);
 }

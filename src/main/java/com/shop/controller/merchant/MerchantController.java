@@ -174,11 +174,11 @@ public class MerchantController extends BaseController<Merchant>{
     }
 
     /**
-     *
+     * 查看商品页面异步分页
      * @param item
      * @param pageNum
      * @param pageSize
-     * @param path
+     * @param path  当前项目路径
      * @return
      */
     @RequestMapping(value = "asyncSelect")

@@ -68,4 +68,18 @@ public interface CategoryService {
     List<CategoryTwo> selectAllCategoryTwo(CategoryOne categoryOne);
 
 
+    /**
+     * 查询出所有的一级类目和关联的二级类目
+     * @return
+     */
+    List<CategoryOne> selectAllCategory();
+
+    /**
+     * 查询一级或者二级类目名查询出一级类目和关联的二级类目
+     * @param categoryName
+     * @return
+     */
+    CategoryOne selectCategoryByName(String categoryName);
+
+
 }

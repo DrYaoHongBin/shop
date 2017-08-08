@@ -34,13 +34,13 @@
         </set>
         WHERE
           <if test="phoneNumber != null">
-              phone_number = #{phoneNumber};
+              phone_number = #{phoneNumber}
           </if>
           <if test="email != null">
-              email = #{email};
+              email = #{email}
           </if>
           <if test="userId != null">
-              user_id = #{userId};
+              user_id = #{userId}
           </if>
     </update>
     <select id="login" parameterType="user" resultMap="BaseResultMap">

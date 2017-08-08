@@ -127,4 +127,12 @@ public class CategoryServiceImpl implements CategoryService {
         condition.setCategoryOneId(categoryOne.getCategoryOneId());
         return categoryTwoMapper.select(condition);
     }
+
+    public List<CategoryOne> selectAllCategory() {
+        return categoryOneMapper.selectAllCategory();
+    }
+
+    public CategoryOne selectCategoryByName(String categoryName) {
+        return categoryOneMapper.selectCategoryByName(categoryName);
+    }
 }

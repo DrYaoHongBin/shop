@@ -2,6 +2,7 @@ package com.shop.model.merchant;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "shop_item")
 public class Item {
@@ -56,6 +57,12 @@ public class Item {
      * 商品销量
      */
     private Integer sales;
+
+    /**
+     * 关联的商家对象
+     */
+    @Transient
+    private Merchant merchant;
 
     public Item(Integer itemId, String itemTitle, String categoryOne, String categoryTwo, Double price, Integer stock, String images, Integer merchantId, String details, Integer sales) {
         this.itemId = itemId;
@@ -168,5 +175,13 @@ public class Item {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public Merchant getMerchant() {
+        return merchant;
+    }
+
+    public void setMerchant(Merchant merchant) {
+        this.merchant = merchant;
     }
 }

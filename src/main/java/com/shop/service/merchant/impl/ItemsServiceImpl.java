@@ -114,7 +114,8 @@ public class ItemsServiceImpl implements ItemsService {
         // 没有页数，默认第一页
         if (pageNum == null) {
             pageNum = 1;
-        } else if (pageSize == null) {
+        }
+        if (pageSize == null) {
             // 没有设置条数，默认每页10条数据
             pageSize = 10;
         }
@@ -153,5 +154,63 @@ public class ItemsServiceImpl implements ItemsService {
         PageResult pageResult = new PageResult(message.toString(), info.getPages(), info.getPrePage(),
                 info.getNextPage(), info.getPageNum(), info.getSize());
         return pageResult;
+    }
+
+    public PageInfo<Item> selectItemsByCategory(String categoryName) {
+        // 一开始前往搜索商品结果页面只展示第一页12条数据
+        PageHelper.startPage(1, 12);
+        List<Item> items = itemMapper.selectItemsByCategory(categoryName);
+        PageInfo<Item> pageInfo = new PageInfo<Item>(items);
+        return pageInfo;
+    }
+
+    public PageResult asyncSelectItems(String categoryName, String search, Integer pageNum, Integer pageSize, String path) {
+        // 没有页数，默认第一页
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            // 没有设置条数，默认每页10条数据
+            pageSize = 12;
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<Item> items = null;
+        // 如果categoryName和search哪一个值不为""则是当前用户的查询条件
+        if ("".equals(categoryName)) {
+            items = itemMapper.selectItemsBySearchName(search);
+        } else {
+            items = itemMapper.selectItemsByCategory(categoryName);
+        }
+        // 拼接html
+        StringBuffer message = new StringBuffer();
+        for (Item i: items) {
+            String result = "<li>\n" +
+                                "<a href=\"" + path + "/showItem?itemId=" + i.getItemId() +"\"><img src=\"/image/" + i.getImages() + "\" width=\"213\" height=\"213\"></a>\n" +
+                                "<p class=\"head-name\"><a href=\"" + path + "/showItem?itemId=" + i.getItemId() + "\">" + i.getItemTitle() + "</a> </p>\n" +
+                                "<br>\n" +
+                                "<p><span class=\"price\">￥" + i.getPrice() + "</span><span class=\"fr\">" + i.getSales() +"人购买</span></p>\n" +
+                                "<p><a href=\"" + path + "/" + i.getMerchantId() + "\"><span class=\"fl\">" + i.getMerchant().getMerchantName() + "</span></a></p>\n" +
+                            "</li>";
+            message.append(result);
+        }
+        // 对查询出来的结果进行包装
+        PageInfo<Item> info = new PageInfo<Item>(items);
+        // 异步查询结果包装
+        PageResult pageResult = new PageResult(message.toString(), info.getPages(), info.getPrePage(),
+                info.getNextPage(), info.getPageNum(), info.getSize());
+        return pageResult;
+
+    }
+
+    public PageInfo<Item> selectItemsBySearchName(String search) {
+        // 一开始前往搜索商品结果页面只展示第一页12条数据
+        PageHelper.startPage(1, 12);
+        List<Item> items = itemMapper.selectItemsBySearchName(search);
+        PageInfo<Item> pageInfo = new PageInfo<Item>(items);
+        return pageInfo;
+    }
+
+    public Item showItem(Integer itemId) {
+        return itemMapper.showItem(itemId);
     }
 }

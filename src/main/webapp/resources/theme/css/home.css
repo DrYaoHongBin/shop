@@ -353,8 +353,8 @@ body{min-width: 1200px; _width:expression(document.documentElement.clientWidth>1
 .pc-search-g a { border: 1px solid #ccc; float: left; font-size: 12px; height: 20px; line-height: 20px; margin-left: 2px; overflow: hidden; padding: 3px 10px; border-radius:3px;}
 .pc-search-g a:hover {background:#005aa0; color:#fff; border:1px solid #005aa0;}
 .pc-search-g .current {color:#f60; font-weight:800; border: none}
-.pc-search-f {background:#fff url("../icon/s-a4.png") no-repeat left; color:#ccc; cursor:default;}
-.pc-search-g .pc-search-f:hover {background:#fff url("../icon/s-a4.png") no-repeat left; color:#ccc; cursor:default; border:1px solid #ddd;}
+.pc-search-f {background:#fff url("../icon/s-a4.png") no-repeat left;color:#005aa0; }
+.pc-search-g .pc-search-f:hover {background:#fff url("../icon/s-a4.png") no-repeat left; color:#005aa0;}
 .pc-search-n {background:#fff url("../icon/s-a1.png") no-repeat right; color:#005aa0; }
 .pc-search-g .pc-search-n:hover {background:#fff url("../icon/s-a1.png") no-repeat right; color:#005aa0; }
 .pc-search-di {float:left; padding:0 10px; font-size:16px;}

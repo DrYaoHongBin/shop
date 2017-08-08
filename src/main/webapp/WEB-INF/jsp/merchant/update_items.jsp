@@ -243,7 +243,7 @@
     $(document).ready(function () {
         $("#add").validate({
             rules: {
-                productName: {
+                itemTitle: {
                     required: true,
                     maxlength: 35,
                 },
@@ -260,7 +260,7 @@
                 },
             },
             messages: {
-                productName: {
+                itemTitle: {
                     required: "商品标题不可为空",
                     maxlength: "标题不可超过35个字符",
                 },

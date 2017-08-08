@@ -40,7 +40,7 @@
 <header id="pc-header">
     <%@include file="../top.jsp"%>
     <div class="login-header" style="padding-bottom:0">
-        <div><h1><a href="${pageContext.request.contextPath}/user/updateUser"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
+        <div><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
     </div>
 </header>
 <!-- header End -->
