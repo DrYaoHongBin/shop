@@ -1,5 +1,7 @@
 package com.shop.model.order;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -19,6 +21,7 @@ public class OrderDetail {
     /**
      * 商品数量
      */
+    @NotBlank(message = "{orderDetail.number.error}")
     private Integer itemNumber;
 
     /**

@@ -1,8 +1,12 @@
 package com.shop.model.user;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * 地址实体
@@ -19,36 +23,43 @@ public class Address {
     /**
      * 收货人姓名
      */
+    @NotNull(message = "{user.username.error}")
     private String username;
 
     /**
      * 收货人联系方式
      */
+    @NotNull(message = "{address.phone.error}")
     private String phone;
 
     /**
      * 省
      */
+    @NotNull(message = "{address.error}")
     private String province;
 
     /**
      * 市
      */
+    @NotNull(message = "{address.error}")
     private String city;
 
     /**
      * 区
      */
+    @NotNull(message = "{address.error}")
     private String area;
 
     /**
      * 邮政编码
      */
+    @Pattern(regexp = "[1-9]\\d{5}",message = "{address.zipCode.error}")
     private String zipCode;
 
     /**
      * 详细地址
      */
+    @NotNull(message = "{address.error}")
     private String fullAddress;
 
     /**

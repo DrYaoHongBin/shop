@@ -1,8 +1,11 @@
 package com.shop.model.admin;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -20,6 +23,8 @@ public class CategoryOne {
     /**
      * 一级类目名字
      */
+    @NotBlank(message = "{category.error}")
+    @Size(max = 10,message = "{category.length}")
     private String name;
 
     @Transient

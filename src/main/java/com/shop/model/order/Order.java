@@ -2,6 +2,7 @@ package com.shop.model.order;
 
 import com.shop.model.merchant.Item;
 import com.shop.model.user.User;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -44,11 +45,13 @@ public class Order {
     /**
      * 订单总价
      */
+    @NotBlank(message = "{order.error}")
     private Double totalPrice;
 
     /**
      * 订单地址
      */
+    @NotBlank(message = "{order.error}")
     private String address;
 
     /**

@@ -2,10 +2,15 @@ package com.shop.model.user;
 
 import com.shop.model.merchant.Merchant;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -22,42 +27,51 @@ public class User {
     /**
      * 用户名
      */
+    @NotBlank(message = "{user.username.error}")
+    @Size(min = 6,max = 20,message = "{user.username.length}")
     private String username;
 
     /**
      * 用户密码
      */
+    @NotBlank(message = "{user.password.error}")
+    @Size(min = 6,max = 20,message = "{user.password.length}")
     private String password;
 
     /**
      * 用户注册邮箱
      */
-    @Email
+    @Email(message = "{usr.email.error}")
     private String email;
 
     /**
      * 用户注册手机号码
      */
+    @Pattern(regexp = "^1[34578]\\d{9}$", message = "{user.phoneNumber.error}")
     private String phoneNumber;
 
     /**
      * 出生日期：年
      */
+    @NotNull(message = "{user.data.error}")
     private String year;
 
     /**
      * 月
      */
+    @NotNull(message = "{user.data.error}")
     private String month;
 
     /**
      * 日
      */
+    @NotNull(message = "{user.data.error}")
     private String day;
 
     /**
      * 用户性别
      */
+    @NotNull(message = "{user.sex.error}")
     private String sex;
 
     /**

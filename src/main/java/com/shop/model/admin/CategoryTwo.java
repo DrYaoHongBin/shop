@@ -1,7 +1,10 @@
 package com.shop.model.admin;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  * 二级类目实体
@@ -18,6 +21,8 @@ public class CategoryTwo {
     /**
      * 二级类目名字
      */
+    @NotBlank(message = "{category.error}")
+    @Size(max = 10,message = "{category.length}")
     private String name;
 
     /**

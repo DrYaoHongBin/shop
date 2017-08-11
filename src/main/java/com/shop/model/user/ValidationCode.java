@@ -1,7 +1,10 @@
 package com.shop.model.user;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 /**
  * 验证码实体
@@ -15,6 +18,7 @@ public class ValidationCode {
     /**
      * 验证码对应的手机号码
      */
+    @Pattern(regexp = "^1[34578]\\d{9}$", message = "{user.phoneNumber.error}")
     private String phoneNumber;
 
     /**
@@ -30,6 +34,7 @@ public class ValidationCode {
     /**
      * 验证码对应的邮箱
      */
+    @Email(message = "{usr.email.error}")
     private String email;
 
     public ValidationCode(Integer id, String phoneNumber,  Long endTime, Integer validationCode, String email) {

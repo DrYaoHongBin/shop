@@ -189,4 +189,12 @@
         alert(message);
     </script>
 </c:if>
+<c:if test="${errors != null}">
+    <c:forEach var="e" items="${errors}">
+        <script type="text/javascript">
+            var errors = '${e.defaultMessage}';
+            alert(errors);
+        </script>
+    </c:forEach>
+</c:if>
 </html>

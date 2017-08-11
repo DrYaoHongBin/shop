@@ -8,10 +8,14 @@ import com.shop.service.user.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * <p>Description:</p>
@@ -63,7 +67,12 @@ public class AddressController extends BaseController<Address> {
      * @return
      */
     @RequestMapping(value = "saveAddress")
-    public String saveAddress(Address address, RedirectAttributes redirectAttributes) {
+    public String saveAddress(@Validated Address address, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            redirectAttributes.addFlashAttribute("errors", errors);
+            return REDIRECT_URL + "showAddressUI";
+        }
         String message = addressService.saveAddress(address);
         redirectAttributes.addFlashAttribute("message",message);
         return REDIRECT_URL + "showAddressUI";
@@ -76,7 +85,12 @@ public class AddressController extends BaseController<Address> {
      * @return
      */
     @RequestMapping(value = "updateAddress")
-    public String updateAddress(Address address, RedirectAttributes redirectAttributes) {
+    public String updateAddress(@Validated Address address,BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            redirectAttributes.addFlashAttribute("errors", errors);
+            return REDIRECT_URL + "showAddressUI";
+        }
         addressService.updateAddress(address);
         redirectAttributes.addFlashAttribute("message","修改成功");
         return REDIRECT_URL + "showAddressUI";

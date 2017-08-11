@@ -39,55 +39,6 @@
                         <span>商品类目</span>
                     </a>
                 </li>
-                <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon-book"></i>
-                        <span>UI Elements</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="" href="general.html">General</a></li>
-                        <li><a class="" href="buttons.html">Buttons</a></li>
-                        <li><a class="" href="widget.html">Widget</a></li>
-                        <li><a class="" href="slider.html">Slider</a></li>
-                        <li><a class="" href="font_awesome.html">Font Awesome</a></li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon-cogs"></i>
-                        <span>Components</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="" href="grids.html">Grids</a></li>
-                        <li><a class="" href="calendar.html">Calendar</a></li>
-                        <li><a class="" href="charts.html">Charts</a></li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon-tasks"></i>
-                        <span>Form Stuff</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="" href="form_component.html">Form Components</a></li>
-                        <li><a class="" href="form_wizard.html">Form Wizard</a></li>
-                        <li><a class="" href="form_validation.html">Form Validation</a></li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon-th"></i>
-                        <span>Data Tables</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub">
-                        <li class=""><a class="" href="basic_table.html">Basic Table</a></li>
-                        <li><a class="" href="dynamic_table.html">Dynamic Table</a></li>
-                    </ul>
-                </li>
                 <li>
                     <a class="" href="${pageContext.request.contextPath}/admin/admin/logout">
                         <i class="icon-user"></i>

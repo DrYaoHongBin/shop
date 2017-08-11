@@ -25,15 +25,6 @@
     </script>
 </head>
 <body>
-
-
-<div>
-    <div id="moquu_wxin" class="moquu_wxin"><a href="javascript:void(0)"><div class="moquu_wxinh"></div></a></div>
-    <div id="moquu_wshare" class="moquu_wshare"><a href="javascript:void(0)" style="text-indent:0"><div class="moquu_wshareh"><img src="${pageContext.request.contextPath}/resources/theme/icon/moquu_wshare.png" width="100%"></div></a></div>
-    <div id="moquu_wmaps"><a href="javascript:void(0)" class='moquu_wmaps'></a></div>
-    <a id="moquu_top" href="javascript:void(0)"></a>
-</div>
-
 <!--- header begin-->
 <header id="pc-header">
     <%@include file="top.jsp"%>
@@ -98,15 +89,15 @@
                 </div>
             </div>
             <ul class="yMenuIndex">
-                <li><a href="" target="_blank">服装城</a></li>
-                <li><a href="" target="_blank">美妆馆</a></li>
-                <li><a href="" target="_blank">美食</a></li>
-                <li><a href="" target="_blank">全球购</a></li>
-                <li><a href="" target="_blank">闪购</a></li>
-                <li><a href="" target="_blank">团购</a></li>
-                <li><a href="" target="_blank">拍卖</a></li>
-                <li><a href="" target="_blank">金融</a></li>
-                <li><a href="" target="_blank">智能</a></li>
+                <li><a href="#" >服装城</a></li>
+                <li><a href="#">美妆馆</a></li>
+                <li><a href="#" >美食</a></li>
+                <li><a href="#">全球购</a></li>
+                <li><a href="#" >闪购</a></li>
+                <li><a href="#">团购</a></li>
+                <li><a href="#" >拍卖</a></li>
+                <li><a href="#">金融</a></li>
+                <li><a href="#" >智能</a></li>
             </ul>
         </div>
     </div>
@@ -139,10 +130,10 @@
 <!--- advert begin-->
 <section id="pc-advert">
     <div class="container-c clearfix">
-        <a href="page.html" target="_blank"><img src="${pageContext.request.contextPath}/resources/theme/img/pd/pd1.png"></a>
-        <a href="page.html" target="_blank"><img src="${pageContext.request.contextPath}/resources/theme/img/pd/pd2.png"></a>
-        <a href="page.html" target="_blank"><img src="${pageContext.request.contextPath}/resources/theme/img/pd/pd3.png"></a>
-        <a href="page.html" target="_blank"><img src="${pageContext.request.contextPath}/resources/theme/img/pd/pd4.png"></a>
+        <a href="#" ><img src="${pageContext.request.contextPath}/resources/theme/img/pd/pd1.png"></a>
+        <a href="#"><img src="${pageContext.request.contextPath}/resources/theme/img/pd/pd2.png"></a>
+        <a href="#"><img src="${pageContext.request.contextPath}/resources/theme/img/pd/pd3.png"></a>
+        <a href="#"><img src="${pageContext.request.contextPath}/resources/theme/img/pd/pd4.png"></a>
     </div>
 </section>
 <!-- advert End -->

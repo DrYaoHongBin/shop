@@ -25,8 +25,8 @@
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 基本属性 url、user、password -->
         <property name="url" value="${jdbc.url}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
 
         <!-- 配置初始化连接数量、最小空闲连接数、 最大并发连接数 -->
         <property name="initialSize" value="${ds.initialSize}"/>

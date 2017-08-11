@@ -1,8 +1,11 @@
 package com.shop.model.merchant;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 /**
  * 商品实体
@@ -19,26 +22,32 @@ public class Item {
     /**
      * 商品标题
      */
+    @NotBlank(message = "{item.itemTitle.error}")
+    @Size(max = 35,message = "{item.itemTitle.length}")
     private String itemTitle;
 
     /**
      * 商品对应的一级类目
      */
+    @NotBlank(message = "{item.categoryOne.error}")
     private String categoryOne;
 
     /**
      * 商品对应的二级类目
      */
+    @NotBlank(message = "{item.categoryOne.error}")
     private String categoryTwo;
 
     /**
      * 商品价格
      */
+    @NotBlank(message = "{item.price.error}")
     private Double price;
 
     /**
      * 商品库存
      */
+    @NotBlank(message = "{item.stock.error}")
     private Integer stock;
 
     /**
@@ -54,6 +63,7 @@ public class Item {
     /**
      * 商品详情
      */
+    @Size(max = 3000,message = "{item.details.error}")
     private String details;
 
     /**

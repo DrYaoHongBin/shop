@@ -47,9 +47,9 @@
         <div class="header-logo fl"><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a> </h1></div>
         <div class="member-title fl"><h2></h2></div>
         <div class="head-form fl">
-            <form class="clearfix">
-                <input type="text" class="search-text" accesskey="" id="key" autocomplete="off"  placeholder="洗衣机">
-                <button class="button" onClick="search('key');return false;">搜索</button>
+            <form class="clearfix" action="${pageContext.request.contextPath}/selectItemsBySearchName" method="post" id="searchForm">
+                <input type="text" class="search-text" id="search" name="search">
+                <button class="button" type="submit">搜索</button>
             </form>
         </div>
         <div class="header-cart fr"><a href="#"><img src="${pageContext.request.contextPath}/resources/theme/icon/car.png"></a> <i class="head-amount">99</i></div>
@@ -88,7 +88,7 @@
             <div class="member-lists">
                 <dl>
                     <dt>我的商城</dt>
-                    <dd><a href="#">我的订单</a></dd>
+                    <dd><a href="${pageContext.request.contextPath}/order/showOrdersByUserId?userId=${loginUser.userId}">我的订单</a></dd>
                     <dd><a href="#">我的收藏</a></dd>
                     <dd><a href="${pageContext.request.contextPath}/user/userInformationUI">个人资料</a></dd>
                     <dd><a href="${pageContext.request.contextPath}/user/userSafeUI">账户安全</a></dd>

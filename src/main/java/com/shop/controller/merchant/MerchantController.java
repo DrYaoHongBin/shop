@@ -201,6 +201,13 @@ public class MerchantController extends BaseController<Merchant>{
         itemsService.exportExcel(merchantId, response);
     }
 
+    /**
+     * 导入excel表
+     * @param file
+     * @param redirectAttributes
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "inputExcel")
     public String inputExcel(MultipartFile file, RedirectAttributes redirectAttributes, HttpSession session) {
         String message = itemsService.inputExcel(file, session);

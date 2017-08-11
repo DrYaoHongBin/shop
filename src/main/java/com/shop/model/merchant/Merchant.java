@@ -1,5 +1,7 @@
 package com.shop.model.merchant;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -20,6 +22,7 @@ public class Merchant {
     /**
      * 店铺名
      */
+    @NotBlank(message = "{merchant.merchantName.error}")
     private String merchantName;
 
     /**

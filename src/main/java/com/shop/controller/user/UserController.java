@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +26,7 @@ import sun.misc.BASE64Decoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.FileOutputStream;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -115,7 +119,13 @@ public class UserController extends BaseController<User> {
      * @return
      */
     @RequestMapping(value = "register")
-    public String register(User user, ValidationCode validationCode, RedirectAttributes redirectAttributes) {
+    public String register(@Validated User user, BindingResult bindingResult, ValidationCode validationCode,
+                           RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            redirectAttributes.addFlashAttribute("errors", errors);
+            return "redirect:/user/registerUI";
+        }
         // 检查验证码是否正确或者过期
         Integer codeTime = validationCodeService.validationCodeCheck(validationCode);
         String codeMessage = "";
@@ -150,7 +160,12 @@ public class UserController extends BaseController<User> {
      * @return
      */
     @RequestMapping(value = "login")
-    public String login(User user, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String login(@Validated User user,BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            redirectAttributes.addFlashAttribute("errors", errors);
+            return "redirect:/user/loginUI";
+        }
         User loginUser = userService.login(user);
         // 判断登录用户是否已经注册店铺，如果已经注册，将merchant属性保存进session
         if (loginUser.getMerchant() != null) {
