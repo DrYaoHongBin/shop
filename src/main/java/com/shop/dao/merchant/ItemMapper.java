@@ -32,4 +32,11 @@ public interface ItemMapper extends BaseMapper<Item>{
      * 查看商品详情
      */
     Item showItem(Integer itemId);
+
+    /**
+     * 订单页面,根据商品id查询出商品id,标题，价格和关联的商家
+     * @param itemId
+     * @return
+     */
+    Item selectOrderItem(Integer itemId);
 }

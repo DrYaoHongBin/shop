@@ -4,6 +4,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * 地址实体
+ */
 @Table(name = "shop_address")
 public class Address {
 

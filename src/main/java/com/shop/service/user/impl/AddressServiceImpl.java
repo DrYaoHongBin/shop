@@ -20,7 +20,7 @@ import java.util.List;
 public class AddressServiceImpl implements AddressService {
 
     @Autowired
-    AddressMapper addressMapper;
+    private AddressMapper addressMapper;
 
     public String saveAddress(Address address) {
         Address condition = new Address();

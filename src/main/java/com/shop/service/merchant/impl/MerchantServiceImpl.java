@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 public class MerchantServiceImpl implements MerchantService {
 
     @Autowired
-    MerchantMapper merchantMapper;
+    private MerchantMapper merchantMapper;
 
     public AjaxResult saveMerchant(Merchant merchant, Integer userId, HttpSession session) {
         // 查询店铺名是否已被注册

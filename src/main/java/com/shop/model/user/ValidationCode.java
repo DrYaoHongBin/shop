@@ -3,6 +3,9 @@ package com.shop.model.user;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 验证码实体
+ */
 @Table(name = "validation_code")
 public class ValidationCode {
 

@@ -8,7 +8,7 @@
     <meta name="author" content="Mosaddek">
     <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/merchant/img/favicon.html">
-    <title>查看商品</title>
+    <title>查看订单</title>
     <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/resources/merchant/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/merchant/css/bootstrap-reset.css" rel="stylesheet">
@@ -39,24 +39,24 @@
                         <span>首页</span>
                     </a>
                 </li>
-                <li class="sub-menu">
+                <li class="sub-menu active">
                     <a href="javascript:;" class="">
                         <i class="icon-book"></i>
                         <span>订单管理</span>
                         <span class="arrow"></span>
                     </a>
                     <ul class="sub">
-                        <li><a class="" href="${pageContext.request.contextPath}/order/selectOrderByMerchantId?merchantId=${loginMerchant.merchantId}">查看订单</a></li>
+                        <li class="active"><a  href="${pageContext.request.contextPath}/order/selectOrderByMerchantId?merchantId=${loginMerchant.merchantId}">查看订单</a></li>
                     </ul>
                 </li>
-                <li class="sub-menu active">
+                <li class="sub-menu ">
                     <a href="javascript:;" class="">
                         <i class="icon-cogs"></i>
                         <span>商品管理</span>
                         <span class="arrow"></span>
                     </a>
                     <ul class="sub">
-                        <li class="active"><a class="" href="${pageContext.request.contextPath}/merchant/showItemsUI?merchantId=${loginMerchant.merchantId}">查看商品</a></li>
+                        <li class=""><a class="" href="${pageContext.request.contextPath}/merchant/showItemsUI?merchantId=${loginMerchant.merchantId}">查看商品</a></li>
                         <li class=""><a class="" href="${pageContext.request.contextPath}/merchant/updateItemsUI">添加商品</a></li>
                     </ul>
                 </li>
@@ -79,35 +79,35 @@
                 <div class="col-lg-12">
                     <section class="panel">
                         <header class="panel-heading">
-                            商品目录
+                            订单目录
                         </header>
                         <table class="table table-striped table-advance table-hover" id="itemTable">
                             <thead>
                             <tr>
-                                <th>商品图片</th>
-                                <th>商品标题</th>
-                                <th>一级类目</th>
-                                <th>二级类目</th>
-                                <th>价格</th>
-                                <th>库存</th>
-                                <th>销量</th>
+                                <th>订单号</th>
+                                <th>用户</th>
+                                <th>商品|单价|数量 </th>
+                                <th>下单时间</th>
+                                <th>总价</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
                             <div class="row">
-                                <c:forEach var="item" items="${pageInfo.list}">
+                                <c:forEach var="order" items="${pageInfo.list}">
                                     <tr>
-                                        <td><img src="/image/${item.images}" width="35" height="35"/></td>
-                                        <td>${item.itemTitle}</td>
-                                        <td>${item.categoryOne}</td>
-                                        <td>${item.categoryTwo}</td>
-                                        <td>${item.price}</td>
-                                        <td>${item.stock}</td>
-                                        <td>${item.sales}</td>
+                                        <td>${order.orderNumber}</td>
+                                        <td>${order.username}</td>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/merchant/updateItemsUI?itemId=${item.itemId}" class="btn btn-primary btn-xs">查看</a>
-                                            <input type="hidden" id="delete" value="${item.itemId}">
+                                            <c:forEach var="i" items="${order.orderDetails}">
+                                                <a href="${pageContext.request.contextPath}/showItem?itemId=${i.itemId}">${i.itemName}</a> ${i.itemPrice} x${i.itemNumber}
+                                            </c:forEach>
+                                        </td>
+                                        <td>${order.createTime}</td>
+                                        <td>${order.totalPrice}</td>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/order/orderDetailByMerchant?orderId=${order.orderId}" class="btn btn-primary btn-xs">查看</a>
+                                            <input type="hidden" id="delete" value="${order.orderId}">
                                             <a href="#" class="btn btn-danger btn-xs" onclick="deleteItem(this)">删除</a>
                                         </td>
                                     </tr>
@@ -117,12 +117,12 @@
                         </table>
                         <div class="text-right">
                             <ul class="pagination">
-                                <li><a href="#" onclick="prefPage()">«</a></li>
-                                <li><a href="#" id="pageNum">${pageInfo.pageNum}</a></li>
-                                <li><a href="#" onclick="nextfPage()">»</a></li>
+                                <li><a href="${pageContext.request.contextPath}/order/selectOrderByMerchantId?merchantId=${loginMerchant.merchantId}&pageNum=${pageInfo.prePage}" >«</a></li>
+                                <li><a href="#" >${pageInfo.pageNum}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/order/selectOrderByMerchantId?merchantId=${loginMerchant.merchantId}&pageNum=${pageInfo.nextPage}" >»</a></li>
 
                                 &nbsp;
-                                共<a id="pages">${pageInfo.pages}</a>页&nbsp;到第 &nbsp;<input type="text" size="5" id="page">  &nbsp;页
+                                共<a>${pageInfo.pages}</a>页&nbsp;到第 &nbsp;<input type="text" size="5" id="page">  &nbsp;页
                                 &nbsp;
                                 <a class="confirm" href="#" onclick="skip()" id="confire">确定</a>
                                 &nbsp;
@@ -157,11 +157,11 @@
             // 获取td标签的隐藏域标签
             var a = $(object).parent().find('input')[0];
             // 获取隐藏域的value
-            var itemId = a.value;
+            var orderId = a.value;
             $.ajax({
                 type:'post',
-                url:'${pageContext.request.contextPath }/merchant/deleteItem',
-                data:{"itemId":itemId},
+                url:'${pageContext.request.contextPath }/order/merchantDelete',
+                data:{"orderId":orderId},
                 success:function(data) {//返回json结果
                     if (data.success == false) {
                         alert(data.message);
@@ -174,65 +174,13 @@
             });
         }
     }
-    // 上一页
-    var prePage = '${pageInfo.prePage}';
-    // 下一页
-    var nextPage = '${pageInfo.nextPage}';
-    // 商家id
-    var merchantId = '${loginMerchant.merchantId}';
-
-    // 当前项目路径
-    var path = '${pageContext.request.contextPath}';
-
-    // 前往前一页
-    function prefPage() {
-        $.ajax({
-            type:'post',
-            url:'${pageContext.request.contextPath }/merchant/asyncSelect',
-            data:{"merchantId":merchantId, "pageNum":prePage, "path":path},
-            success:function(data) {//返回json结果
-                // 清除原来的tbody里面的内容
-                $("#itemTable tbody").html("");
-                // 将字符串拼接到tbody里面
-                $("#itemTable tbody").html(data.message);
-                // 更改上一页和下一页
-                prePage = data.prePage;
-                nextPage = data.nextPage;
-                // 设置当前页数
-                $("#pageNum").text(data.pageNum);
-                // 总页数
-                $("#pages").text(data.pages);
-            }
-        });
-    }
-
-    //前往后一页
-    function nextfPage() {
-        $.ajax({
-            type:'post',
-            url:'${pageContext.request.contextPath }/merchant/asyncSelect',
-            data:{"merchantId":merchantId, "pageNum":nextPage, "path":path},
-            success:function(data) {//返回json结果
-                // 清除原来的tbody里面的内容
-                $("#itemTable tbody").html("");
-                // 将字符串拼接到tbody里面
-                $("#itemTable tbody").html(data.message);
-                // 更改上一页和下一页
-                prePage = data.prePage;
-                nextPage = data.nextPage;
-                // 设置当前页数
-                $("#pageNum").text(data.pageNum);
-                // 总页数
-                $("#pages").text(data.pages);
-            }
-        });
-    }
     //跳转到指定页面
     function skip() {
         // 获取用户输入的页码
         var page = $("#page").val();
-        prePage = page;
-        this.prefPage();
+        var newUrl = "${pageContext.request.contextPath}/order/selectOrderByMerchantId?merchantId=${loginMerchant.merchantId}&pageNum=" + page;
+        // 获取url
+        var url = $("#confire").attr("href",newUrl);
     }
 
 

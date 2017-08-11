@@ -476,7 +476,7 @@ body{min-width: 1200px; _width:expression(document.documentElement.clientWidth>1
 .pc-click   { width:auto;  height:27px; line-height:27px; border:2px solid #ffffff; text-align:center;}
 .pc-address { width:auto;  height:27px; line-height:27px; border:2px solid #ffffff; text-align:center; padding-left:20px;}
 .pc-wares   { width:82px;  height:82px; line-height:27px; border:1px solid #dddddd; text-align:center; margin-right:15px;}
-.pc-wares-w { width:280px; height:90px; line-height:24px; margin-right:30px;}
+.pc-wares-w { width:500px; height:90px; line-height:24px; margin-right:30px;}
 .pc-submit  { width:135px; height:36px; line-height:36px; margin:8px 10px 0 0; overflow:hidden; border:none; background:#e4393c; font-size:14px; font-weight:700; border-radius:3px; color:#fff; cursor:pointer;}
 .pc-address span { padding-left:10px;}
 .pc-click    a   { padding-left:10px; color:#b61d1d;}
@@ -492,7 +492,7 @@ body{min-width: 1200px; _width:expression(document.documentElement.clientWidth>1
 
 .pc-order-title h3 {font-weight:normal;}
 
-.pc-wares-s span {padding-left:50px;}
+.pc-wares-s span {padding-left:80px;}
 .pc-wares-w span {padding-right:10px; padding-top:10px; color:#999999;}
 .pc-wares-l span {padding-right:60px;}
 .pc-wares-l span a {color:#c81623;}

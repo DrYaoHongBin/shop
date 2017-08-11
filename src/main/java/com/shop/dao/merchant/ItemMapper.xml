@@ -54,4 +54,13 @@
         WHERE
           s.item_id = #{value}
     </select>
+
+    <select id="selectOrderItem" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+          i.item_id,i.item_title,i.price,i.images,m.*
+        FROM
+          shop_item i INNER JOIN shop_merchant m ON i.merchant_id = m.merchant_id
+        WHERE
+          i.item_id = #{value}
+    </select>
 </mapper>

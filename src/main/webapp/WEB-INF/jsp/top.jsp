@@ -19,14 +19,14 @@
                 <li><a href="${pageContext.request.contextPath}/user/logout" style="float:left;">退出</a> </li>
             </c:if>
             <li class="headerul">|</li>
-            <li><a href="my-d.html">订单查询</a> </li>
+            <li><a href="${pageContext.request.contextPath}/order/showOrdersByUserId?userId=${loginUser.userId}">订单查询</a> </li>
             <li class="headerul">|</li>
-            <li><a href="my-s.html">我的收藏</a> </li>
+            <li><a href="#">我的收藏</a> </li>
             <li class="headerul">|</li>
             <li id="pc-nav" class="menu"><a href="${pageContext.request.contextPath}/user/userSafeUI" class="tit">我的商城</a>
                 <div class="subnav">
-                    <a href="my-d.html">我的订单</a>
-                    <a href="my-s.html">我的收藏</a>
+                    <a href="${pageContext.request.contextPath}/order/showOrdersByUserId?userId=${loginUser.userId}">我的订单</a>
+                    <a href="#">我的收藏</a>
                     <a href="${pageContext.request.contextPath}/user/userInformationUI">个人资料</a>
                     <a href="${pageContext.request.contextPath}/user/userSafeUI">账户安全</a>
                     <a href="${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}">地址管理</a>

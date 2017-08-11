@@ -82,11 +82,11 @@
 .member-cancel .be2 { width:114px; text-align:center; float:left; height:48px; line-height:48px; color:#a3a3a3; }
 
 .member-circle .ci1 { width:390px; float:left;  border-right:1px solid #e0e0e0;}
-.member-circle .ci2 { width:114px; float:left;  border-right:1px solid #e0e0e0; text-align:center; padding-top:20px; height:148px; background:url("../icon/member-u.png") 80px 20px no-repeat;}
-.member-circle .ci3 { width:114px; float:left;  border-right:1px solid #e0e0e0; text-align:center; padding-top:20px; height:148px;}
-.member-circle .ci4 { width:114px; float:left;  border-right:1px solid #e0e0e0; text-align:center; padding-top:20px; height:148px;}
-.member-circle .ci5 { width:114px; float:left;  border-right:1px solid #e0e0e0; text-align:center; padding-top:20px; height:148px;}
-.member-circle .ci6 { width:114px; float:left;  border-right:1px solid #ffffff; text-align:center; padding-top:20px; height:148px;}
+.member-circle .ci2 { width:114px; float:left;  border-right:1px solid #e0e0e0; text-align:center; padding-top:20px; height:74px; background:url("../icon/member-u.png") 80px 20px no-repeat;}
+.member-circle .ci3 { width:114px; float:left;  border-right:1px solid #e0e0e0; text-align:center; padding-top:20px; height:64px;}
+.member-circle .ci4 { width:114px; float:left;  border-right:1px solid #e0e0e0; text-align:center; padding-top:20px; height:64px;}
+.member-circle .ci5 { width:114px; float:left;  border-right:1px solid #e0e0e0; text-align:center; padding-top:20px; height:64px;}
+.member-circle .ci6 { width:114px; float:left;  border-right:1px solid #ffffff; text-align:center; padding-top:20px; height:64px;}
 
 .member-cancel {border-bottom:1px solid #e0e0e0; }
 .member-minute {border-bottom:1px solid #e0e0e0; line-height:30px; height:30px;}

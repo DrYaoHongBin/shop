@@ -16,6 +16,17 @@
             <id column="merchant_id" property="merchantId" jdbcType="INTEGER"/>
             <result column="merchant_name" property="merchantName" jdbcType="VARCHAR"/>
         </association>
+        <collection property="addresses" ofType="address">
+            <id column="address_id" property="addressId" jdbcType="INTEGER" />
+            <result column="username" property="username" jdbcType="VARCHAR" />
+            <result column="phone" property="phone" jdbcType="VARCHAR" />
+            <result column="province" property="province" jdbcType="VARCHAR" />
+            <result column="city" property="city" jdbcType="VARCHAR" />
+            <result column="area" property="area" jdbcType="VARCHAR" />
+            <result column="zip_code" property="zipCode" jdbcType="VARCHAR" />
+            <result column="full_address" property="fullAddress" jdbcType="VARCHAR" />
+            <result column="user_id" property="userId" jdbcType="INTEGER" />
+        </collection>
     </resultMap>
     <select id="selectUser" parameterType="user" resultType="user">
         SELECT
@@ -51,5 +62,14 @@
         ON
           u.user_id = m.merchant_id
         WHERE binary u.password = #{password} AND (u.username = #{username} OR u.phone_number = #{username} OR u.email = #{username});
+    </select>
+
+    <select id="selectAddress" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+      SELECT
+        a.*
+      FROM
+        shop_user AS u INNER JOIN shop_address As a ON u.user_id = a.user_id
+      WHERE
+        u.user_id = #{value}
     </select>
 </mapper>

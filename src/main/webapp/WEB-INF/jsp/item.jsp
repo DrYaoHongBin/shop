@@ -135,17 +135,17 @@
                                 <div class="pc-version">数量</div>
                                 <div class="pc-adults clearfix">
                                     <div class="pc-adults-p clearfix fl">
-                                        <input type="" id="subnum" placeholder="1">
+                                        <input type="text"   id="itemNumber">
                                         <a href="javascript:void(0);" class="amount1"></a>
                                         <a href="javascript:void(0);" class="amount2"></a>
                                     </div>
                                     <div class="fl pc-letter ">件</div>
-                                    <div class="fl pc-stock ">库存<em class="reds">${item.stock}</em>件</div>
+                                    <div class="fl pc-stock ">库存<em class="reds" >${item.stock}</em>件</div>
                                 </div>
                             </div>
                         </div>
                         <div class="pc-emption">
-                            <a href="#">立即购买</a>
+                            <a href="#" onclick="buy()">立即购买</a>
                             <a href="#" class="join">加入购物车</a>
                         </div>
                     </div>
@@ -175,5 +175,28 @@
     </div>
 </section>
 <!-- 商品详情 End -->
+<script type="text/javascript">
+    function buy() {
+        // 获取商品id
+        var itemId = '${item.itemId}';
+        // 获取商品库存
+        var stock = "${item.stock}";
+        // 获取用户购买数量
+        var itemNumber = $("#itemNumber").val();
+        // 判断用户购买数量是否正确
+        var rule = /^[1-9][0-9]{0,9}$/;
+        if (!(rule.test(itemNumber))) {
+            alert("请输入正确的购买数量");
+            return false;
+        }
+        if ((itemNumber - stock) > 0) {
+            alert("库存不足，请重新选择");
+            return false;
+        }
+        window.location.href = "${pageContext.request.contextPath}/order/saveOrderUI?itemId=" + itemId +
+            "&itemNumber=" + itemNumber;
+    }
+
+</script>
 </body>
 </html>

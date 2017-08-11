@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 public class AddressController extends BaseController<Address> {
 
     @Autowired
-    AddressService addressService;
+    private AddressService addressService;
 
     /**
      * 前往用户管理地址页面并查询出用户保存的地址

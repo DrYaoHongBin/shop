@@ -3,6 +3,9 @@ package com.shop.model.admin;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 管理员实体
+ */
 @Table(name = "shop_admin")
 public class Admin {
 

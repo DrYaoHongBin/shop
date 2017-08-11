@@ -17,4 +17,10 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     List<User> login(User user);
+
+    /**
+     * 根据主键查询用户关联的地址
+     * @return
+     */
+    User selectAddress(Integer userId);
 }

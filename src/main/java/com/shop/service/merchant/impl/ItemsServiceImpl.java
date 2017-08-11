@@ -28,7 +28,7 @@ import java.util.UUID;
 public class ItemsServiceImpl implements ItemsService {
 
     @Autowired
-    ItemMapper itemMapper;
+    private ItemMapper itemMapper;
 
     public AjaxResult saveItem(Item item, MultipartFile file) {
         try {

@@ -23,10 +23,10 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    CategoryOneMapper categoryOneMapper;
+    private CategoryOneMapper categoryOneMapper;
 
     @Autowired
-    CategoryTwoMapper categoryTwoMapper;
+    private CategoryTwoMapper categoryTwoMapper;
 
     public AjaxResult saveCategoryOne(CategoryOne categoryOne) {
         // 查询类目是否已经添加

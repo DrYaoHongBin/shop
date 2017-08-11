@@ -5,6 +5,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.List;
 
+/**
+ * 商家实体
+ */
 @Table(name = "shop_merchant")
 public class Merchant {
 

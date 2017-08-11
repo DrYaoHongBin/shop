@@ -29,10 +29,10 @@ import javax.servlet.http.HttpSession;
 public class AdminController extends BaseController<Admin> {
 
     @Autowired
-    AdminService adminService;
+    private AdminService adminService;
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     /**
      * 前往商城管理员登录页面

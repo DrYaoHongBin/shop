@@ -5,6 +5,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.List;
 
+/**
+ * 一级类目实体
+ */
 @Table(name = "category_one")
 public class CategoryOne {
 

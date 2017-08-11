@@ -9,9 +9,7 @@
     <meta name="Description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta name="renderer" content="webkit">
-    <meta content="歪秀购物, 购物, 大家电, 手机" name="keywords">
-    <meta content="歪秀购物，购物商城。" name="description">
-    <title>帐户安全</title>
+    <title>订单详情</title>
     <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/theme/icon/favicon.ico">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/theme/css/base.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/theme/css/member.css">
@@ -36,13 +34,12 @@
             $("#pc-nav").hoverClass("current");
         });
     </script>
-
 </head>
 <body>
 
 <!--- header begin-->
 <header id="pc-header">
-   <%@include file="../top.jsp"%>
+    <%@include file="../top.jsp"%>
     <div class="container clearfix">
         <div class="header-logo fl"><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a> </h1></div>
         <div class="member-title fl"><h2></h2></div>
@@ -63,7 +60,9 @@
         &gt;
         <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
         &gt;
-        <a href="${pageContext.request.contextPath}/user/userSafeUI">帐户安全</a>
+        <a href="${pageContext.request.contextPath}/order/showOrdersByUserId?userId=${loginUser.userId}">我的订单</a>
+        &gt;
+        <a href="${pageContext.request.contextPath}/order/orderDetailByUser?orderId=${order.orderId}">订单详情</a>
     </div>
 </div>
 
@@ -74,10 +73,10 @@
             <div class="member-apart clearfix">
                 <div class="fl">
                     <c:if test="${loginUser.image != null}">
-                    <img src="/image/${loginUser.image}" />
+                        <img src="/image/${loginUser.image}" />
                     </c:if>
                     <c:if test="${loginUser.image == null}">
-                    <img src="/image/user/null.jpg"/>
+                        <img src="/image/user/null.jpg"/>
                     </c:if>
                 </div>
                 <div class="fl">
@@ -98,44 +97,57 @@
         </div>
         <div class="member-right fr">
             <div class="member-head">
-                <div class="member-heels fl"><h2>账户安全</h2></div>
+                <div class="member-heels fl"><h2>订单号：${order.orderNumber}</h2></div>
+                <div class="member-backs fr"><a href="${pageContext.request.contextPath}/order/showOrdersByUserId?userId=${loginUser.userId}">返回订单首页</a></div>
             </div>
             <div class="member-border">
-                <div class="member-caution clearfix">
+                <div class="member-order">
+                    <dl class="member-custom clearfix ">
+                        <dt>订单信息</dt>
+                        <dd>订单编号：${order.orderNumber}</dd>
+                        <dd>订单金额：￥${order.totalPrice}</dd>
+                        <dd>下单时间：${order.createTime}</dd>
+                        <dd>备注：${order.remark}</dd>
+                    </dl>
+                    <dl>
+                        <dt>配送信息</dt>
+                        <dd class="member-seller"><span>收货地址：${order.address}</span></dd>
+                    </dl>
+                    <dl>
+                        <dt>商品信息</dt>
+                        <dd class="member-seller">本订单是由 “${order.merchantName}” 发货并且提高售后服务</dd>
+                    </dl>
+                </div>
+                <div class="member-serial">
                     <ul>
                         <li class="clearfix">
-                            <div class="warn1"></div>
-                            <div class="warn2">登录密码</div>
-                            <div class="warn3">互联网账号存在被盗风险，建议您定期更改密码以保护账户安全。</div>
-                            <div class="warn4"><a href="${pageContext.request.contextPath}/user/resetPasswordUI">修改</a> </div>
+                            <div class="No1">商品编号</div>
+                            <div class="No2">商品详情</div>
+                            <div class="No3">数量</div>
+                            <div class="No4">单价</div>
+                            <div class="No5">小计</div>
                         </li>
-                        <c:if test="${loginUser.phoneNumber != null}">
-                            <li class="clearfix">
-                                <div class="warn1"></div>
-                                <div class="warn2">手机验证</div>
-                                <div class="warn3">您验证的手机： <i class="reds">${loginUser.phoneNumber}</i>   若已丢失或停用，请立即更换，<i class="reds">避免账户被盗</i></div>
-                                <div class="warn4"><a href="${pageContext.request.contextPath}/user/resetPhoneNumberUI">修改</a> </div>
-                            </li>
-                        </c:if>
-                        <c:if test="${loginUser.email != null}">
-                            <li class="clearfix">
-                                <div class="warn1"></div>
-                                <div class="warn2">邮箱验证</div>
-                                <div class="warn3">您验证的邮箱： <i class="reds">${loginUser.email}</i>   若已丢失或停用，请立即更换，<i class="reds">避免账户被盗</i></div>
-                                <div class="warn4"><a href="${pageContext.request.contextPath}/user/resetEmailUI">修改</a> </div>
-                            </li>
-                        </c:if>
+                        <c:forEach items="${order.orderDetails}" var="i">
+                        <li class="clearfix">
+                            <div class="No1">${i.itemId}</div>
+                            <div class="No2"><a href="${pageContext.request.contextPath}/showItem?itemId=${order.item.itemId}">${i.itemName}</a> </div>
+                            <div class="No3">${i.itemNumber}</div>
+                            <div class="No4">￥${i.itemPrice}</div>
+                            <div class="No5">￥${i.itemPrice * i.itemNumber}</div>
+                        </li>
+                        </c:forEach>
                     </ul>
+                </div>
+            </div>
+            <div class="member-settle clearfix">
+                <div class="fr">
+                    <div><span>共需支付：</span><em>￥${order.totalPrice}</em></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<c:if test="${message != null}">
-    <script type="text/javascript">
-        var message = "${message}";
-        alert(message);
-    </script>
-</c:if>
+<!-- 商城快讯 End -->
+
 </body>
 </html>

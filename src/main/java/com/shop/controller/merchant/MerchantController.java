@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * <p>Description:</p>
+ * <p>Description:商家控制器</p>
  *
  * @Author 姚洪斌
  * @Date 2017/7/29 14:01
@@ -43,13 +43,13 @@ import java.util.UUID;
 public class MerchantController extends BaseController<Merchant>{
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    MerchantService merchantService;
+    private MerchantService merchantService;
 
     @Autowired
-    ItemsService itemsService;
+    private ItemsService itemsService;
 
     /**
      * ajax方式用户注册店铺

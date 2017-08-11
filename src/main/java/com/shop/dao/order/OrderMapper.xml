@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.dao.order.OrderMapper">
+    <resultMap id="BaseResultMap" type="com.shop.model.order.Order">
+        <id column="order_id" property="orderId" jdbcType="INTEGER" />
+        <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+        <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+        <result column="merchant_name" property="merchantName"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="total_price" property="totalPrice" jdbcType="DOUBLE" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="user_delete" property="userDelete" jdbcType="INTEGER" />
+        <result column="merchant_delete" property="merchantDelete" jdbcType="INTEGER" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <association property="item" javaType="item">
+            <result column="images" property="images"/>
+            <result column="item_title" property="itemTitle"/>
+            <result column="item_id" property="itemId"/>
+        </association>
+        <collection property="orderDetails" ofType="orderDetail">
+            <id column="detail_id" property="detailId" jdbcType="INTEGER" />
+            <result column="item_number" property="itemNumber" jdbcType="INTEGER" />
+            <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+            <result column="item_price" property="itemPrice" jdbcType="DOUBLE" />
+            <result column="item_id" property="itemId" jdbcType="INTEGER" />
+            <result column="order_id" property="orderId" jdbcType="INTEGER" />
+            <result column="images" property="imagePath" jdbcType="INTEGER" />
+        </collection>
+    </resultMap>
+
+    <insert id="saveOrder" parameterType="order" useGeneratedKeys="true" keyProperty="orderId">
+        INSERT INTO
+          shop_order(order_number, create_time, merchant_id, user_id, total_price, address, user_delete, merchant_delete, remark)
+        VALUES
+          (#{orderNumber}, #{createTime}, #{merchantId}, #{userId}, #{totalPrice}, #{address},#{userDelete}, #{merchantDelete},#{remark})
+    </insert>
+
+    <sql id="selectOrder">
+        SELECT
+          m.*,o.order_number,o.create_time,o.total_price,o.order_id,i.item_id,i.images,d.item_name,d.item_price,d.item_number
+        FROM
+          shop_merchant AS m INNER JOIN shop_order AS o On m.merchant_id = o.merchant_id
+          INNER JOIN shop_orderdetail AS d ON d.order_id = o.order_id
+          INNER JOIN shop_item AS i ON d.item_id = i.item_id
+    </sql>
+
+    <select id="showOrdersByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <include refid="selectOrder"/>
+        WHERE
+          o.user_id = #{value} AND  o.user_delete = 0
+    </select>
+
+    <sql id="selectOrderDetail">
+        SELECT
+         m.*,o.*,i.item_id,d.*
+         FROM
+          shop_merchant AS m INNER JOIN shop_order AS o On m.merchant_id = o.merchant_id
+          INNER JOIN shop_orderdetail AS d ON d.order_id = o.order_id
+          INNER JOIN shop_item AS i ON d.item_id = i.item_id
+    </sql>
+
+    <select id="orderDetail" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        <include refid="selectOrderDetail"/>
+        WHERE  o.order_id = #{value}
+    </select>
+
+    <select id="selectOrderByMerchantId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+          o.order_number,o.create_time,o.total_price,o.order_id,i.item_id,i.images,u.username,d.item_name,d.item_price,d.item_number
+        FROM
+          shop_merchant AS m INNER JOIN shop_order AS o On m.merchant_id = o.merchant_id
+          INNER JOIN shop_orderdetail AS d ON d.order_id = o.order_id
+          INNER JOIN shop_item AS i ON d.item_id = i.item_id
+          INNER JOIN shop_user As u ON o.user_id = u.user_id
+        WHERE
+          o.merchant_id = #{value} AND  o.merchant_delete = 0
+    </select>
+</mapper>

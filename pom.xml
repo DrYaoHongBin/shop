@@ -355,6 +355,7 @@
       </resource>
     </resources>
     <!--编译mapper.xml文件 end-->
+
     <finalName>demo</finalName>
 
 

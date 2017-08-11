@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
-    AdminMapper adminMapper;
+    private AdminMapper adminMapper;
 
     public String login(Admin admin, HttpSession session) {
        // 根据传过来的账号和密码查询是否有此管理员

@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     public String selectUser(User user) {
         // 查询条件是用and，会查询出多个对象

@@ -8,6 +8,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.List;
 
+/**
+ * 用户实体
+ */
 @Table(name = "shop_user")
 public class User {
     /**

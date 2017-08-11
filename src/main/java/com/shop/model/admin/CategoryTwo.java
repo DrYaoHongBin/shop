@@ -3,6 +3,9 @@ package com.shop.model.admin;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 二级类目实体
+ */
 @Table(name = "category_two")
 public class CategoryTwo {
 

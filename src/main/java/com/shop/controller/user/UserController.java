@@ -1,15 +1,19 @@
 package com.shop.controller.user;
 
+import com.github.pagehelper.PageInfo;
 import com.shop.been.AjaxResult;
 import com.shop.controller.BaseController;
 
+import com.shop.model.order.Order;
 import com.shop.model.user.User;
 import com.shop.model.user.ValidationCode;
+import com.shop.service.order.OrderService;
 import com.shop.service.user.UserService;
 import com.shop.service.user.ValidationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,9 +23,10 @@ import sun.misc.BASE64Decoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.FileOutputStream;
+import java.util.Map;
 
 /**
- * <p>Description:</p>
+ * <p>Description:用户控制器</p>
  *
  * @Author 姚洪斌
  * @Date 2017/7/17 21:44
@@ -36,6 +41,8 @@ public class UserController extends BaseController<User> {
     @Autowired
     private ValidationCodeService validationCodeService;
 
+    @Autowired
+    private OrderService orderService;
     /**
      * 前往用户注册页面
      * @return

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 /**
+ *  <p>Description:商品搜索控制器</p>
  *
  * @Author 姚洪斌
  * @Date 2017/7/21 9:06
@@ -24,10 +25,10 @@ import java.util.List;
 public class CommonController {
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    ItemsService itemsService;
+    private ItemsService itemsService;
 
     /**
      * 前往主页并查询出所有类目
