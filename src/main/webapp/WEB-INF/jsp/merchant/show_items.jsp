@@ -80,6 +80,12 @@
                     <section class="panel">
                         <header class="panel-heading">
                             商品目录
+                            &nbsp;&nbsp;&nbsp;
+                            <a href="${pageContext.request.contextPath}/merchant/exportExcel?merchantId=${loginMerchant.merchantId}" class="btn btn-success btn-xs">导出所有商品信息</a>
+                            <form id="add" action="${pageContext.request.contextPath }/merchant/inputExcel" method="post" enctype="multipart/form-data">
+                                <input type="file" name="file" id="file"  onchange="imageCheck(this)"  accept="application/vnd.ms-excel">
+                                <a class="btn btn-success btn-xs" onclick="submit()">导入Excel表</a>
+                            </form>
                         </header>
                         <table class="table table-striped table-advance table-hover" id="itemTable">
                             <thead>
@@ -235,6 +241,28 @@
         this.prefPage();
     }
 
+    function submit() {
+        var file = $("#file");
+        if (file == null) {
+            alert("请选择文件");
+        }
+        if (file != null) {
+            $("#add").submit();
+        }
+
+    }
+
+    function submit() {
+        var oFile = document.getElementById('file');
+        if (oFile.value == "") {
+            alert('请选择文件');
+            return false;
+        } else {
+            $("#add").submit();
+        }
+
+
+    }
 
 </script>
 

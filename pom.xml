@@ -319,6 +319,12 @@
       <artifactId>commons-lang3</artifactId>
       <version>3.5</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.9</version>
+    </dependency>
     <!--Web end-->
 
     <!--java解析与生成json包-->

@@ -21,12 +21,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -185,6 +189,23 @@ public class MerchantController extends BaseController<Merchant>{
     @ResponseBody
     public PageResult asyncSelect(Item item, Integer pageNum, Integer pageSize, String path) {
         return itemsService.asyncSelect(item, pageNum, pageSize, path);
+    }
+
+    /**
+     * 到出商品目录excel表
+     * @param merchantId
+     * @param response
+     */
+    @RequestMapping(value = "exportExcel")
+    public void exportExcel(Integer merchantId, HttpServletResponse response) {
+        itemsService.exportExcel(merchantId, response);
+    }
+
+    @RequestMapping(value = "inputExcel")
+    public String inputExcel(MultipartFile file, RedirectAttributes redirectAttributes, HttpSession session) {
+        String message = itemsService.inputExcel(file, session);
+        redirectAttributes.addFlashAttribute("message", message);
+        return "redirect:/merchant/merchantIndexUI";
     }
 
 

@@ -7,14 +7,20 @@ import com.shop.been.PageResult;
 import com.shop.dao.merchant.ItemMapper;
 import com.shop.model.admin.CategoryOne;
 import com.shop.model.merchant.Item;
+import com.shop.model.merchant.Merchant;
 import com.shop.service.merchant.ItemsService;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -212,5 +218,159 @@ public class ItemsServiceImpl implements ItemsService {
 
     public Item showItem(Integer itemId) {
         return itemMapper.showItem(itemId);
+    }
+
+    public void exportExcel(Integer merchantId, HttpServletResponse response) {
+        try {
+            // 根据商家id查询出所有的商品
+            List<Item> items = itemMapper.exportExcel(merchantId);
+            // 构造workbook对象(excel文件)
+            HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
+            // 构造工作薄对象
+            HSSFSheet sheet = hssfWorkbook.createSheet("商品目录");
+            // 添加表头行
+            HSSFRow hssfRow = sheet.createRow(0);
+            // 设置单元格格式居中
+            HSSFCellStyle cellStyle = hssfWorkbook.createCellStyle();
+            cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            // 添加表头内容
+            HSSFCell headCell = hssfRow.createCell(0);
+            headCell.setCellValue("商品标题");
+            headCell.setCellStyle(cellStyle);
+
+            headCell = hssfRow.createCell(1);
+            headCell.setCellValue("一级类目");
+            headCell.setCellStyle(cellStyle);
+
+            headCell = hssfRow.createCell(2);
+            headCell.setCellValue("二级类目");
+            headCell.setCellStyle(cellStyle);
+
+            headCell = hssfRow.createCell(3);
+            headCell.setCellValue("价格");
+            headCell.setCellStyle(cellStyle);
+
+            headCell = hssfRow.createCell(4);
+            headCell.setCellValue("销量");
+            headCell.setCellStyle(cellStyle);
+
+            headCell = hssfRow.createCell(5);
+            headCell.setCellValue("库存");
+            headCell.setCellStyle(cellStyle);
+            // 将商品内容写入excel表
+            for (int i = 0; i < items.size(); i++) {
+                // 获取商品对象
+                Item item = items.get(i);
+                // 创建行
+                hssfRow = sheet.createRow(i + 1);
+                // 创建单元格并设置值
+                HSSFCell cell = hssfRow.createCell(0);
+                cell.setCellValue(item.getItemTitle());
+                cell.setCellStyle(cellStyle);
+
+                cell = hssfRow.createCell(1);
+                cell.setCellValue(item.getCategoryOne());
+                cell.setCellStyle(cellStyle);
+
+                cell = hssfRow.createCell(2);
+                cell.setCellValue(item.getCategoryTwo());
+                cell.setCellStyle(cellStyle);
+
+                cell = hssfRow.createCell(3);
+                cell.setCellValue(item.getPrice());
+                cell.setCellStyle(cellStyle);
+
+                 cell = hssfRow.createCell(4);
+                cell.setCellValue(item.getSales());
+                cell.setCellStyle(cellStyle);
+
+                cell = hssfRow.createCell(5);
+                cell.setCellValue(item.getStock());
+                cell.setCellStyle(cellStyle);
+            }
+            String fileName = "商品目录";
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            hssfWorkbook.write(os);
+            byte[] content = os.toByteArray();
+            InputStream is = new ByteArrayInputStream(content);
+            // 设置response参数，可以打开下载页面
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setHeader("Content-Disposition", "attachment;filename="
+                    + new String((fileName + ".xls").getBytes(), "iso-8859-1"));
+            ServletOutputStream out = response.getOutputStream();
+            BufferedInputStream bis = null;
+            BufferedOutputStream bos = null;
+            bis = new BufferedInputStream(is);
+            bos = new BufferedOutputStream(out);
+            byte[] buff = new byte[2048];
+            int bytesRead;
+            // Simple read/write loop.
+            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                bos.write(buff, 0, bytesRead);
+            }
+            if (bis != null) {
+                bis.close();
+            }
+            if (bos != null) {
+                bos.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String inputExcel(MultipartFile file, HttpSession session) {
+        List<Item> items = new ArrayList<Item>();
+        Merchant merchant = (Merchant)session.getAttribute("loginMerchant");
+        Integer merchantId = merchant.getMerchantId();
+        // 构造workbook对象(excel文件)
+        HSSFWorkbook hssfWorkbook = null;
+        try {
+            // Excel表转为输入流
+            InputStream inputStream = file.getInputStream();
+            // 读取Excel文件
+            hssfWorkbook = new HSSFWorkbook(inputStream);
+            inputStream.close();
+            //  遍历工作表
+            for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) {
+                HSSFSheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);
+                // 遍历行
+                for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {
+                    HSSFRow hssfRow = hssfSheet.getRow(rowNum);
+                    if (hssfRow == null) {
+                        continue;
+                    }
+                    // 将单元格中的内容存入集合
+                    // 导入的excel表数据顺序为 商品标题，一级类目，二级类目，商品价格，商品库存
+                    Item item = new Item();
+                    item.setMerchantId(merchantId);
+                    // 设置Cell的类型，然后就可以把纯数字作为String类型读进来了
+                    hssfRow.getCell(0).setCellType(Cell.CELL_TYPE_STRING);
+                    HSSFCell cell = hssfRow.getCell(0);
+                    item.setItemTitle(cell.getStringCellValue());
+                    hssfRow.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
+                    cell = hssfRow.getCell(1);
+                    item.setCategoryOne(cell.getStringCellValue());
+                    hssfRow.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
+                    cell = hssfRow.getCell(2);
+                    item.setCategoryTwo(cell.getStringCellValue());
+                    hssfRow.getCell(3).setCellType(Cell.CELL_TYPE_STRING);
+                    cell = hssfRow.getCell(3);
+                    item.setPrice(Double.parseDouble(cell.getStringCellValue()));
+                    hssfRow.getCell(4).setCellType(Cell.CELL_TYPE_STRING);
+                    cell = hssfRow.getCell(4);
+                    item.setStock(Integer.parseInt(cell.getStringCellValue()));
+                    items.add(item);
+                }
+            }
+            // 保存数据进数据库
+            for(Item item: items) {
+                itemMapper.insertSelective(item);
+            }
+            return "导入成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "导入失败,导入的excel表数据顺序为 商品标题，一级类目，二级类目，商品价格，商品库存,";
+        }
     }
 }

@@ -114,8 +114,14 @@
     $(function(){
         $('select.styled').customSelect();
     });
-
 </script>
+    <c:if test="${message != null}">
+    <script type="text/javascript">
+    var codeMessage = "${message}";
+    alert(codeMessage);
+</script>
+</c:if>
+
 
 </body>
 </html>

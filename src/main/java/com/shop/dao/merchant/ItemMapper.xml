@@ -63,4 +63,13 @@
         WHERE
           i.item_id = #{value}
     </select>
+
+    <select id="exportExcel" parameterType="java.lang.Integer" resultType="item">
+        SELECT
+        item_id,item_title,category_one,category_two,price,stock,sales
+        FROM
+        shop_item
+        WHERE
+        merchant_id = #{merchantId}
+    </select>
 </mapper>

@@ -39,4 +39,11 @@ public interface ItemMapper extends BaseMapper<Item>{
      * @return
      */
     Item selectOrderItem(Integer itemId);
+
+    /**
+     * 查询出要导出的商品部分数据
+     * @param merchantId
+     * @return
+     */
+    List<Item> exportExcel(Integer merchantId);
 }

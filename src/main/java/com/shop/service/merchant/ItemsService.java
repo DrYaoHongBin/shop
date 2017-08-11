@@ -7,6 +7,7 @@ import com.shop.model.admin.CategoryOne;
 import com.shop.model.merchant.Item;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -94,6 +95,18 @@ public interface ItemsService {
      * @return
      */
     Item showItem(Integer itemId);
+
+    /**
+     * Excel导出所有商品数据
+     */
+    void exportExcel(Integer merchantId, HttpServletResponse response);
+
+    /**
+     * 商家导入excl的数据
+     * @param merchantId
+     * @param file
+     */
+    String inputExcel(MultipartFile file, HttpSession session);
 
 
 }
