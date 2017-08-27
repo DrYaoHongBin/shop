@@ -42,7 +42,7 @@
 
             </div>
         </div>
-        <div class="header-cart fr"><a href="#"><img src="${pageContext.request.contextPath}/resources/theme/icon/car.png"></a> <i class="head-amount">99</i></div>
+        <div class="header-cart fr"><a href="#"><img src="${pageContext.request.contextPath}/resources/theme/icon/car.png"></a> <i class="head-amount">999</i></div>
         <div class="head-mountain"></div>
     </div>
     <div class="yHeader">

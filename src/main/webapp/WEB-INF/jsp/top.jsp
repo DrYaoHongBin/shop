@@ -30,6 +30,7 @@
                     <a href="${pageContext.request.contextPath}/user/userInformationUI">个人资料</a>
                     <a href="${pageContext.request.contextPath}/user/userSafeUI">账户安全</a>
                     <a href="${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}">地址管理</a>
+                    <a href="${pageContext.request.contextPath}/cart/cartUI?userId=${loginUser.userId}">我的购物车</a>
                     <a href="${pageContext.request.contextPath}/merchant/merchantIndexUI">进入店铺</a>
                 </div>
             </li>

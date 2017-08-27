@@ -146,7 +146,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetailMapper.insert(orderDetail);
         } catch (Exception e) {
             e.printStackTrace();
-            return new AjaxResult(false,"订单创建失败，请稍后重试");
+            return new AjaxResult(false,"订单创建失败，请查看地址是否已填写");
         }
         // 添加成功，删除session中的数据
         session.removeAttribute("orderItem");

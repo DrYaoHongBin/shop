@@ -120,6 +120,7 @@ public class MerchantController extends BaseController<Merchant>{
         String newFileName = UUID.randomUUID().toString().replace("-", "") + suffix;
         if (!upImage.isEmpty()) {
             // 上传的本地磁盘路径
+            //String path = "/image/product/details/" + newFileName;
             String path = "D:\\shopImage\\product\\details\\" + newFileName;
             // 根据位置新建文件
             File newFile = new File(path);
@@ -135,6 +136,7 @@ public class MerchantController extends BaseController<Merchant>{
         // 图片类型 .+后缀名
         map.put("type", suffix);
         // ueditor读取图片路径(ueditor根据虚拟路径访问图片)
+        //map.put("url", "http://39.108.149.9:8080/image/product/details/" + newFileName);
         map.put("url", "http://localhost:8080/image/product/details/" + newFileName);
         // 图片大小（字节数）
         map.put("size", upImage.getSize()+"");

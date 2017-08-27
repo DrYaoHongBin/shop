@@ -67,12 +67,7 @@ public class AddressController extends BaseController<Address> {
      * @return
      */
     @RequestMapping(value = "saveAddress")
-    public String saveAddress(@Validated Address address, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            redirectAttributes.addFlashAttribute("errors", errors);
-            return REDIRECT_URL + "showAddressUI";
-        }
+    public String saveAddress(Address address, RedirectAttributes redirectAttributes) {
         String message = addressService.saveAddress(address);
         redirectAttributes.addFlashAttribute("message",message);
         return REDIRECT_URL + "showAddressUI";
@@ -85,12 +80,7 @@ public class AddressController extends BaseController<Address> {
      * @return
      */
     @RequestMapping(value = "updateAddress")
-    public String updateAddress(@Validated Address address,BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            redirectAttributes.addFlashAttribute("errors", errors);
-            return REDIRECT_URL + "showAddressUI";
-        }
+    public String updateAddress(Address address, RedirectAttributes redirectAttributes) {
         addressService.updateAddress(address);
         redirectAttributes.addFlashAttribute("message","修改成功");
         return REDIRECT_URL + "showAddressUI";

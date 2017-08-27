@@ -1,10 +1,14 @@
 package com.shop.service.admin.impl;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.shop.been.AjaxResult;
 import com.shop.dao.admin.CategoryOneMapper;
 import com.shop.dao.admin.CategoryTwoMapper;
+import com.shop.dao.jedis.JedisDao;
 import com.shop.model.admin.CategoryOne;
 import com.shop.model.admin.CategoryTwo;
 import com.shop.service.admin.CategoryService;
@@ -28,6 +32,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryTwoMapper categoryTwoMapper;
 
+    @Autowired
+    private JedisDao jedisDao;
+
     public AjaxResult saveCategoryOne(CategoryOne categoryOne) {
         // 查询类目是否已经添加
         CategoryOne newCategoryOne = categoryOneMapper.selectOne(categoryOne);
@@ -36,10 +43,14 @@ public class CategoryServiceImpl implements CategoryService {
             // id为空表示添加操作
             if (categoryOne.getCategoryOneId() == null) {
                 categoryOneMapper.insert(categoryOne);
+                // 商品类目改变，删除redis中的缓存
+                jedisDao.del("category");
                 return new AjaxResult(true, "添加成功");
             } else {
                 // id不为空表示修改操作;
                 categoryOneMapper.updateByPrimaryKey(categoryOne);
+                // 商品类目改变，删除redis中的缓存
+                jedisDao.del("category");
                 return new AjaxResult(true, "修改成功");
             }
         } else {
@@ -58,10 +69,14 @@ public class CategoryServiceImpl implements CategoryService {
             // id为空。表示添加操作
             if (categoryTwo.getCategoryTwoId() == null) {
                 categoryTwoMapper.insert(categoryTwo);
+                // 商品类目改变，删除redis中的缓存
+                jedisDao.del("category");
                 return new AjaxResult(true, "添加成功");
             } else {
                 // 不为空，表示修改操作
                 categoryTwoMapper.updateByPrimaryKey(categoryTwo);
+                // 商品类目改变，删除redis中的缓存
+                jedisDao.del("category");
                 return new AjaxResult(true, "修改成功");
             }
         } else {
@@ -72,10 +87,14 @@ public class CategoryServiceImpl implements CategoryService {
     public void removeCategoryOne(CategoryOne categoryOne) {
         // 根据主键删除
         categoryOneMapper.deleteByPrimaryKey(categoryOne);
+        // 商品类目改变，删除redis中的缓存
+        jedisDao.del("category");
     }
 
     public void removeCategoryTwo(CategoryTwo categoryTwo) {
         categoryTwoMapper.deleteByPrimaryKey(categoryTwo);
+        // 商品类目改变，删除redis中的缓存
+        jedisDao.del("category");
     }
 
     public PageInfo<CategoryOne> selectCategoryOne(Integer pageNum, Integer pageSize) {
@@ -129,7 +148,35 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public List<CategoryOne> selectAllCategory() {
-        return categoryOneMapper.selectAllCategory();
+        // json转换
+        Gson gson = new Gson();
+        // 要返回的商品类目集合
+        List<CategoryOne> categoryOnes;
+        // 从redis中获取商品类目
+        try {
+            String keyValue = jedisDao.get("category");
+            // 如果keyValue不为空，则将字符串转为List集合
+            if (keyValue != null) {
+                // TypeToken是gson提供的数据类型转换器，可以支持各种数据集合类型转换。
+                categoryOnes = gson.fromJson(keyValue, new TypeToken<List<CategoryOne>>(){}.getType());
+                return categoryOnes;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // redis中没有缓存商品类目，则从数据库中查找
+        categoryOnes = categoryOneMapper.selectAllCategory();
+
+        // 将查询出来的所有商品类目信息保存进redis缓存
+        try {
+            // 将List集合转成字符串
+            String keyValue = gson.toJson(categoryOnes);
+            // 将结果保存进redis
+            jedisDao.set("category", keyValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return categoryOnes;
     }
 
     public CategoryOne selectCategoryByName(String categoryName) {

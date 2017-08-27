@@ -119,13 +119,7 @@ public class UserController extends BaseController<User> {
      * @return
      */
     @RequestMapping(value = "register")
-    public String register(@Validated User user, BindingResult bindingResult, ValidationCode validationCode,
-                           RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            redirectAttributes.addFlashAttribute("errors", errors);
-            return "redirect:/user/registerUI";
-        }
+    public String register(User user, ValidationCode validationCode, RedirectAttributes redirectAttributes) {
         // 检查验证码是否正确或者过期
         Integer codeTime = validationCodeService.validationCodeCheck(validationCode);
         String codeMessage = "";
@@ -160,16 +154,16 @@ public class UserController extends BaseController<User> {
      * @return
      */
     @RequestMapping(value = "login")
-    public String login(@Validated User user,BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            redirectAttributes.addFlashAttribute("errors", errors);
-            return "redirect:/user/loginUI";
-        }
+    public String login(User user, RedirectAttributes redirectAttributes, HttpSession session) {
         User loginUser = userService.login(user);
         // 判断登录用户是否已经注册店铺，如果已经注册，将merchant属性保存进session
-        if (loginUser.getMerchant() != null) {
-            session.setAttribute("loginMerchant", loginUser.getMerchant());
+        // 这里可能会出现空指针异常，处理一下
+        try {
+            if (loginUser.getMerchant() != null) {
+                session.setAttribute("loginMerchant", loginUser.getMerchant());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         if (loginUser == null) {
             String message = "帐户名或密码错误，请重新输入！";

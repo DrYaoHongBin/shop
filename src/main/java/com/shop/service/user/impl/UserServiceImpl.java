@@ -151,6 +151,7 @@ public class UserServiceImpl implements UserService {
         try {
             byte[] b = base.decodeBuffer(img);
             // 头像根据用户的id命名
+            //String path = "/image/user/" + user.getUserId() +".jpg";
             String path = "D:\\shopImage\\user\\" + user.getUserId() +".jpg";
             FileOutputStream output = new FileOutputStream(path);
             output.write(b);

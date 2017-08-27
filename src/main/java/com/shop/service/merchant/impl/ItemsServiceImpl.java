@@ -44,6 +44,7 @@ public class ItemsServiceImpl implements ItemsService {
                 if (item.getImages() != null) {
                     // 获取原来的图片名
                     String name = item.getImages().substring(item.getImages().lastIndexOf("/") + 1);
+                    //String path = "/image/product/items/" + name;
                     String path = "D:\\shopImage\\product\\items\\" + name;
                     File f = new File(path);
                     // 删除图片
@@ -57,6 +58,7 @@ public class ItemsServiceImpl implements ItemsService {
                 String newFileName = UUID.randomUUID().toString().replace("-", "") + item.getMerchantId() + suffix;
                 if (!file.isEmpty()) {
                     // 上传的本地磁盘路径
+                    // String path = "/image/product/items/" + newFileName;
                     String path = "D:\\shopImage\\product\\items\\" + newFileName;
                     // 根据位置新建文件
                     File newFile = new File(path);
