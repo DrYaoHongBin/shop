@@ -11,6 +11,7 @@ import com.shop.model.merchant.Merchant;
 import com.shop.service.admin.CategoryService;
 import com.shop.service.merchant.ItemsService;
 import com.shop.service.merchant.MerchantService;
+import com.shop.util.FtpUtil;
 import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,10 +32,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <p>Description:商家控制器</p>
@@ -54,6 +52,12 @@ public class MerchantController extends BaseController<Merchant>{
 
     @Autowired
     private ItemsService itemsService;
+
+    /**
+     * 图片服务器的地址
+     */
+    @Autowired
+    private Properties properties;
 
     /**
      * ajax方式用户注册店铺
@@ -119,13 +123,9 @@ public class MerchantController extends BaseController<Merchant>{
         // 创建新图片名字
         String newFileName = UUID.randomUUID().toString().replace("-", "") + suffix;
         if (!upImage.isEmpty()) {
-            // 上传的本地磁盘路径
-            //String path = "/image/product/details/" + newFileName;
-            String path = "D:\\shopImage\\product\\details\\" + newFileName;
-            // 根据位置新建文件
-            File newFile = new File(path);
-            // 复制
-            FileCopyUtils.copy(upImage.getBytes(), newFile);
+            boolean result = FtpUtil.uploadFile(properties.getProperty("FTP_ADDRESS"), Integer.parseInt(properties.getProperty("FTP_PORT")),
+                    properties.getProperty("FTP_USER"),  properties.getProperty("FTP_PASSWORD"), properties.getProperty("BASE_PATH"),
+                    properties.getProperty("FILE_PATH_PRODUCT_DETAIL"), newFileName, upImage.getInputStream());
         }
         // 返回结果信息(UEditor需要)
         Map<String,String> map = new HashMap<String,String >();
@@ -135,9 +135,8 @@ public class MerchantController extends BaseController<Merchant>{
         map.put("title", newFileName);
         // 图片类型 .+后缀名
         map.put("type", suffix);
-        // ueditor读取图片路径(ueditor根据虚拟路径访问图片)
-        //map.put("url", "http://39.108.149.9:8080/image/product/details/" + newFileName);
-        map.put("url", "http://localhost:8080/image/product/details/" + newFileName);
+        // ueditor读取图片路径
+        map.put("url", properties.getProperty("IMAGE_PATH") + "/" + properties.getProperty("FILE_PATH_PRODUCT_DETAIL") + "/" + newFileName);
         // 图片大小（字节数）
         map.put("size", upImage.getSize()+"");
         return map;

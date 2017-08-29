@@ -166,7 +166,7 @@
                                     <div class="form-group">
                                         <label for="stock" class="col-lg-2 control-label"></label>
                                         <div class="col-lg-10">
-                                            <img src="/image/${item.images}" width="70" height="100">
+                                            <img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}" width="70" height="100">
                                         </div>
                                     </div>
                                 </c:if>

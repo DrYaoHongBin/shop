@@ -129,14 +129,14 @@
             <div class="pc-details-l">
                 <div class="pc-product clearfix">
                     <div class="pc-product-h">
-                        <div class="pc-product-top"><img src="/image/${item.images}" id="big_img" width="418" height="418"></div>
+                        <div class="pc-product-top"><img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}" id="big_img" width="418" height="418"></div>
                         <div class="pc-product-bop clearfix" id="pro_detail">
                             <ul>
-                                <li><a href="javascript:void(0);" class="cur" simg="/image/${item.images}"><img src="/image/${item.images}" width="58" height="58"></a> </li>
-                                <li><a href="javascript:void(0);" simg="/image/${item.images}"><img src="/image/${item.images}" width="58" height="58"></a> </li>
-                                <li><a href="javascript:void(0);" simg="/image/${item.images}"><img src="/image/${item.images}" width="58" height="58"></a> </li>
-                                <li><a href="javascript:void(0);" simg="/image/${item.images}"><img src="/image/${item.images}" width="58" height="58"></a> </li>
-                                <li><a href="javascript:void(0);" simg="/image/${item.images}"><img src="/image/${item.images}" width="58" height="58"></a> </li>
+                                <li><a href="javascript:void(0);" class="cur" simg="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}"><img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}" width="58" height="58"></a></li>
+                                <li><a href="javascript:void(0);" simg="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}"><img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}" width="58" height="58"></a> </li>
+                                <li><a href="javascript:void(0);" simg="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}"><img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}" width="58" height="58"></a> </li>
+                                <li><a href="javascript:void(0);" simg="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}"><img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}" width="58" height="58"></a> </li>
+                                <li><a href="javascript:void(0);" simg="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}"><img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}" width="58" height="58"></a> </li>
                             </ul>
                         </div>
                     </div>

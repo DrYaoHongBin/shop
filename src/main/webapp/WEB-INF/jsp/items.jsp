@@ -74,7 +74,7 @@
             <ul class="clearfix" id="itemUl">
                 <c:forEach var="item" items="${pageInfo.list}">
                 <li>
-                    <a href="${pageContext.request.contextPath}/showItem?itemId=${item.itemId}"><img src="/image/${item.images}" width="213" height="213"></a>
+                    <a href="${pageContext.request.contextPath}/showItem?itemId=${item.itemId}"><img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}" width="213" height="213"></a>
                     <p class="head-name"><a href="${pageContext.request.contextPath}/showItem?itemId=${item.itemId}">${item.itemTitle}</a> </p>
                     <br>
                     <p><span class="price">￥${item.price}</span><span class="fr">${item.sales}人购买</span></p>

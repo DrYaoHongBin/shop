@@ -27,14 +27,12 @@
 
 <body>
 
-
-
 <div class="user_pic" style="margin: 10px;">
     <c:if test="${loginUser.image != null}">
-        <img src="/image/${loginUser.image}" />
+        <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/${loginUser.image}" />
     </c:if>
     <c:if test="${loginUser.image == null}">
-        <img src="/image/user/null.jpg"/>
+        <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/null.jpg"/>
     </c:if>
 </div>
 <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#avatar-modal" style="margin: 10px;">修改头像</button>

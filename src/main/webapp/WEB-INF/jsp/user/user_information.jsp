@@ -74,10 +74,10 @@
             <div class="member-apart clearfix">
                 <div class="fl"><a href="#">
                     <c:if test="${loginUser.image != null}">
-                        <img src="/image/${loginUser.image}"/>
+                    <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/${loginUser.image}" />
                     </c:if>
                     <c:if test="${loginUser.image == null}">
-                        <img src="/image/user/null.jpg"/>
+                    <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/null.jpg"/>
                     </c:if>
                 </div>
                 <div class="fl">
@@ -107,10 +107,10 @@
                     <!--left-->
                     <div class="zp_nrm_l">
                         <c:if test="${loginUser.image != null}">
-                            <img src="/image/${loginUser.image}"/>
+                            <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/${loginUser.image}" />
                         </c:if>
                         <c:if test="${loginUser.image == null}">
-                            <img src="/image/user/null.jpg"/>
+                            <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/null.jpg"/>
                         </c:if>
                         <a href="${pageContext.request.contextPath}/user/avatarUI">更换头像</a>
                     </div>

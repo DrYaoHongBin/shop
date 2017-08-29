@@ -138,6 +138,14 @@
 
     <!-- 启用对事务注解的支持 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
     <bean id="jedisDao" class="com.shop.dao.jedis.JedisDaoImpl"/>
 
+    <bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <array>
+                <value>classpath:path.properties</value>
+            </array>
+        </property>
+    </bean>
 </beans>

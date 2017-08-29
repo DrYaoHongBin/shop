@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Properties;
 
 /**
  *  <p>Description:商品搜索控制器</p>
@@ -30,13 +32,18 @@ public class CommonController {
     @Autowired
     private ItemsService itemsService;
 
+    @Autowired
+    private Properties properties;
+
     /**
      * 前往主页并查询出所有类目
      * @return
      */
     @RequestMapping(value = "/")
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
         model.addAttribute("categoryList", categoryService.selectAllCategory());
+        // 将path.properties文件中图片服务器的 图片保存地址保存进session
+        session.setAttribute("path", properties);
         return "/WEB-INF/jsp/new_index";
     }
 

@@ -25,10 +25,10 @@
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <c:if test="${loginUser.image != null}">
-                            <img src="/image/${loginUser.image}" width="29" height="29"/>
+                            <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/${loginUser.image}" width="29" height="29" />
                         </c:if>
                         <c:if test="${loginUser.image == null}">
-                            <img src="/image/user/null.jpg" width="29" height="29"/>
+                            <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/null.jpg" width="29" height="29"/>
                         </c:if>
                         <span class="username">${loginMerchant.merchantName}</span>
                         <b class="caret"></b>

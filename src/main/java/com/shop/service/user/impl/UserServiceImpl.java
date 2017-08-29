@@ -4,12 +4,17 @@ import com.shop.been.AjaxResult;
 import com.shop.dao.user.UserMapper;
 import com.shop.model.user.User;
 import com.shop.service.user.UserService;
+import com.shop.util.FtpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Decoder;
 import javax.servlet.http.HttpSession;
+import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * <p>Title: UserServiceImpl</p>
@@ -22,6 +27,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+
+    /**
+     * 图片服务器的地址
+     */
+    @Autowired
+    private Properties properties;
 
     public String selectUser(User user) {
         // 查询条件是用and，会查询出多个对象
@@ -143,25 +154,29 @@ public class UserServiceImpl implements UserService {
     }
 
     public AjaxResult avatarUpload(String img, HttpSession session) {
-        System.out.println(img);
         img = img.split("base64,")[1];
         // base64数据解析
         BASE64Decoder base = new BASE64Decoder();
         User user = (User)session.getAttribute("loginUser");
         try {
             byte[] b = base.decodeBuffer(img);
+            // 将字节流转成inputStream
+            InputStream inputStream = new ByteArrayInputStream(b);
             // 头像根据用户的id命名
-            //String path = "/image/user/" + user.getUserId() +".jpg";
-            String path = "D:\\shopImage\\user\\" + user.getUserId() +".jpg";
-            FileOutputStream output = new FileOutputStream(path);
-            output.write(b);
-            output.close();
+            // 用户头像在图片服务器的保存地址
+            boolean result = FtpUtil.uploadFile(properties.getProperty("FTP_ADDRESS"), Integer.parseInt(properties.getProperty("FTP_PORT")),
+                    properties.getProperty("FTP_USER"),  properties.getProperty("FTP_PASSWORD"), properties.getProperty("BASE_PATH"),
+                    properties.getProperty("FILE_PATH_USER"), user.getUserId() + ".jpg", inputStream);
+            // ftp上传图片失败，抛出异常
+            if (result == false) {
+                throw new Exception();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return new AjaxResult(false, "上传失败，请稍后重试");
         }
-        // 保存登录用户头像的名字，user为保存图片的虚拟目录的子目录，用于保存用户的头像
-        user.setImage("user/" + user.getUserId() + ".jpg");
+        // 保存图片上传到图片服务器后的名字
+        user.setImage(user.getUserId() + ".jpg");
         // 更新用户数据
         userMapper.updateByPrimaryKeySelective(user);
         return new AjaxResult(true, "上传成功");

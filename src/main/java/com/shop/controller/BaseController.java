@@ -1,6 +1,7 @@
 package com.shop.controller;
 
 import com.shop.util.Reflections;
+import org.springframework.stereotype.Repository;
 
 /**
  * Controller执行完毕后返回的视图前缀

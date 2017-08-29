@@ -104,7 +104,7 @@
                             <div class="row">
                                 <c:forEach var="item" items="${pageInfo.list}">
                                     <tr>
-                                        <td><img src="/image/${item.images}" width="35" height="35"/></td>
+                                        <td><img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${item.images}" width="35" height="35"/></td>
                                         <td>${item.itemTitle}</td>
                                         <td>${item.categoryOne}</td>
                                         <td>${item.categoryTwo}</td>

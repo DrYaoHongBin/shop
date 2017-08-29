@@ -73,10 +73,10 @@
             <div class="member-apart clearfix">
                 <div class="fl">
                     <c:if test="${loginUser.image != null}">
-                        <img src="/image/${loginUser.image}" />
+                        <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/${loginUser.image}" />
                     </c:if>
                     <c:if test="${loginUser.image == null}">
-                        <img src="/image/user/null.jpg"/>
+                        <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/null.jpg"/>
                     </c:if>
                 </div>
                 <div class="fl">

@@ -9,6 +9,7 @@ import com.shop.model.admin.CategoryOne;
 import com.shop.model.merchant.Item;
 import com.shop.model.merchant.Merchant;
 import com.shop.service.merchant.ItemsService;
+import com.shop.util.FtpUtil;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 /**
@@ -36,37 +38,45 @@ public class ItemsServiceImpl implements ItemsService {
     @Autowired
     private ItemMapper itemMapper;
 
+    /**
+     * 图片服务器地址
+     */
+    @Autowired
+    private Properties properties;
+
     public AjaxResult saveItem(Item item, MultipartFile file) {
+        // 图片名字
+        String newFileName = null;
         try {
             // 上传了新图片
             if (!file.isEmpty()) {
-                // 商品图片路径不为空，不是更新操作，删除原来的图片
-                if (item.getImages() != null) {
-                    // 获取原来的图片名
-                    String name = item.getImages().substring(item.getImages().lastIndexOf("/") + 1);
-                    //String path = "/image/product/items/" + name;
-                    String path = "D:\\shopImage\\product\\items\\" + name;
-                    File f = new File(path);
-                    // 删除图片
-                    f.delete();
+                // 该商品数据库图片名不为空，表示为修改操作
+                if (!("".equals(item.getImages()))) {
+                    // 获取原来的图片名,作为新图片的名字，覆盖掉原来的
+                    // String name = item.getImages().substring(item.getImages().lastIndexOf("/") + 1);
+                    newFileName = item.getImages();
                 }
-                // 商品图片原名称
-                String fileName = file.getOriginalFilename();
-                // 获取商品原图片的后缀
-                String suffix = fileName.substring(fileName.lastIndexOf("."));
-                // 创建新图片名字
-                String newFileName = UUID.randomUUID().toString().replace("-", "") + item.getMerchantId() + suffix;
+                // 该商品数据库图片名为空，表示为添加操作
+                if ("".equals(item.getImages())) {
+                    // 商品图片原名称
+                    String fileName = file.getOriginalFilename();
+                    // 获取商品原图片的后缀
+                    String suffix = fileName.substring(fileName.lastIndexOf("."));
+                    // 创建新图片名字
+                    newFileName = UUID.randomUUID().toString().replace("-", "") + item.getMerchantId() + suffix;
+                }
                 if (!file.isEmpty()) {
-                    // 上传的本地磁盘路径
-                    // String path = "/image/product/items/" + newFileName;
-                    String path = "D:\\shopImage\\product\\items\\" + newFileName;
-                    // 根据位置新建文件
-                    File newFile = new File(path);
-                    // 复制
-                    FileCopyUtils.copy(file.getBytes(), newFile);
+                    // 商品图片在图片服务器的保存地址
+                    boolean result = FtpUtil.uploadFile(properties.getProperty("FTP_ADDRESS"), Integer.parseInt(properties.getProperty("FTP_PORT")),
+                            properties.getProperty("FTP_USER"),  properties.getProperty("FTP_PASSWORD"), properties.getProperty("BASE_PATH"),
+                            properties.getProperty("FILE_PATH_PRODUCT"), newFileName, file.getInputStream());
+                    // ftp上传图片失败，抛出异常
+                    if (result == false) {
+                        throw new Exception();
+                    }
                 }
-                // 将商品图片的部分路径+名字设置到Item对象的属性里面
-                item.setImages("product/items/" + newFileName);
+                // 保存商品图片的名字
+                item.setImages( newFileName);
             }
             // 如果添加的商品没有二级目录，前台传过来不为空，会影响查询，这里进行判断，如果为""，则设为空
             if ("".equals(item.getCategoryTwo())) {
@@ -85,7 +95,6 @@ public class ItemsServiceImpl implements ItemsService {
                 itemMapper.updateByPrimaryKeySelective(item);
                 return new AjaxResult(true, "商品信息修改成功");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             return new AjaxResult(false, "发生未知错误，请稍后重试");
@@ -139,8 +148,10 @@ public class ItemsServiceImpl implements ItemsService {
              if (i.getCategoryTwo() == null) {
                  i.setCategoryTwo("");
              }
+             // 商品图片在图片服务器的访问地址
+            String productPath = properties.getProperty("IMAGE_PATH") + properties.getProperty("FILE_PATH_PRODUCT");
             String result = "<tr>\n" +
-                                "<td><img src=\"/image/" + i.getImages() + "\" width=\"35\" height=\"35\"/></td>\n" +
+                                "<td><img src=\" " + productPath +  "/" + i.getImages() + "\" width=\"35\" height=\"35\"/></td>\n" +
                                 "<td>" + i.getItemTitle() + "</td>\n" +
                                 "<td>" + i.getCategoryOne() + "</td>\n" +
                                 "<td>" + i.getCategoryTwo() + "</td>\n" +
@@ -191,9 +202,11 @@ public class ItemsServiceImpl implements ItemsService {
         }
         // 拼接html
         StringBuffer message = new StringBuffer();
+        // 商品图片在图片服务器的访问地址
+        String productPath = properties.getProperty("IMAGE_PATH") + "/" + properties.getProperty("FILE_PATH_PRODUCT") + "/";
         for (Item i: items) {
             String result = "<li>\n" +
-                                "<a href=\"" + path + "/showItem?itemId=" + i.getItemId() +"\"><img src=\"/image/" + i.getImages() + "\" width=\"213\" height=\"213\"></a>\n" +
+                                "<a href=\"" + path + "/showItem?itemId=" + i.getItemId() +"\"><img src=\"" + productPath + i.getImages() + "\" width=\"213\" height=\"213\"></a>\n" +
                                 "<p class=\"head-name\"><a href=\"" + path + "/showItem?itemId=" + i.getItemId() + "\">" + i.getItemTitle() + "</a> </p>\n" +
                                 "<br>\n" +
                                 "<p><span class=\"price\">￥" + i.getPrice() + "</span><span class=\"fr\">" + i.getSales() +"人购买</span></p>\n" +
