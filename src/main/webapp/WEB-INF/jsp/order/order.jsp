@@ -92,7 +92,7 @@
                         <div class="pc-order-text clearfix">
                             <div class="pc-wares-t"><h4>商家：  ${orderItem.merchant.merchantName}</h4></div>
                             <div class="clearfix pc-wares-p">
-                                <div class="fl pc-wares"><a href="#"><img src="/image/${orderItem.images}" width="82" height="82"></a></div>
+                                <div class="fl pc-wares"><a href="#"><img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${orderItem.images}" width="82" height="82"></a></div>
                                 <div class="fl pc-wares-w" style="margin-left:50px;"> <a href="#">${orderItem.itemTitle}</a></div>
                                 <div class="fl pc-wares-s"><span class="reds">￥${orderItem.price}</span></div>
                                 <div><input type="text" id="itemNumber" style="width:68px;margin-left:170px;" value="${itemNumber}" onchange="check()" name="itemNumber"></div>
@@ -192,9 +192,9 @@
         // 改变商品数量
         $("#number").text(itemNumber);
         // 改变商品总价
+        $("#totalPrice").val(total);
         total = "￥" + total;
         $("#total").text(total);
-        $("#totalPrice").val(total);
     }
 
     // 异步提交表单

@@ -119,7 +119,7 @@
                                     <div class="ci1">
                                         <div class="ci7 clearfix">
                                             <c:forEach var="i" items="${order.orderDetails}">
-                                            <span class="gr1"><a href="#"><img src="/image/${i.imagePath}" width="60" height="60" title="" about=""></a></span>
+                                            <span class="gr1"><a href="#"><img src="${path.IMAGE_PATH}/${path.FILE_PATH_PRODUCT}/${i.imagePath}" width="60" height="60" title="" about=""></a></span>
                                             <span class="gr2"><a href="${pageContext.request.contextPath}/showItem?itemId=${i.itemId}">${i.itemName}</a></span>
                                             <span class="gr3">x${i.itemNumber}</span>
                                             </c:forEach>
