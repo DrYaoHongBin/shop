@@ -225,7 +225,10 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping(value = "logout")
     public String logout(HttpSession session) {
+        // 删除登录用户session
         session.removeAttribute("loginUser");
+        // 删除登录商家session
+        session.removeAttribute("loginMerchant");
         return "redirect:/";
     }
 

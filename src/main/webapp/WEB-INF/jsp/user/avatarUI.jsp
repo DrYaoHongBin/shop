@@ -1,13 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-
     <script src="${pageContext.request.contextPath}/resources/avatar/head/jquery.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css">
     <link href="${pageContext.request.contextPath}/resources/avatar/head/cropper.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/avatar/head/sitelogo.css" rel="stylesheet">
@@ -15,18 +12,13 @@
     <script src="${pageContext.request.contextPath}/resources/avatar/head/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/avatar/head/cropper.js"></script>
     <script src="${pageContext.request.contextPath}/resources/avatar/head/sitelogo.js"></script>
-
     <style type="text/css">
         .avatar-btns button {
             height: 35px;
         }
     </style>
-
-
 </head>
-
 <body>
-
 <div class="user_pic" style="margin: 10px;">
     <c:if test="${loginUser.image != null}">
         <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/${loginUser.image}" />
@@ -105,6 +97,9 @@
 
 <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
 <script src="${pageContext.request.contextPath}/resources/avatar/head/html2canvas.min.js" type="text/javascript" charset="utf-8"></script>
+<!-- 弹窗插件 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dialog/css/animate.min.css"/> <!-- 动画效果 -->
+<script src="${pageContext.request.contextPath}/resources/dialog/js/jquery.hDialog.min.js"></script>
 <script type="text/javascript">
     //做个下简易的验证  大小 格式
     $('#avatarInput').on('change', function(e) {
@@ -157,9 +152,13 @@
             data: data,
             type: "POST",
             dataType: 'json',
-            success: function(result) {
-                alert(result.message);
-                if (result.success == true) {
+            success: function(data) {
+                if (data.success == false) {
+                    $.tooltip(data.message, 3000);
+                } else if (data.success == true) {
+                    $.tooltip(data.message, 4500, true);
+                }
+                if (data.success == true) {
                     // 页面刷新，这样才能显示新的session里面的数据
                    window.location.reload();
                 }

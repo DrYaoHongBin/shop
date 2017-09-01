@@ -100,10 +100,11 @@
         <!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true -->
         <property name="blockWhenExhausted" value="false" />
     </bean>
+
     <!-- redis单机版 通过连接池 -->
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="close">
         <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
-        <constructor-arg name="host" value="39.108.149.9"/>
+        <constructor-arg name="host" value="192.168.98.135"/>
         <constructor-arg name="port" value="6379"/>
         <constructor-arg name="password" value="123456"/>
         <constructor-arg name="timeout" value="500"/>

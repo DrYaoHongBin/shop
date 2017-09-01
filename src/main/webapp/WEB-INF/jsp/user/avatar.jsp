@@ -44,16 +44,16 @@
     </div>
 </header>
 <!-- header End -->
-<div class="containers">
-    <div class="pc-nav-item"><a href="${pageContext.request.contextPath}/">首页</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/userInformationUI">个人信息</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/avatarUI">修改头像</a>
+    <div class="containers">
+        <div class="pc-nav-item"><a href="${pageContext.request.contextPath}/">首页</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/userInformationUI">个人信息</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/avatarUI">修改头像</a>
+        </div>
     </div>
-</div>
     <center>
     <%@include file="avatarUI.jsp"%>
     </center>

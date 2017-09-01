@@ -40,131 +40,130 @@
 
 </head>
 <body>
-<!--- header begin-->
-<header id="pc-header">
-    <%@include file="../top.jsp"%>
-    <div class="container clearfix">
-        <div class="header-logo fl"><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a> </h1></div>
-        <div class="member-title fl"><h2></h2></div>
-        <div class="head-form fl">
-            <form class="clearfix" action="${pageContext.request.contextPath}/selectItemsBySearchName" method="post" id="searchForm">
-                <input type="text" class="search-text" id="search" name="search">
-                <button class="button" type="submit">搜索</button>
-            </form>
+    <!--- header begin-->
+    <header id="pc-header">
+        <%@include file="../top.jsp"%>
+        <div class="container clearfix">
+            <div class="header-logo fl"><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a> </h1></div>
+            <div class="member-title fl"><h2></h2></div>
+            <div class="head-form fl">
+                <form class="clearfix" action="${pageContext.request.contextPath}/selectItemsBySearchName" method="post" id="searchForm">
+                    <input type="text" class="search-text" id="search" name="search">
+                    <button class="button" type="submit">搜索</button>
+                </form>
+            </div>
+            <div class="header-cart fr"><a href="#"><img src="${pageContext.request.contextPath}/resources/theme/icon/car.png"></a> <i class="head-amount">99</i></div>
         </div>
-        <div class="header-cart fr"><a href="#"><img src="${pageContext.request.contextPath}/resources/theme/icon/car.png"></a> <i class="head-amount">99</i></div>
-    </div>
-</header>
-<!-- header End -->
+    </header>
+    <!-- header End -->
 
-<div class="containers">
-    <div class="pc-nav-item">
-        <a href="${pageContext.request.contextPath}/">首页</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/userInformationUI">个人资料</a>
-        &gt;
-    </div>
-</div>
-
-<section id="member">
-    <div class="member-center clearfix">
-        <div class="member-left fl">
-            <div class="member-apart clearfix">
-                <div class="fl"><a href="#">
-                    <c:if test="${loginUser.image != null}">
-                    <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/${loginUser.image}" />
-                    </c:if>
-                    <c:if test="${loginUser.image == null}">
-                    <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/null.jpg"/>
-                    </c:if>
-                </div>
-                <div class="fl">
-                    <p>用户名：</p>
-                    <p>${loginUser.username}</p>
-                </div>
-            </div>
-            <div class="member-lists">
-                <dl>
-                    <dt>我的商城</dt>
-                    <dd><a href="${pageContext.request.contextPath}/order/showOrdersByUserId?userId=${loginUser.userId}">我的订单</a></dd>
-                    <dd><a href="#">我的收藏</a></dd>
-                    <dd><a href="${pageContext.request.contextPath}/user/userInformationUI">个人资料</a></dd>
-                    <dd><a href="${pageContext.request.contextPath}/user/userSafeUI">账户安全</a></dd>
-                    <dd><a href="${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}">地址管理</a></dd>
-                </dl>
-            </div>
+    <div class="containers">
+        <div class="pc-nav-item">
+            <a href="${pageContext.request.contextPath}/">首页</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/userInformationUI">个人资料</a>
+            &gt;
         </div>
-        <div class="member-right fr">
-            <div class="member-head">
-                <div class="member-heels fl"><h2>个人资料</h2></div>
-            </div>
-            <div class="public_m1">
-                <div class="public_m2">资料管理</div>
-                <!--照片和内容-->
-                <div class="zp_nrm">
-                    <!--left-->
-                    <div class="zp_nrm_l">
+    </div>
+
+    <section id="member">
+        <div class="member-center clearfix">
+            <div class="member-left fl">
+                <div class="member-apart clearfix">
+                    <div class="fl"><a href="#">
                         <c:if test="${loginUser.image != null}">
-                            <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/${loginUser.image}" />
+                        <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/${loginUser.image}" />
                         </c:if>
                         <c:if test="${loginUser.image == null}">
-                            <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/null.jpg"/>
+                        <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/null.jpg"/>
                         </c:if>
-                        <a href="${pageContext.request.contextPath}/user/avatarUI">更换头像</a>
                     </div>
-                    <!--right-->
-                    <form action="${pageContext.request.contextPath}/user/updateUser" method="post" id="information">
-                        <div class="zp_nrm_r">
-                            <p><em>用户名：</em><i>${loginUser.username}</i></p>
-                            <p>
-                                <em>性别：</em>
-                                <!-- 同一组单选的值要一样-->
-                                <input type="radio" name="sex" class="sex_m" value="保密" <c:if test="${loginUser.sex == '保密'}">checked</c:if>><i>保密</i>
-                                <input type="radio" name="sex" class="sex_m" value="男"   <c:if test="${loginUser.sex == '男'}">checked</c:if>><i>男</i>
-                                <input type="radio" name="sex" class="sex_m" value="女"   <c:if test="${loginUser.sex == '女'}">checked</c:if>><i>女</i>
-                            </p>
-                            <span class="borth_m">
-                                出生日期：
-                                <select  id="sel_year" rel="${loginUser.year}" name="year">
-                                </select>&nbsp;年&nbsp;
-                                <select id="sel_month" rel="${loginUser.month}" name="month">
-                                </select>&nbsp;月&nbsp;
-                                <select id="sel_day" rel="${loginUser.day}" name="day">
-                                </select>&nbsp;日&nbsp;
-                            </span>
-                            <input type="hidden" name="userId" value="${loginUser.userId}">
-                            <a href="#" class="public_m3"  onclick="submit()">保存修改</a>
+                    <div class="fl">
+                        <p>用户名：</p>
+                        <p>${loginUser.username}</p>
+                    </div>
+                </div>
+                <div class="member-lists">
+                    <dl>
+                        <dt>我的商城</dt>
+                        <dd><a href="${pageContext.request.contextPath}/order/showOrdersByUserId?userId=${loginUser.userId}">我的订单</a></dd>
+                        <dd><a href="#">我的收藏</a></dd>
+                        <dd><a href="${pageContext.request.contextPath}/user/userInformationUI">个人资料</a></dd>
+                        <dd><a href="${pageContext.request.contextPath}/user/userSafeUI">账户安全</a></dd>
+                        <dd><a href="${pageContext.request.contextPath}/address/showAddressUI?userId=${loginUser.userId}">地址管理</a></dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="member-right fr">
+                <div class="member-head">
+                    <div class="member-heels fl"><h2>个人资料</h2></div>
+                </div>
+                <div class="public_m1">
+                    <div class="public_m2">资料管理</div>
+                    <!--照片和内容-->
+                    <div class="zp_nrm">
+                        <!--left-->
+                        <div class="zp_nrm_l">
+                            <c:if test="${loginUser.image != null}">
+                                <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/${loginUser.image}" />
+                            </c:if>
+                            <c:if test="${loginUser.image == null}">
+                                <img src="${path.IMAGE_PATH}/${path.FILE_PATH_USER}/null.jpg"/>
+                            </c:if>
+                            <a href="${pageContext.request.contextPath}/user/avatarUI">更换头像</a>
                         </div>
-                    </form>
+                        <!--right-->
+                        <form action="${pageContext.request.contextPath}/user/updateUser" method="post" id="information">
+                            <div class="zp_nrm_r">
+                                <p><em>用户名：</em><i>${loginUser.username}</i></p>
+                                <p>
+                                    <em>性别：</em>
+                                    <!-- 同一组单选的值要一样-->
+                                    <input type="radio" name="sex" class="sex_m" value="保密" <c:if test="${loginUser.sex == '保密'}">checked</c:if>><i>保密</i>
+                                    <input type="radio" name="sex" class="sex_m" value="男"   <c:if test="${loginUser.sex == '男'}">checked</c:if>><i>男</i>
+                                    <input type="radio" name="sex" class="sex_m" value="女"   <c:if test="${loginUser.sex == '女'}">checked</c:if>><i>女</i>
+                                </p>
+                                <span class="borth_m">
+                                    出生日期：
+                                    <select  id="sel_year" rel="${loginUser.year}" name="year">
+                                    </select>&nbsp;年&nbsp;
+                                    <select id="sel_month" rel="${loginUser.month}" name="month">
+                                    </select>&nbsp;月&nbsp;
+                                    <select id="sel_day" rel="${loginUser.day}" name="day">
+                                    </select>&nbsp;日&nbsp;
+                                </span>
+                                <input type="hidden" name="userId" value="${loginUser.userId}">
+                                <a href="#" class="public_m3"  onclick="submit()">保存修改</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<c:if test="${message != null}">
+    </section>
+    <c:if test="${message != null}">
+        <script type="text/javascript">
+            var message = "${message}";
+            alert(message);
+        </script>
+    </c:if>
     <script type="text/javascript">
-        var message = "${message}";
-        alert(message);
-    </script>
-</c:if>
-<script type="text/javascript">
 
-    function submit() {
-        $("#information").submit();
-    }
+        function submit() {
+            $("#information").submit();
+        }
 
-    $(function () {
-        $.ms_DatePicker({
-            YearSelector: ".sel_year",
-            MonthSelector: ".sel_month",
-            DaySelector: ".sel_day"
+        $(function () {
+            $.ms_DatePicker({
+                YearSelector: ".sel_year",
+                MonthSelector: ".sel_month",
+                DaySelector: ".sel_day"
+            });
+            $.ms_DatePicker();
         });
-        $.ms_DatePicker();
-    });
-
-</script>
+    </script>
 </body>
 </html>
 

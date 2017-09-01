@@ -36,161 +36,171 @@
     </script>
 </head>
 <body>
-<!--- header begin-->
-<header id="pc-header">
-    <%@include file="../top.jsp"%>
-    <div class="login-header" style="padding-bottom:0">
-        <div><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
-    </div>
-</header>
-<!-- header End -->
-<div class="containers">
-    <div class="pc-nav-item"><a href="${pageContext.request.contextPath}/">首页</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/userSafeUI">帐户安全</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/resetEmailUI">修改邮箱</a>
-    </div>
-</div>
-<section id="login-content">
-    <div class="login-centre">
-        <div class="login-back">
-            <div class="H-over">
-                <form action="${pageContext.request.contextPath}/user/updateUser" method="post" id="resetEmail">
-                    <div class="login-input" id="emailRegister" style="display: none">
-                        <label><i class="heart">*</i>新邮箱：</label>
-                        <input type="text" class="list-iphone" id="email" name="email">
-                        <a href="#" class="obtain" onclick="emailCode()">获取邮箱验证码</a>
-                    </div>
-                    <div class="login-input" id="confire">
-                        <label><i class="heart">*</i>验证码：</label>
-                        <input type="password" class="list-input" id="validationCode" name="validationCode" placeholder="请输入邮箱收到的验证码">
-                    </div>
-                    <div class="login-button">
-                        <a href="#" onclick="checkCode()" id="1" style="display:none;">确认</a>
-                        <a href="#" onclick="checkCode2()" id="2" style="display:none;">确认修改</a>
-                        <a href="#" onclick="sendCode()" id="3" >获取验证码</a>
-                    </div>
-                    <input type="hidden" name="userId" value="${loginUser.userId}">
-                </form>
-            </div>
+    <!--- header begin-->
+    <header id="pc-header">
+        <%@include file="../top.jsp"%>
+        <div class="login-header" style="padding-bottom:0">
+            <div><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
+        </div>
+    </header>
+    <!-- header End -->
+    <div class="containers">
+        <div class="pc-nav-item"><a href="${pageContext.request.contextPath}/">首页</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/userSafeUI">帐户安全</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/resetEmailUI">修改邮箱</a>
         </div>
     </div>
-</section>
-<!--表单验证插件-->
-<script src="${pageContext.request.contextPath}/resources/theme/util/jquery.validate.js" type="text/javascript"></script>
-<!--导入自定义的验证规则-->
-<script src="${pageContext.request.contextPath}/resources/theme/util/validate-methods.js" type="text/javascript"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#resetEmail").validate({
-            rules: {
-                validationCode: {
-                    required: true,
-                    isContainBlank:true,
-                    maxlength:10,
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-            },
-            messages: {
-                validationCode: {
-                    required: "验证码不可为空",
-                    isContainBlank:"验证码不可包含空格",
-                    maxlength:"请输入正确的验证码",
-                },
-                email: {
-                    required: "邮箱不可为空",
-                    email: "请填写正确的邮箱"
-                },
-            },
-            submitHandler: function(form) {  //验证通过之后回调
-               form.submit(); //提交表单，如果不写，即便通过表单也不会自动提交
-            },
-            invalidHandler: function(form, validator) {  //验证不通过之后回调
-                return false;
-            }
-        })
-    })
-
-    //获取邮箱验证码
-    function emailCode() {
-        var email = $("#email").val(); //通过id获取
-        $.ajax({
-            type:'post',
-            url:'${pageContext.request.contextPath }/user/emailCode',
-            data:{"email":email},
-            success:function(data){//返回json结果
-                alert(data.message);
-            }
-
-        });
-    }
-
-    //验证验证码
-    function checkCode() {
-        var validationCode = $("#validationCode").val(); //通过id获取
-        var email = '${loginUser.email}';
-        $.ajax({
-            type:'post',
-            url:'${pageContext.request.contextPath }/user/checkCode',
-            data:{"validationCode":validationCode, "email":email},
-            success:function(data){//返回json结果
-                if (data.success == false) {
-                    alert(data.message);
-                } else {
-                        $("#emailRegister").show();
-                        $("#1").hide();
-                        $("#2").show();
-                        $("#validationCode").val("");
-                  }
-            }
-        });
-    }
-
-    //验证验证码
-    function checkCode2() {
-        var validationCode = $("#validationCode").val(); //通过id获取
-        var email = $("#email").val()
-        $.ajax({
-            type:'post',
-            url:'${pageContext.request.contextPath }/user/checkCode',
-            data:{"validationCode":validationCode, "email":email},
-            success:function(data){//返回json结果
-                if (data.success == false) {
-                    alert(data.message);
-                } else {
-                    $("#resetEmail").submit();
-                }
-            }
-        });
-    }
-
-    //获取验证码
-    function sendCode() {
-        $.ajax({
-            type:'post',
-            url:'${pageContext.request.contextPath }/user/resetEmail',
-            success:function(data){//返回json结果
-                $("#3").hide();
-                $("#1").show();
-                alert(data.message);
-            }
-        });
-    }
-
-
-</script>
-<c:if test="${message != null}">
+    <section id="login-content">
+        <div class="login-centre">
+            <div class="login-back">
+                <div class="H-over">
+                    <form action="${pageContext.request.contextPath}/user/updateUser" method="post" id="resetEmail">
+                        <div class="login-input" id="emailRegister" style="display: none">
+                            <label><i class="heart">*</i>新邮箱：</label>
+                            <input type="text" class="list-iphone" id="email" name="email">
+                            <a href="#" class="obtain" onclick="emailCode()">获取邮箱验证码</a>
+                        </div>
+                        <div class="login-input" id="confire">
+                            <label><i class="heart">*</i>验证码：</label>
+                            <input type="password" class="list-input" id="validationCode" name="validationCode" placeholder="请输入邮箱收到的验证码">
+                        </div>
+                        <div class="login-button">
+                            <a href="#" onclick="checkCode()" id="1" style="display:none;">确认</a>
+                            <a href="#" onclick="checkCode2()" id="2" style="display:none;">确认修改</a>
+                            <a href="#" onclick="sendCode()" id="3" >获取验证码</a>
+                        </div>
+                        <input type="hidden" name="userId" value="${loginUser.userId}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--表单验证插件-->
+    <script src="${pageContext.request.contextPath}/resources/theme/util/jquery.validate.js" type="text/javascript"></script>
+    <!--导入自定义的验证规则-->
+    <script src="${pageContext.request.contextPath}/resources/theme/util/validate-methods.js" type="text/javascript"></script>
+    <!-- 弹窗插件 -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dialog/css/animate.min.css"/> <!-- 动画效果 -->
+    <script src="${pageContext.request.contextPath}/resources/dialog/js/jquery.hDialog.min.js"></script>
     <script type="text/javascript">
-        var message = "${message}";
-        alert(message);
+        $(document).ready(function () {
+            $("#resetEmail").validate({
+                rules: {
+                    validationCode: {
+                        required: true,
+                        isContainBlank:true,
+                        maxlength:10,
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                },
+                messages: {
+                    validationCode: {
+                        required: "验证码不可为空",
+                        isContainBlank:"验证码不可包含空格",
+                        maxlength:"请输入正确的验证码",
+                    },
+                    email: {
+                        required: "邮箱不可为空",
+                        email: "请填写正确的邮箱"
+                    },
+                },
+                submitHandler: function(form) {  //验证通过之后回调
+                   form.submit(); //提交表单，如果不写，即便通过表单也不会自动提交
+                },
+                invalidHandler: function(form, validator) {  //验证不通过之后回调
+                    return false;
+                }
+            })
+        })
+
+        //获取邮箱验证码
+        function emailCode() {
+            var email = $("#email").val(); //通过id获取
+            $.ajax({
+                type:'post',
+                url:'${pageContext.request.contextPath }/user/emailCode',
+                data:{"email":email},
+                success:function(data){//返回json结果
+                    if (data.success == false) {
+                        $.tooltip(data.message);
+                    } else if (data.success == true) {
+                        $.tooltip(data.message, 2500, true);
+                    }
+                }
+
+            });
+        }
+
+        //验证验证码
+        function checkCode() {
+            var validationCode = $("#validationCode").val(); //通过id获取
+            var email = '${loginUser.email}';
+            $.ajax({
+                type:'post',
+                url:'${pageContext.request.contextPath }/user/checkCode',
+                data:{"validationCode":validationCode, "email":email},
+                success:function(data){//返回json结果
+                    if (data.success == false) {
+                        $.tooltip(data.message);
+                    } else {
+                            $("#emailRegister").show();
+                            $("#1").hide();
+                            $("#2").show();
+                            $("#validationCode").val("");
+                      }
+                }
+            });
+        }
+
+        //验证验证码
+        function checkCode2() {
+            var validationCode = $("#validationCode").val(); //通过id获取
+            var email = $("#email").val()
+            $.ajax({
+                type:'post',
+                url:'${pageContext.request.contextPath }/user/checkCode',
+                data:{"validationCode":validationCode, "email":email},
+                success:function(data){//返回json结果
+                    if (data.success == false) {
+                        $.tooltip(data.message, 3000);
+                    } else {
+                        $("#resetEmail").submit();
+                    }
+                }
+            });
+        }
+
+        //获取验证码
+        function sendCode() {
+            $.ajax({
+                type:'post',
+                url:'${pageContext.request.contextPath }/user/resetEmail',
+                success:function(data){//返回json结果
+                    $("#3").hide();
+                    $("#1").show();
+                    if (data.success == false) {
+                        $.tooltip(data.message, 3000);
+                    } else if (data.success == true) {
+                        $.tooltip(data.message, 2500, true);
+                    }
+                }
+            });
+        }
+
     </script>
-</c:if>
+    <c:if test="${message != null}">
+        <script type="text/javascript">
+            var message = "${message}";
+            $.tooltip(message);
+        </script>
+    </c:if>
 </body>
 </html>
 

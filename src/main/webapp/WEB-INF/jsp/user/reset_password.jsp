@@ -36,131 +36,133 @@
     </script>
 </head>
 <body>
-<!--- header begin-->
-<header id="pc-header">
-    <%@include file="../top.jsp"%>
-    <div class="login-header" style="padding-bottom:0">
-        <div><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
-    </div>
-</header>
-<div class="containers">
-    <div class="pc-nav-item"><a href="${pageContext.request.contextPath}/">首页</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/userSafeUI">帐户安全</a>
-        &gt;
-        <a href="${pageContext.request.contextPath}/user/resetPasswordUI">修改密码</a>
-    </div>
-</div>
-<!-- header End -->
-<section id="login-content">
-    <div class="login-centre">
-        <div class="login-back">
-            <div class="H-over">
-                <form action="${pageContext.request.contextPath}/user/resetPassword" method="post" id="resetPassword">
-                    <div class="login-input" id="confire">
-                        <label><i class="heart">*</i>登录密码：</label>
-                        <input type="password" class="list-input" id="password2" name="password2" placeholder="请输入登录帐号的密码">
-                    </div>
-                    <div class="item-ifo" id="p1" >
-                        <label for="protocol"><a id="protocol" class="blue" href="${pageContext.request.contextPath}/user/forgetPasswordUI">忘记密码？</a></label>
-                        <span class="clr"></span>
-                    </div>
-                    <div style="display: none" id="newPassword">
-                        <div class="login-input">
-                            <label><i class="heart">*</i>请设置新密码：</label>
-                            <input type="password" class="list-input" id="password" name="password" value="${user.password}">
-                        </div>
-                        <div class="login-input">
-                            <label><i class="heart">*</i>请确认新密码：</label>
-                            <input type="password" class="list-input" id="passwordConfirm" name="passwordConfirm" value="${user.password}">
-                        </div>
-                    </div>
-                    <div class="login-button">
-                        <a href="#" onclick="checkPassword()" id="1">重置密码</a>
-                        <a href="#" onclick="submit()" id="2" style="display:none;">确认</a>
-                    </div>
-                    <input type="hidden" name="userId" value="${loginUser.userId}">
-                </form>
-            </div>
+    <!--- header begin-->
+    <header id="pc-header">
+        <%@include file="../top.jsp"%>
+        <div class="login-header" style="padding-bottom:0">
+            <div><h1><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/theme/icon/logo.png"></a></h1></div>
+        </div>
+    </header>
+    <div class="containers">
+        <div class="pc-nav-item"><a href="${pageContext.request.contextPath}/">首页</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/userSafeUI">我的商城</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/userSafeUI">帐户安全</a>
+            &gt;
+            <a href="${pageContext.request.contextPath}/user/resetPasswordUI">修改密码</a>
         </div>
     </div>
-</section>
-<!--表单验证插件-->
-<script src="${pageContext.request.contextPath}/resources/theme/util/jquery.validate.js" type="text/javascript"></script>
-<!--导入自定义的验证规则-->
-<script src="${pageContext.request.contextPath}/resources/theme/util/validate-methods.js" type="text/javascript"></script>
-<script type="text/javascript">
+    <!-- header End -->
+    <section id="login-content">
+        <div class="login-centre">
+            <div class="login-back">
+                <div class="H-over">
+                    <form action="${pageContext.request.contextPath}/user/resetPassword" method="post" id="resetPassword">
+                        <div class="login-input" id="confire">
+                            <label><i class="heart">*</i>登录密码：</label>
+                            <input type="password" class="list-input" id="password2" name="password2" placeholder="请输入登录帐号的密码">
+                        </div>
+                        <div class="item-ifo" id="p1" >
+                            <label for="protocol"><a id="protocol" class="blue" href="${pageContext.request.contextPath}/user/forgetPasswordUI">忘记密码？</a></label>
+                            <span class="clr"></span>
+                        </div>
+                        <div style="display: none" id="newPassword">
+                            <div class="login-input">
+                                <label><i class="heart">*</i>请设置新密码：</label>
+                                <input type="password" class="list-input" id="password" name="password" value="${user.password}">
+                            </div>
+                            <div class="login-input">
+                                <label><i class="heart">*</i>请确认新密码：</label>
+                                <input type="password" class="list-input" id="passwordConfirm" name="passwordConfirm" value="${user.password}">
+                            </div>
+                        </div>
+                        <div class="login-button">
+                            <a href="#" onclick="checkPassword()" id="1">重置密码</a>
+                            <a href="#" onclick="submit()" id="2" style="display:none;">确认</a>
+                        </div>
+                        <input type="hidden" name="userId" value="${loginUser.userId}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--表单验证插件-->
+    <script src="${pageContext.request.contextPath}/resources/theme/util/jquery.validate.js" type="text/javascript"></script>
+    <!--导入自定义的验证规则-->
+    <script src="${pageContext.request.contextPath}/resources/theme/util/validate-methods.js" type="text/javascript"></script>
+    <!-- 弹窗插件 -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dialog/css/animate.min.css"/> <!-- 动画效果 -->
+    <script src="${pageContext.request.contextPath}/resources/dialog/js/jquery.hDialog.min.js"></script>
+    <script type="text/javascript">
 
-    function submit() {
-        $("#resetPassword").submit();
-    }
+        function submit() {
+            $("#resetPassword").submit();
+        }
 
-    $(document).ready(function () {
-        $("#resetPassword").validate({
-            rules: {
-                password2: {
-                    required: true,
-                    isContainBlank: true,
-                    maxlength: 20,
+        $(document).ready(function () {
+            $("#resetPassword").validate({
+                rules: {
+                    password2: {
+                        required: true,
+                        isContainBlank: true,
+                        maxlength: 20,
+                    },
+                    password: {
+                        required: true,
+                        isContainBlank: true,
+                        maxlength: 20,
+                        minlength: 5,
+                    },
+                    passwordConfirm: {
+                        equalTo: '#password'
+                    },
                 },
-                password: {
-                    required: true,
-                    isContainBlank: true,
-                    maxlength: 20,
-                    minlength: 5,
+                messages: {
+                    password2: {
+                        required: "密码不可为空",
+                        isContainBlank: "密码不可包含空格",
+                        maxlength: "密码不可超过20位",
+                    },
+                    password: {
+                        required: "密码不可为空",
+                        isContainBlank: "密码不可包含空格",
+                        maxlength: "密码不可超过20位",
+                        minlength: "密码不可少于5位"
+                    },
+                    passwordConfirm: {
+                        equalTo: "两次密码输入不一致"
+                    },
                 },
-                passwordConfirm: {
-                    equalTo: '#password'
+                submitHandler: function(form) {  //验证通过之后回调
+                    form.submit(); //提交表单，如果不写，即便通过表单也不会自动提交
                 },
-            },
-            messages: {
-                password2: {
-                    required: "密码不可为空",
-                    isContainBlank: "密码不可包含空格",
-                    maxlength: "密码不可超过20位",
-                },
-                password: {
-                    required: "密码不可为空",
-                    isContainBlank: "密码不可包含空格",
-                    maxlength: "密码不可超过20位",
-                    minlength: "密码不可少于5位"
-                },
-                passwordConfirm: {
-                    equalTo: "两次密码输入不一致"
-                },
-            },
-            submitHandler: function(form) {  //验证通过之后回调
-                form.submit(); //提交表单，如果不写，即便通过表单也不会自动提交
-            },
-            invalidHandler: function(form, validator) {  //验证不通过之后回调
-                return false;
-            }
-        })
-    })
-
-    function checkPassword() {
-        var password = $("#password2").val(); //通过id获取
-        $.ajax({
-            type:'post',
-            url:'${pageContext.request.contextPath }/user/checkPassword',
-            data:{"password":password},
-            success:function(data){//返回json结果
-                if (data.success == true) {
-                    $("#confire").hide();
-                    $("#p1").hide();
-                    $("#newPassword").show();
-                    $("#1").hide();
-                    $("#2").show();
-                } else {
-                    alert(data.message);
+                invalidHandler: function(form, validator) {  //验证不通过之后回调
+                    return false;
                 }
-            }
+            })
+        })
 
-        });
-    }
-</script>
+        function checkPassword() {
+            var password = $("#password2").val(); //通过id获取
+            $.ajax({
+                type:'post',
+                url:'${pageContext.request.contextPath }/user/checkPassword',
+                data:{"password":password},
+                success:function(data){//返回json结果
+                    if (data.success == true) {
+                        $("#confire").hide();
+                        $("#p1").hide();
+                        $("#newPassword").show();
+                        $("#1").hide();
+                        $("#2").show();
+                    } else {
+                        $.tooltip(data.message, 3000);
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>
 

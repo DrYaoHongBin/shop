@@ -11,7 +11,6 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/merchant/img/favicon.html">
     <script src="${pageContext.request.contextPath}/resources/theme/js/jquery-3.1.1.min.js"></script>
     <title>管理员登录</title>
-
     <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/resources/merchant/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/merchant/css/bootstrap-reset.css" rel="stylesheet">
@@ -25,25 +24,29 @@
     <script src="${pageContext.request.contextPath}/resources/merchant/js/html5shiv.js"></script>
     <script src="${pageContext.request.contextPath}/resources/merchant/js/respond.min.js"></script>
     <![endif]-->
+
 </head>
 
-<body >
-<div class="container">
-    <form class="form-signin" action="${pageContext.request.contextPath}/admin/admin/login"  method="post" id="login">
-        <h2 class="form-signin-heading">商城管理员登录</h2>
-        <div class="login-wrap">
-            <input type="text" class="form-control" name="account" placeholder="帐号" autofocus required >
-            <input type="password" class="form-control" name="password" placeholder="密码" required >
-            <button class="btn btn-lg btn-login btn-block" type="submit">登录</button>
-        </div>
-    </form>
-</div>
-<c:if test="${message != null}">
-    <script type="text/javascript">
-        var message = "${message}";
-        alert(message);
-    </script>
-</c:if>
+<body>
+    <div class="container">
+        <form class="form-signin" action="${pageContext.request.contextPath}/admin/admin/login"  method="post" id="login">
+            <h2 class="form-signin-heading">商城管理员登录</h2>
+            <div class="login-wrap">
+                <input type="text" class="form-control" name="account" placeholder="帐号" autofocus required >
+                <input type="password" class="form-control" name="password" placeholder="密码" required >
+                <button class="btn btn-lg btn-login btn-block" type="submit">登录</button>
+            </div>
+        </form>
+    </div>
+    <!-- 弹窗插件 -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dialog/css/animate.min.css"/> <!-- 动画效果 -->
+    <script src="${pageContext.request.contextPath}/resources/dialog/js/jquery.hDialog.min.js"></script>
+    <c:if test="${message != null}">
+        <script type="text/javascript">
+            var message = "${message}";
+            $.tooltip(message, 2000);
+        </script>
+    </c:if>
 </body>
 </html>
 
