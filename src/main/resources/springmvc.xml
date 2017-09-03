@@ -84,6 +84,7 @@
                         <value>/user/forgetPasswordUI</value>
                         <value>/user/checkCode</value>
                         <value>/user/resetPassword</value>
+                        <value>/user/ajaxLogin</value>
                     </list>
                 </property>
             </bean>

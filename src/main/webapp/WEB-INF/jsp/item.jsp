@@ -83,7 +83,6 @@
     </script>
 </head>
 <body>
-
     <!--- header begin-->
     <header id="pc-header">
         <%@include file="top.jsp"%>
@@ -163,8 +162,8 @@
                                 </div>
                             </div>
                             <div class="pc-emption">
-                                <a href="#" onclick="buy()">立即购买</a>
-                                <a href="#" class="join" onclick="addCart()">加入购物车</a>
+                                <a href="#" onclick="buy()" class="trigger-custom bounceIn dialog">立即购买</a>
+                                <a href="#" class="join dialog" onclick="addCart()">加入购物车</a>
                             </div>
                         </div>
                         <div class="pc-product-s">
@@ -189,13 +188,32 @@
                         </div>
                     </div>
                 </div>
-
         </div>
     </section>
+
+    <!-- 登录弹窗 -->
+    <!-- 注意：请将要放入弹框的内容放在比如id="HBox"的容器中，然后将box的值换成该ID即可，比如：$(element).hDialog({'box':'#HBox'}); -->
+    <div id="HBox">
+        <form action="" method="post" onsubmit="return false;">
+            <ul class="list">
+                <li>
+                    <strong>账 号  <font color="#ff0000">*</font></strong>
+                    <div class="fl"><input type="text" name="nickname" value="" class="ipt name" placeholder="用户名/手机号/邮箱"/></div>
+                </li>
+                <li>
+                    <strong>密 码 <font color="#ff0000">*</font></strong>
+                    <div class="fl"><input type="password" name="phone" value="" class="ipt password" /></div>
+                </li>
+                <li><input type="submit" value="确认提交" class="submitBtn" /></li>
+            </ul>
+        </form>
+    </div><!-- HBox end -->
+
     <!-- 商品详情 End -->
     <!-- 弹窗插件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dialog/css/animate.min.css"/> <!-- 动画效果 -->
     <script src="${pageContext.request.contextPath}/resources/dialog/js/jquery.hDialog.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dialog/css/common.css"/><!-- 页面基本样式 -->
     <script type="text/javascript">
         // 商品id
         var itemId;
@@ -229,22 +247,38 @@
 
         // 购买
         function buy() {
-            var flag = checkNumber();
-            if (!flag) {
-                return false;
+            var loginFlag = checkUserLogin();
+            if (loginFlag == true) {
+                var flag = checkNumber();
+                if (!flag) {
+                    return false;
+                }
+                window.location.href = "${pageContext.request.contextPath}/order/saveOrderUI?itemId=" + itemId +
+                    "&itemNumber=" + itemNumber;
             }
-            window.location.href = "${pageContext.request.contextPath}/order/saveOrderUI?itemId=" + itemId +
-                "&itemNumber=" + itemNumber;
         }
 
         // 加入购物车
         function addCart() {
-            var flag = checkNumber();
-            if (!flag) {
+            var loginFlag = checkUserLogin();
+            if (loginFlag == true) {
+                var flag = checkNumber();
+                if (!flag) {
+                    return false;
+                }
+                saveCart();
+            }
+        }
+
+        function checkUserLogin() {
+            if (${loginUser == null}) {
+                $.tooltip("您尚未登录，请登录后再进行购买", 3000);
+                // 登录弹窗
+                $(".dialog").hDialog({box:'#HBox',height: 200
+                    ,width: 500,modalBg: 'rgba(255,255,255,0.7)'});
                 return false;
             }
-            saveCart();
-
+            return true;
         }
 
         // 异步购物车添加商品
@@ -262,6 +296,43 @@
                 }
             });
         }
+
+        //提交并验证表单
+        $('.submitBtn').click(function() {
+            var $nickname = $('.name');
+            var $password = $('.password');
+            // 验证用户名
+            if($nickname.val() == ''){
+                $.tooltip('用户名不可为空'); $nickname.focus();
+            } else if ($nickname.val().indexOf(" ") >= 0) {
+                $.tooltip('用户名不可包含空格'); $nickname.focus();
+            } else if ($nickname.val().length < 5 || $nickname.val().length > 20) {
+                $.tooltip('用户名长度为5-20', 2500); $nickname.focus();
+            }
+            // 验证密码
+            else if($password.val() == ''){
+                $.tooltip('密码不可为空'); $password.focus();
+            } else if ($password.val().indexOf(" ") >= 0) {
+                $.tooltip('密码不可包含空格'); $password.focus();
+            } else if ($password.val().length < 5 || $password.val().length > 20) {
+                $.tooltip('密码长度为5-20', 2500); $password.focus();
+            } else if (true){
+                $.ajax({
+                    type:'post',
+                    url:'${pageContext.request.contextPath }/user/ajaxLogin',
+                    data:{"username":$nickname.val(), "password":$password.val()},
+                    success:function(data) {//返回json结果
+                        if (data.success == false) {
+                            $.tooltip(data.message, 3000);
+                        } else if (data.success == true) {
+                            $.tooltip(data.message, 2500, true);
+                            // 登录成功，刷新当前页面，加载出session中的登录用户对象
+                            window.location.href= "";
+                        }
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>

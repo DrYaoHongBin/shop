@@ -369,4 +369,30 @@ public class UserController extends BaseController<User> {
            return result;
        }
     }
+
+    /**
+     * 用户异步登录
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "ajaxLogin")
+    @ResponseBody
+    public AjaxResult ajaxLogin(User user, HttpSession session) {
+        User loginUser = userService.login(user);
+        // 判断登录用户是否已经注册店铺，如果已经注册，将merchant属性保存进session
+        // 这里可能会出现空指针异常，处理一下
+        try {
+            if (loginUser.getMerchant() != null) {
+                session.setAttribute("loginMerchant", loginUser.getMerchant());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (loginUser == null) {
+            return new AjaxResult(false, "登录失败，请检查账号与密码是否正确");
+        } else {
+            session.setAttribute("loginUser", loginUser);
+            return new AjaxResult(true, "登录成功");
+        }
+    }
 }
