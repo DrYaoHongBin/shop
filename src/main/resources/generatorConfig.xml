@@ -31,7 +31,7 @@
             targetPackage     指定生成的model生成所在的包名
             targetProject     指定在该项目下所在的路径,使用的是文件系统的绝对路径
         -->
-        <javaModelGenerator targetPackage="com.shop.model.order" targetProject="D:/IdeaProjects/shop/src/main/java">
+        <javaModelGenerator targetPackage="com.shop.model.cart" targetProject="D:/IdeaProjects/shop/src/main/java">
             <!-- 是否对model添加 构造函数 -->
             <property name="constructorBased" value="true"/>
 
@@ -44,7 +44,7 @@
         </javaModelGenerator>
 
         <!--Mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 -->
-        <sqlMapGenerator targetPackage="com.shop.dao.order" targetProject="D:/IdeaProjects/shop/src/main/java">
+        <sqlMapGenerator targetPackage="com.shop.dao.cart" targetProject="D:/IdeaProjects/shop/src/main/java">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
@@ -55,7 +55,7 @@
                 type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
         -->
         <!--只能配置一个，不配置这个不会生成Mapper接口，XMLMAPPER:所有的方法都在XML中，接口调用依赖XML文件（其他的类型还有注解与注解和XML混合的）-->
-        <javaClientGenerator targetPackage="com.shop.dao.order" targetProject="D:/IdeaProjects/shop/src/main/java" type="XMLMAPPER">
+        <javaClientGenerator targetPackage="com.shop.dao.cart" targetProject="D:/IdeaProjects/shop/src/main/java" type="XMLMAPPER">
             <property name="enableSubPackages" value=""/>
             <!--
                     定义Maper.java 源代码中的ByExample() 方法的可视性，可选的值有：
@@ -83,7 +83,7 @@
         <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample
             是否生成 example类   -->
         <!--只有配置的才会生成实体类和其他文件-->
-        <table schema="shop" tableName="shop_cart" domainObjectName="Cart" enableCountByExample="true"
+        <table schema="shop" tableName="shop_cart_merchant" domainObjectName="CartMerchant" enableCountByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
 

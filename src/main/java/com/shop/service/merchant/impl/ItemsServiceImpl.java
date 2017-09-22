@@ -4,17 +4,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shop.been.AjaxResult;
 import com.shop.been.PageResult;
+import com.shop.been.SolrResult;
 import com.shop.dao.merchant.ItemMapper;
-import com.shop.model.admin.CategoryOne;
+import com.shop.dao.solr.ItemSearchDao;
+import com.shop.dao.solr.ItemSearchDaoImpl;
 import com.shop.model.merchant.Item;
 import com.shop.model.merchant.Merchant;
 import com.shop.service.merchant.ItemsService;
 import com.shop.util.FtpUtil;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -35,8 +37,16 @@ import java.util.UUID;
 @Service
 public class ItemsServiceImpl implements ItemsService {
 
+    /**
+     * 每页显示的商品条数
+     */
+    private static final Integer PAGE_SIZE = 12;
+
     @Autowired
     private ItemMapper itemMapper;
+
+    @Autowired
+    private ItemSearchDaoImpl itemSearchDao;
 
     /**
      * 图片服务器地址
@@ -189,7 +199,7 @@ public class ItemsServiceImpl implements ItemsService {
             pageNum = 1;
         }
         if (pageSize == null) {
-            // 没有设置条数，默认每页10条数据
+            // 没有设置条数，默认每页12条数据
             pageSize = 12;
         }
         PageHelper.startPage(pageNum, pageSize);
@@ -387,5 +397,52 @@ public class ItemsServiceImpl implements ItemsService {
             e.printStackTrace();
             return "导入失败,导入的excel表数据顺序为 商品标题，一级类目，二级类目，商品价格，商品库存,";
         }
+    }
+
+    public SolrResult searchItemBySolr(String searchContext, Integer page) {
+        // 创建查询条件
+        SolrQuery solrQuery = new SolrQuery();
+        // 设置solr查询的域名和域值
+        if (searchContext != null && !"".equals(searchContext)) {
+            solrQuery.setQuery("item_title:" + searchContext);
+        }
+        // 设置分页
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        // 设置从第几个记录开始查
+        Integer start = (page - 1) * PAGE_SIZE;
+        solrQuery.setStart(start);
+        // 每页显示多少条
+        solrQuery.setRows(PAGE_SIZE);
+
+        // 设置高亮显示
+        solrQuery.setHighlight(true);
+        // 设置高亮显示的域
+        solrQuery.addHighlightField("item_title");
+        // 设置高亮前缀
+        solrQuery.setHighlightSimplePre("<span style=\"color:red\">");
+        // 设置高亮后缀
+        solrQuery.setHighlightSimplePost("</span>");
+        // 查询结果
+        SolrResult<Item> solrResult = itemSearchDao.searchItemByName(solrQuery);
+        // 计算总页数
+        Long pages = solrResult.getResultCount() / PAGE_SIZE;
+        if ( (solrResult.getResultCount() % PAGE_SIZE) != 0) {
+            pages ++;
+        }
+        // 设置总页数
+        solrResult.setPages(pages.intValue());
+        // 设置当前页
+        solrResult.setPageNum(page);
+        // 设置前一页
+        solrResult.setPrePage((page - 1));
+        // 设置后一页
+        if (page != pages.intValue()) {
+            solrResult.setNextPage((page + 1));
+        } else {
+            solrResult.setNextPage(page);
+        }
+        return solrResult;
     }
 }

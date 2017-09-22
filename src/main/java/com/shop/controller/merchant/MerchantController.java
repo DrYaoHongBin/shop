@@ -136,7 +136,7 @@ public class MerchantController extends BaseController<Merchant>{
         // 图片类型 .+后缀名
         map.put("type", suffix);
         // ueditor读取图片路径
-        map.put("url", properties.getProperty("IMAGE_PATH") + "/" + properties.getProperty("FILE_PATH_PRODUCT_DETAIL") + "/" + newFileName);
+        map.put("url", properties.getProperty("IMAGE_PATH")  + properties.getProperty("FILE_PATH_PRODUCT_DETAIL") + "/" + newFileName);
         // 图片大小（字节数）
         map.put("size", upImage.getSize()+"");
         return map;

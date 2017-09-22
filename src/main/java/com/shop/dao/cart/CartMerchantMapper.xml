@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.dao.cart.CartMerchantMapper">
+    <resultMap id="BaseResultMap" type="cartMerchant">
+        <collection property="merchants" ofType="merchant">
+            <id column="merchant_id" property="merchantId" jdbcType="INTEGER"/>
+            <result column="merchant_name" property="merchantName" jdbcType="VARCHAR"/>
+            <collection property="items" ofType="item">
+                <id column="item_id" property="itemId" jdbcType="INTEGER" />
+                <result column="item_title" property="itemTitle" jdbcType="VARCHAR" />
+                <result column="price" property="price" jdbcType="DOUBLE" />
+                <result column="stock" property="stock" jdbcType="INTEGER" />
+                <result column="images" property="images" jdbcType="VARCHAR" />
+                <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+                <result column="sales" property="sales" jdbcType="INTEGER" />
+            </collection>
+        </collection>
+    </resultMap>
+
+    <insert id="saveCartMerchant" parameterType="cartMerchant" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO shop_cart_merchant(merchant_id, user_id) VALUES (#{merchantId}, #{userId});
+    </insert>
+
+    <select id="selectCart" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+            m.*, i.item_id,
+            i.item_title,
+            i.images,
+            i.price,
+            i.stock,
+            ci.item_number AS sales
+        FROM
+            shop_cart_merchant AS cm
+        INNER JOIN shop_merchant AS m ON cm.merchant_id = m.merchant_id
+        INNER JOIN shop_cart_item AS ci ON cm.cart_merchant_id = ci.cart_merchant_id
+        INNER JOIN shop_item AS i ON i.item_id = ci.item_id
+        WHERE
+	        cm.user_id = #{valus};
+    </select>
+</mapper>

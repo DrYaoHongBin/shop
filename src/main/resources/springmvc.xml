@@ -21,7 +21,6 @@
     <!--会默认加载注解处理器映射器和注解处理器适配器-->
     <mvc:annotation-driven validator="validator"></mvc:annotation-driven>
 
-
     <!-- 校验器 -->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <!-- hibernate校验器-->

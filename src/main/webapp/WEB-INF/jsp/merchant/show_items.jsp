@@ -243,16 +243,6 @@
             this.prefPage();
         }
 
-        function submit0() {
-            var file = $("#file");
-            if (file == null) {
-                alert("请选择文件1");
-            }
-            if (file != null) {
-                $("#add").submit();
-            }
-        }
-
         function submit() {
             var oFile = document.getElementById('file');
             if (oFile.value == "") {

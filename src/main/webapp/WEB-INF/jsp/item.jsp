@@ -286,7 +286,7 @@
             $.ajax({
                 type:'post',
                 url:'${pageContext.request.contextPath }/cart/saveCart',
-                data:{"itemId":itemId, "userId":userId, "number":itemNumber},
+                data:{"itemId":itemId, "userId":userId, "itemNumber":itemNumber, "merchantId":${item.merchant.merchantId}},
                 success:function(data) {//返回json结果
                     if (data.success == false) {
                         $.tooltip(data.message, 3000);

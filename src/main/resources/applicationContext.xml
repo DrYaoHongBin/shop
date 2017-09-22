@@ -21,6 +21,13 @@
     <!-- 加载application.properties文件中的内容，db.properties文件中key命名要有一定的特殊规则 -->
     <context:property-placeholder location="classpath:application.properties" />
 
+    <!-- SolrServer的配置 -->
+    <bean id="httpSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
+        <!-- index=0 代表调用有一个构造参数的solrServer的构造方法 -->
+        <constructor-arg index="0" value="http://localhost:8090/solr/collection1"/>
+    </bean>
+
+
     <!-- DruidDataSource配置  -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 基本属性 url、user、password -->

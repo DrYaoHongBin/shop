@@ -2,6 +2,7 @@ package com.shop.dao.merchant;
 
 import com.shop.model.merchant.Item;
 import com.shop.util.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

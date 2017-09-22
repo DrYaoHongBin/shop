@@ -3,6 +3,7 @@ package com.shop.service.merchant;
 import com.github.pagehelper.PageInfo;
 import com.shop.been.AjaxResult;
 import com.shop.been.PageResult;
+import com.shop.been.SolrResult;
 import com.shop.model.admin.CategoryOne;
 import com.shop.model.merchant.Item;
 import org.springframework.web.multipart.MultipartFile;
@@ -99,14 +100,22 @@ public interface ItemsService {
     /**
      * Excel导出所有商品数据
      */
+
     void exportExcel(Integer merchantId, HttpServletResponse response);
 
     /**
      * 商家导入excl的数据
-     * @param merchantId
      * @param file
      */
     String inputExcel(MultipartFile file, HttpSession session);
+
+    /**
+     * 根据搜索框的内容从solr中查询出相关的商品
+     * @param searchContext 搜索框内容
+     * @param page 查询第几页
+     * @return
+     */
+    SolrResult searchItemBySolr(String searchContext, Integer page);
 
 
 }

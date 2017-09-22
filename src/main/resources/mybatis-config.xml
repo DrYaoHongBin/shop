@@ -61,14 +61,16 @@
 
     <!--定义别名-->
     <typeAliases>
-        <typeAlias type="com.shop.model.user.User" alias="user"></typeAlias>
-        <typeAlias type="com.shop.model.user.Address" alias="address"></typeAlias>
-        <typeAlias type="com.shop.model.merchant.Item" alias="item"></typeAlias>
-        <typeAlias type="com.shop.model.admin.CategoryOne" alias="categoryOne"></typeAlias>
-        <typeAlias type="com.shop.model.admin.CategoryTwo" alias="categoryTwo"></typeAlias>
-        <typeAlias type="com.shop.model.merchant.Merchant" alias="merchant"></typeAlias>
-        <typeAlias type="com.shop.model.order.Order" alias="order"></typeAlias>
-        <typeAlias type="com.shop.model.order.OrderDetail" alias="orderDetail"></typeAlias>
+        <typeAlias type="com.shop.model.user.User" alias="user"/>
+        <typeAlias type="com.shop.model.user.Address" alias="address"/>
+        <typeAlias type="com.shop.model.merchant.Item" alias="item"/>
+        <typeAlias type="com.shop.model.admin.CategoryOne" alias="categoryOne"/>
+        <typeAlias type="com.shop.model.admin.CategoryTwo" alias="categoryTwo"/>
+        <typeAlias type="com.shop.model.merchant.Merchant" alias="merchant"/>
+        <typeAlias type="com.shop.model.order.Order" alias="order"/>
+        <typeAlias type="com.shop.model.order.OrderDetail" alias="orderDetail"/>
+        <typeAlias type="com.shop.model.cart.CartMerchant" alias="cartMerchant"/>
+        <typeAlias type="com.shop.model.cart.CartItem"  alias="cartItem"/>
     </typeAliases>
 
     <!--  在 MyBatis配置xml中配置pagehelper拦截器插件 (也可以在spring配置文件中配置) -->

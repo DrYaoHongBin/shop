@@ -2,6 +2,7 @@ package com.shop.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.shop.been.PageResult;
+import com.shop.been.SolrResult;
 import com.shop.model.admin.CategoryOne;
 import com.shop.model.merchant.Item;
 import com.shop.service.admin.CategoryService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -88,12 +90,20 @@ public class CommonController {
      * @return
      */
     @RequestMapping(value = "selectItemsBySearchName")
-    public String selectItemsBySearchName(String search,Model model) {
-        PageInfo<Item> pageInfo = itemsService.selectItemsBySearchName(search);
-        model.addAttribute("pageInfo", pageInfo);
-        // 将查询条件也保存进request
+    public String selectItemsBySearchName(String search,Model model, @RequestParam(required = false) Integer page) {
+        /*
+            直接从数据库中搜索商品
+            PageInfo<Item> pageInfo = itemsService.selectItemsBySearchName(search);
+            model.addAttribute("pageInfo", pageInfo);
+            // 将查询条件也保存进request
+            model.addAttribute("search", search);
+            return "/WEB-INF/jsp/items";
+        */
+        // 从solr中搜索商品
+        SolrResult<Item> solrResult = itemsService.searchItemBySolr(search, page);
+        model.addAttribute("solrResult", solrResult);
         model.addAttribute("search", search);
-        return "/WEB-INF/jsp/items";
+        return "/WEB-INF/jsp/solr_items";
     }
 
     /**

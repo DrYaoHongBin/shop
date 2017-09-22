@@ -48,7 +48,7 @@
 
     <select id="showItem" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         SELECT
-          s.*, m.merchant_name
+          s.*, m.merchant_name,m.merchant_id
         FROM
           shop_merchant AS m INNER JOIN shop_item AS s ON  m.merchant_id = s.merchant_id
         WHERE
