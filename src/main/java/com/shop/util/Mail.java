@@ -32,7 +32,7 @@ public class Mail {
         // 此处填写你的账号
         props.put("mail.user", "1642873013@qq.com");
         // 此处的密码是16位STMP口令
-        props.put("mail.password", "rwejcwinmhrdcgdf");
+        props.put("mail.password", "**********");
 
         // 构建授权信息，用于进行SMTP进行身份验证
         Authenticator authenticator = new Authenticator() {
