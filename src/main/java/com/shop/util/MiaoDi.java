@@ -28,12 +28,12 @@ public class MiaoDi  {
     /**
      * 开发者注册后系统自动生成的账号，可在官网登录后查看
      */
-    private static final String ACCOUNT_SID = "399fe18d1cb7433eb56b3b9ed8ecfb25";
+    private static final String ACCOUNT_SID = "**************";
 
     /**
      * 开发者注册后系统自动生成的TOKEN，可在官网登录后查看
      */
-    private static final String AUTH_TOKEN = "2c199b0fa9c444dc814cc795361dc611";
+    private static final String AUTH_TOKEN = "**********";
 
     /**
      * 响应数据类型, JSON或XML
